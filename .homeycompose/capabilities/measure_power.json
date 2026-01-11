@@ -1,0 +1,18 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Load Power"
+  },
+  "desc": {
+    "en": "Total power consumption of the house"
+  },
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "chartType": "stepLine"
+}

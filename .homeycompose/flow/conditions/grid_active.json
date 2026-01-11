@@ -1,0 +1,18 @@
+{
+  "title": {
+    "en": "Grid !{{is|is not}} active"
+  },
+  "titleFormatted": {
+    "en": "Grid !{{is|is not}} active"
+  },
+  "hint": {
+    "en": "Check if grid power is active"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    }
+  ]
+}

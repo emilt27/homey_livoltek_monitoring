@@ -1,0 +1,51 @@
+{
+  "title": {
+    "en": "Battery level comparison"
+  },
+  "titleFormatted": {
+    "en": "Battery level [[comparison]] [[threshold]]%"
+  },
+  "hint": {
+    "en": "Check if battery level is above or below a threshold"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "comparison",
+      "type": "dropdown",
+      "title": {
+        "en": "Comparison"
+      },
+      "values": [
+        {
+          "id": "greater",
+          "label": {
+            "en": ">"
+          }
+        },
+        {
+          "id": "less",
+          "label": {
+            "en": "<"
+          }
+        }
+      ]
+    },
+    {
+      "name": "threshold",
+      "type": "range",
+      "title": {
+        "en": "Threshold (%)"
+      },
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "%",
+      "value": 50
+    }
+  ]
+}

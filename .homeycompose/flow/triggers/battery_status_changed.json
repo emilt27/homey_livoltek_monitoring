@@ -1,0 +1,55 @@
+{
+  "title": {
+    "en": "Battery status changed"
+  },
+  "titleFormatted": {
+    "en": "Battery status changed to [[status]]"
+  },
+  "hint": {
+    "en": "Triggered when battery status changes"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "status",
+      "type": "dropdown",
+      "title": {
+        "en": "Status"
+      },
+      "values": [
+        {
+          "id": "charging",
+          "label": {
+            "en": "Charging"
+          }
+        },
+        {
+          "id": "discharging",
+          "label": {
+            "en": "Discharging"
+          }
+        },
+        {
+          "id": "idle",
+          "label": {
+            "en": "Idle"
+          }
+        }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "battery_level",
+      "type": "number",
+      "title": {
+        "en": "Battery Level"
+      },
+      "example": 85
+    }
+  ]
+}

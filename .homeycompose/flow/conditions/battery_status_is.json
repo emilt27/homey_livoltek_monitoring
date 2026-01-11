@@ -1,0 +1,45 @@
+{
+  "title": {
+    "en": "Battery status !{{is|is not}}"
+  },
+  "titleFormatted": {
+    "en": "Battery status !{{is|is not}} [[status]]"
+  },
+  "hint": {
+    "en": "Check if battery status matches the selected value"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "status",
+      "type": "dropdown",
+      "title": {
+        "en": "Status"
+      },
+      "values": [
+        {
+          "id": "charging",
+          "label": {
+            "en": "Charging"
+          }
+        },
+        {
+          "id": "discharging",
+          "label": {
+            "en": "Discharging"
+          }
+        },
+        {
+          "id": "idle",
+          "label": {
+            "en": "Idle"
+          }
+        }
+      ]
+    }
+  ]
+}

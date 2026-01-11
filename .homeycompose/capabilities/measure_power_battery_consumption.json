@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Battery Consumption"
+  },
+  "desc": {
+    "en": "Current power consumption from battery"
+  },
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/measure_power.svg",
+  "insights": true,
+  "chartType": "stepLine"
+}

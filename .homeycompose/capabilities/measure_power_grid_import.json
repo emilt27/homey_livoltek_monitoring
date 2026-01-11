@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Grid Import"
+  },
+  "desc": {
+    "en": "Power imported from grid"
+  },
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/measure_power.svg",
+  "insights": true,
+  "chartType": "stepLine"
+}

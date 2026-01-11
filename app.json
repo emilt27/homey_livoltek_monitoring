@@ -1,0 +1,605 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.temirov.livoltek",
+  "version": "1.0.0",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Livoltek Monitor"
+  },
+  "description": {
+    "en": "Provides access to Lovoltek monitoring to track the state of Livoltek device"
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "author": {
+    "name": "Emil Temirov",
+    "email": "emil.temirov@gmail.com"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Battery level below threshold"
+        },
+        "titleFormatted": {
+          "en": "Battery level below [[threshold]]%"
+        },
+        "hint": {
+          "en": "Triggered when battery level drops below the threshold"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "threshold",
+            "type": "range",
+            "title": {
+              "en": "Threshold (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "value": 20
+          }
+        ],
+        "tokens": [
+          {
+            "name": "battery_level",
+            "type": "number",
+            "title": {
+              "en": "Battery Level"
+            },
+            "example": 15
+          }
+        ],
+        "id": "battery_level_below"
+      },
+      {
+        "title": {
+          "en": "Battery status changed"
+        },
+        "titleFormatted": {
+          "en": "Battery status changed to [[status]]"
+        },
+        "hint": {
+          "en": "Triggered when battery status changes"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "status",
+            "type": "dropdown",
+            "title": {
+              "en": "Status"
+            },
+            "values": [
+              {
+                "id": "charging",
+                "label": {
+                  "en": "Charging"
+                }
+              },
+              {
+                "id": "discharging",
+                "label": {
+                  "en": "Discharging"
+                }
+              },
+              {
+                "id": "idle",
+                "label": {
+                  "en": "Idle"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "battery_level",
+            "type": "number",
+            "title": {
+              "en": "Battery Level"
+            },
+            "example": 85
+          }
+        ],
+        "id": "battery_status_changed"
+      },
+      {
+        "title": {
+          "en": "Grid disconnected"
+        },
+        "titleFormatted": {
+          "en": "Grid disconnected (battery at [[battery_level]]%)"
+        },
+        "hint": {
+          "en": "Triggered when grid power is lost"
+        },
+        "tokens": [
+          {
+            "name": "battery_level",
+            "type": "number",
+            "title": {
+              "en": "Battery Level"
+            },
+            "example": 85
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          }
+        ],
+        "id": "grid_disconnected"
+      },
+      {
+        "title": {
+          "en": "Grid restored"
+        },
+        "titleFormatted": {
+          "en": "Grid restored (battery at [[battery_level]]%)"
+        },
+        "hint": {
+          "en": "Triggered when grid power is restored"
+        },
+        "tokens": [
+          {
+            "name": "battery_level",
+            "type": "number",
+            "title": {
+              "en": "Battery Level"
+            },
+            "example": 75
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          }
+        ],
+        "id": "grid_restored"
+      },
+      {
+        "title": {
+          "en": "Load exceeds threshold"
+        },
+        "titleFormatted": {
+          "en": "Load exceeds [[threshold]] watts"
+        },
+        "hint": {
+          "en": "Triggered when load power exceeds the threshold"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "title": {
+              "en": "Threshold (W)"
+            },
+            "min": 0,
+            "max": 10000,
+            "step": 100,
+            "placeholder": {
+              "en": "e.g., 3000"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "load_power",
+            "type": "number",
+            "title": {
+              "en": "Load Power"
+            },
+            "example": 3500
+          }
+        ],
+        "id": "load_exceeds"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "Battery level comparison"
+        },
+        "titleFormatted": {
+          "en": "Battery level [[comparison]] [[threshold]]%"
+        },
+        "hint": {
+          "en": "Check if battery level is above or below a threshold"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "comparison",
+            "type": "dropdown",
+            "title": {
+              "en": "Comparison"
+            },
+            "values": [
+              {
+                "id": "greater",
+                "label": {
+                  "en": ">"
+                }
+              },
+              {
+                "id": "less",
+                "label": {
+                  "en": "<"
+                }
+              }
+            ]
+          },
+          {
+            "name": "threshold",
+            "type": "range",
+            "title": {
+              "en": "Threshold (%)"
+            },
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "value": 50
+          }
+        ],
+        "id": "battery_level_compare"
+      },
+      {
+        "title": {
+          "en": "Battery status !{{is|is not}}"
+        },
+        "titleFormatted": {
+          "en": "Battery status !{{is|is not}} [[status]]"
+        },
+        "hint": {
+          "en": "Check if battery status matches the selected value"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "status",
+            "type": "dropdown",
+            "title": {
+              "en": "Status"
+            },
+            "values": [
+              {
+                "id": "charging",
+                "label": {
+                  "en": "Charging"
+                }
+              },
+              {
+                "id": "discharging",
+                "label": {
+                  "en": "Discharging"
+                }
+              },
+              {
+                "id": "idle",
+                "label": {
+                  "en": "Idle"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "battery_status_is"
+      },
+      {
+        "title": {
+          "en": "Grid !{{is|is not}} active"
+        },
+        "titleFormatted": {
+          "en": "Grid !{{is|is not}} active"
+        },
+        "hint": {
+          "en": "Check if grid power is active"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          }
+        ],
+        "id": "grid_active"
+      },
+      {
+        "title": {
+          "en": "Load power comparison"
+        },
+        "titleFormatted": {
+          "en": "Load power [[comparison]] [[threshold]] watts"
+        },
+        "hint": {
+          "en": "Check if load power is above or below a threshold"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          },
+          {
+            "name": "comparison",
+            "type": "dropdown",
+            "title": {
+              "en": "Comparison"
+            },
+            "values": [
+              {
+                "id": "greater",
+                "label": {
+                  "en": ">"
+                }
+              },
+              {
+                "id": "less",
+                "label": {
+                  "en": "<"
+                }
+              }
+            ]
+          },
+          {
+            "name": "threshold",
+            "type": "number",
+            "title": {
+              "en": "Threshold (W)"
+            },
+            "min": 0,
+            "max": 10000,
+            "step": 100,
+            "placeholder": {
+              "en": "e.g., 3000"
+            }
+          }
+        ],
+        "id": "load_compare"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Livoltek Inverter"
+      },
+      "class": "solarpanel",
+      "capabilities": [
+        "measure_battery",
+        "measure_power",
+        "measure_power_grid_import",
+        "measure_power_battery_charge",
+        "measure_power_battery_consumption",
+        "alarm_grid",
+        "battery_status"
+      ],
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ]
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/livoltek-inverter/assets/images/livoltek-small.png",
+        "large": "/drivers/livoltek-inverter/assets/images/livoltek-large.png",
+        "xlarge": "/drivers/livoltek-inverter/assets/images/livoltek-xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "select_region"
+        },
+        {
+          "id": "login_credentials"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "login_credentials",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "repair": [
+        {
+          "id": "login_credentials"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Polling Settings"
+          },
+          "children": [
+            {
+              "id": "poll_interval",
+              "type": "number",
+              "label": {
+                "en": "Poll Interval (seconds)"
+              },
+              "value": 30,
+              "min": 10,
+              "max": 300,
+              "units": {
+                "en": "seconds"
+              },
+              "hint": {
+                "en": "How often to poll the Livoltek API (10-300 seconds)"
+              }
+            }
+          ]
+        }
+      ],
+      "id": "livoltek-inverter"
+    }
+  ],
+  "capabilities": {
+    "alarm_grid": {
+      "type": "boolean",
+      "title": {
+        "en": "Grid Disconnected"
+      },
+      "desc": {
+        "en": "True when grid power is disconnected"
+      },
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/power_tower.svg",
+      "uiComponent": "sensor"
+    },
+    "battery_status": {
+      "type": "enum",
+      "title": {
+        "en": "Battery Status"
+      },
+      "desc": {
+        "en": "Current battery working status"
+      },
+      "values": [
+        {
+          "id": "charging",
+          "title": {
+            "en": "Charging"
+          }
+        },
+        {
+          "id": "discharging",
+          "title": {
+            "en": "Discharging"
+          }
+        },
+        {
+          "id": "idle",
+          "title": {
+            "en": "Idle"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/battery_status.svg",
+      "uiComponent": "sensor"
+    },
+    "measure_power": {
+      "type": "number",
+      "title": {
+        "en": "Load Power"
+      },
+      "desc": {
+        "en": "Total power consumption of the house"
+      },
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "chartType": "stepLine"
+    },
+    "measure_power_battery_charge": {
+      "type": "number",
+      "title": {
+        "en": "Battery Power"
+      },
+      "desc": {
+        "en": "Battery charging/discharging power (positive when charging, negative when discharging)"
+      },
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_power.svg",
+      "insights": true,
+      "chartType": "stepLine"
+    },
+    "measure_power_battery_consumption": {
+      "type": "number",
+      "title": {
+        "en": "Battery Consumption"
+      },
+      "desc": {
+        "en": "Current power consumption from battery"
+      },
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_power.svg",
+      "insights": true,
+      "chartType": "stepLine"
+    },
+    "measure_power_grid_import": {
+      "type": "number",
+      "title": {
+        "en": "Grid Import"
+      },
+      "desc": {
+        "en": "Power imported from grid"
+      },
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/measure_power.svg",
+      "insights": true,
+      "chartType": "stepLine"
+    }
+  }
+}

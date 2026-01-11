@@ -1,0 +1,36 @@
+{
+  "pair": {
+    "select_region": {
+      "title": "Select your Livoltek region",
+      "description": "Choose the region where your Livoltek account is registered."
+    },
+    "region": {
+      "eu": {
+        "title": "Europe (EU)",
+        "description": "For European Livoltek accounts"
+      },
+      "global": {
+        "title": "Global",
+        "description": "For all other regions"
+      }
+    },
+    "credentials": {
+      "title": "Enter your API credentials",
+      "info_text": "Three parameters from the Livoltek portal are required. Click (?) next to each field for detailed instructions.",
+      "secuid_label": "Security User ID",
+      "secuid_hint": "Found in Livoltek profile under Security ID",
+      "secuid_help": "Open your profile on Livoltek portal → Security ID → click \"+ Add\" → in the Operate column click Copy. The system will copy Security ID and Key in JSON format. Copy the value of the \"secuid\" field and paste it here. If the Operate column is empty, refresh the browser page and open the profile again.",
+      "key_label": "API Key",
+      "key_hint": "Found in the same JSON as Security User ID",
+      "key_help": "Use the same instructions as for Security User ID. In the copied JSON find the \"key\" field and copy its value here. IMPORTANT: Copy the key exactly as is, including all newline characters (\\n). These characters are critical for successful authorization!",
+      "token_label": "User Token",
+      "token_hint": "Generate via \"Generate Token\" button in profile",
+      "token_help": "Open your profile on Livoltek portal → Generate Token → click \"+ Add\" → in the Operate column click Copy to copy the token. Paste the copied token into this field. The token has an expiration date, so store it in a secure place."
+    },
+    "login_failed": "Login failed. Please check your credentials.",
+    "list_failed": "Failed to fetch sites list."
+  },
+  "error": {
+    "connection_failed": "Failed to connect to Livoltek API"
+  }
+}

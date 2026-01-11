@@ -1,0 +1,28 @@
+{
+  "title": {
+    "en": "Grid disconnected"
+  },
+  "titleFormatted": {
+    "en": "Grid disconnected (battery at [[battery_level]]%)"
+  },
+  "hint": {
+    "en": "Triggered when grid power is lost"
+  },
+  "tokens": [
+    {
+      "name": "battery_level",
+      "type": "number",
+      "title": {
+        "en": "Battery Level"
+      },
+      "example": 85
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Grid Disconnected"
+  },
+  "desc": {
+    "en": "True when grid power is disconnected"
+  },
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/power_tower.svg",
+  "uiComponent": "sensor"
+}

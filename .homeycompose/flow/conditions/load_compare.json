@@ -1,0 +1,52 @@
+{
+  "title": {
+    "en": "Load power comparison"
+  },
+  "titleFormatted": {
+    "en": "Load power [[comparison]] [[threshold]] watts"
+  },
+  "hint": {
+    "en": "Check if load power is above or below a threshold"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "comparison",
+      "type": "dropdown",
+      "title": {
+        "en": "Comparison"
+      },
+      "values": [
+        {
+          "id": "greater",
+          "label": {
+            "en": ">"
+          }
+        },
+        {
+          "id": "less",
+          "label": {
+            "en": "<"
+          }
+        }
+      ]
+    },
+    {
+      "name": "threshold",
+      "type": "number",
+      "title": {
+        "en": "Threshold (W)"
+      },
+      "min": 0,
+      "max": 10000,
+      "step": 100,
+      "placeholder": {
+        "en": "e.g., 3000"
+      }
+    }
+  ]
+}

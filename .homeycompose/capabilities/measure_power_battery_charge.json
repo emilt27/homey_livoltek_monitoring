@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Battery Power"
+  },
+  "desc": {
+    "en": "Battery charging/discharging power (positive when charging, negative when discharging)"
+  },
+  "units": {
+    "en": "W"
+  },
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "/assets/measure_power.svg",
+  "insights": true,
+  "chartType": "stepLine"
+}

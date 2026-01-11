@@ -1,0 +1,41 @@
+{
+  "title": {
+    "en": "Load exceeds threshold"
+  },
+  "titleFormatted": {
+    "en": "Load exceeds [[threshold]] watts"
+  },
+  "hint": {
+    "en": "Triggered when load power exceeds the threshold"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "threshold",
+      "type": "number",
+      "title": {
+        "en": "Threshold (W)"
+      },
+      "min": 0,
+      "max": 10000,
+      "step": 100,
+      "placeholder": {
+        "en": "e.g., 3000"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "load_power",
+      "type": "number",
+      "title": {
+        "en": "Load Power"
+      },
+      "example": 3500
+    }
+  ]
+}

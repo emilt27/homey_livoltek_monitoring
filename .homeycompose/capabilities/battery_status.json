@@ -1,0 +1,33 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Battery Status"
+  },
+  "desc": {
+    "en": "Current battery working status"
+  },
+  "values": [
+    {
+      "id": "charging",
+      "title": {
+        "en": "Charging"
+      }
+    },
+    {
+      "id": "discharging",
+      "title": {
+        "en": "Discharging"
+      }
+    },
+    {
+      "id": "idle",
+      "title": {
+        "en": "Idle"
+      }
+    }
+  ],
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/battery_status.svg",
+  "uiComponent": "sensor"
+}

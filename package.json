@@ -1,0 +1,18 @@
+{
+  "name": "com.temirov.livoltek",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
+    "test:api": "npm run build && node test-api.js"
+  },
+  "devDependencies": {
+    "@tsconfig/node16": "^16.1.8",
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
+    "@types/node": "^25.0.5",
+    "eslint": "^7.32.0",
+    "eslint-config-athom": "^3.1.5",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "typescript": "^5.9.3"
+  }
+}

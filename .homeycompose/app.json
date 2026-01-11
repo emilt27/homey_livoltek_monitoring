@@ -1,0 +1,23 @@
+{
+  "id": "com.temirov.livoltek",
+  "version": "1.0.0",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Livoltek Monitor"
+  },
+  "description": {
+    "en": "Provides access to Lovoltek monitoring to track the state of Livoltek device"
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "author": {
+    "name": "Emil Temirov",
+    "email": "emil.temirov@gmail.com"
+  }
+}

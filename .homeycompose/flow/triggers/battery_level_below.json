@@ -1,0 +1,40 @@
+{
+  "title": {
+    "en": "Battery level below threshold"
+  },
+  "titleFormatted": {
+    "en": "Battery level below [[threshold]]%"
+  },
+  "hint": {
+    "en": "Triggered when battery level drops below the threshold"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=livoltek-inverter"
+    },
+    {
+      "name": "threshold",
+      "type": "range",
+      "title": {
+        "en": "Threshold (%)"
+      },
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "%",
+      "value": 20
+    }
+  ],
+  "tokens": [
+    {
+      "name": "battery_level",
+      "type": "number",
+      "title": {
+        "en": "Battery Level"
+      },
+      "example": 15
+    }
+  ]
+}
