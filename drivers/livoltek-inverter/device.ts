@@ -32,8 +32,8 @@ export class LivoltekInverterDevice extends Homey.Device {
     if (value === undefined) return false;
     if (value === 'null') return false;
     if (value === '') return false;
-    if (typeof value === 'number' && Number.isNaN(value)) return false;
-    return true;
+
+    return !(typeof value === 'number' && Number.isNaN(value));
   }
 
   async onInit() {
@@ -205,12 +205,6 @@ export class LivoltekInverterDevice extends Homey.Device {
    */
   private async updateCapabilities(powerFlow: CurrentPowerFlow) {
     try {
-      // Validate API response - skip if critical fields are invalid
-      if (!this._hasValue(powerFlow.energyPower) && !this._hasValue(powerFlow.powerGridPower) && !this._hasValue(powerFlow.loadPower)) {
-        this.log('⚠️  Skipping poll - API returned invalid data (all power values are invalid)');
-        return; // Skip this poll, keep previous values
-      }
-
       // Make device available if it was unavailable
       if (!this.getAvailable()) {
         await this.setAvailable();
@@ -245,13 +239,7 @@ export class LivoltekInverterDevice extends Homey.Device {
       // Battery charge power (convert kW to W)
       if (this.hasCapability('measure_power_battery_charge') && this._hasValue(powerFlow.energyPower)) {
         const batteryPowerW = powerFlow.energyPower * 1000;
-        let batteryStatusText = 'idle';
-        if (batteryPowerW > 0) {
-          batteryStatusText = 'charging';
-        } else if (batteryPowerW < 0) {
-          batteryStatusText = 'discharging';
-        }
-        this.log(`  🔋⚡ Battery Power: ${batteryPowerW}W (${powerFlow.energyPower}kW) - ${batteryStatusText}`);
+        this.log(`  🔋⚡ Battery Power: ${batteryPowerW}W (${powerFlow.energyPower}kW)`);
         await this.setCapabilityValue('measure_power_battery_charge', batteryPowerW).catch(this.error);
       }
 
@@ -304,7 +292,7 @@ export class LivoltekInverterDevice extends Homey.Device {
     if (energyStatus) {
       const status = energyStatus.trim().toLowerCase();
 
-      if (status === 'importing' || status === 'charging') {
+      if (status === 'charging') {
         return 'charging';
       }
       if (status === 'discharging') {
@@ -333,8 +321,8 @@ export class LivoltekInverterDevice extends Homey.Device {
    * Returns null if status cannot be determined (API returned invalid data)
    */
   private isGridActive(powerFlow: CurrentPowerFlow): boolean | null {
-    if (!powerFlow.energyStatus) {
-      this.log('⚠️  energyStatus is null - cannot determine grid status');
+    if (!this._hasValue(powerFlow.energyStatus) || powerFlow.energyStatus.trim().toLowerCase() === 'idel') {
+      this.log('⚠️  energyStatus is null or "idel" - cannot determine grid status');
       return null;
     }
 
