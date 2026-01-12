@@ -16,12 +16,18 @@
   "category": [
     "energy"
   ],
+  "brandColor": "#008BF7",
   "permissions": [],
   "author": {
     "name": "Emil Temirov",
     "email": "emil.temirov@gmail.com"
   },
   "support": "mailto:emil.temirov@gmail.com",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
   "flow": {
     "triggers": [
       {
@@ -442,6 +448,7 @@
         "large": "/drivers/livoltek-inverter/assets/images/livoltek-large.png",
         "xlarge": "/drivers/livoltek-inverter/assets/images/livoltek-xlarge.png"
       },
+      "icon": "/drivers/livoltek-inverter/assets/icon.svg",
       "pair": [
         {
           "id": "select_region"
@@ -594,7 +601,7 @@
       "decimals": 0,
       "getable": true,
       "setable": false,
-      "uiComponent": "sensor",
+      "uiComponent": null,
       "icon": "/assets/measure_power.svg",
       "insights": true,
       "chartType": "stepLine"

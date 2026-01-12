@@ -16,4 +16,4 @@ jobs:
       - run: npm install
       - uses: athombv/github-action-homey-app-validate@master
         with:
-          level: debug
+          level: publish

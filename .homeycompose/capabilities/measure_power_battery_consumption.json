@@ -12,7 +12,7 @@
   "decimals": 0,
   "getable": true,
   "setable": false,
-  "uiComponent": "sensor",
+  "uiComponent": null,
   "icon": "/assets/measure_power.svg",
   "insights": true,
   "chartType": "stepLine"

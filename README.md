@@ -4,6 +4,24 @@ Homey app for monitoring Livoltek inverters operating in UPS mode. The main func
 
 > **Note:** This app was developed for personal use and is not planned for release on the Homey App Store. Feel free to use it as-is or fork it for your own needs.
 
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td><img src="screenshots/screenshot-1.png" width="300"/></td>
+    <td><img src="screenshots/screenshot-2.png" width="300"/></td>
+    <td><img src="screenshots/screenshot-3.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/screenshot-4.png" width="300"/></td>
+    <td><img src="screenshots/screenshot-5.png" width="300"/></td>
+    <td><img src="screenshots/screenshot-6.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/screenshot-7.png" width="300"/></td>
+  </tr>
+</table>
+
 ## 🎯 Features
 
 ### Real-time Monitoring
@@ -213,15 +231,7 @@ homey app publish
 
 ### GitHub Actions CI/CD
 
-The project uses GitHub Actions for automated validation. The validation level is set to `debug` (instead of `verified` or `publish`) in `.github/workflows/homey-app-validate.yml` because:
-
-- This app is for personal use and not intended for the Homey App Store
-- `debug` level has minimal requirements (no need for app store images, extensive documentation, etc.)
-- `verified` and `publish` levels require additional metadata (app store images, detailed descriptions) which are unnecessary for private use
-
-If you want stricter validation, you can change the `level` parameter in the workflow file from `debug` to `verified` or `publish`, but you'll need to add:
-- App store images (`images.large`, `images.small` in `.homeycompose/app.json`)
-- Additional metadata required by Athom for published apps
+The project uses GitHub Actions for automated validation. The app passes validation at the `publish` level, but it is developed for personal use and is not planned for release on the Homey App Store.
 
 ## 📝 Adding New Features
 

@@ -15,10 +15,16 @@
   "category": [
     "energy"
   ],
+  "brandColor": "#008BF7",
   "permissions": [],
   "author": {
     "name": "Emil Temirov",
     "email": "emil.temirov@gmail.com"
   },
-  "support": "mailto:emil.temirov@gmail.com"
+  "support": "mailto:emil.temirov@gmail.com",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  }
 }

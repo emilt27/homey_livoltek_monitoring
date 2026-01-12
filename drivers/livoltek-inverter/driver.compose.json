@@ -18,10 +18,11 @@
   "platforms": ["local"],
   "connectivity": ["cloud"],
   "images": {
-    "small": "/drivers/livoltek-inverter/assets/images/livoltek-small.png",
-    "large": "/drivers/livoltek-inverter/assets/images/livoltek-large.png",
-    "xlarge": "/drivers/livoltek-inverter/assets/images/livoltek-xlarge.png"
+    "small": "{{driverAssetsPath}}/images/livoltek-small.png",
+    "large": "{{driverAssetsPath}}/images/livoltek-large.png",
+    "xlarge": "{{driverAssetsPath}}/images/livoltek-xlarge.png"
   },
+  "icon": "{{driverAssetsPath}}/icon.svg",
   "pair": [
     {
       "id": "select_region"
