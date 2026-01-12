@@ -16,6 +16,14 @@
         "en": "Battery Level"
       },
       "example": 85
+    },
+    {
+      "name": "debug_info",
+      "type": "string",
+      "title": {
+        "en": "Debug Info"
+      },
+      "example": "gridPower: 0.02kW; gridStatus: inactive; energyStatus: discharging"
     }
   ],
   "args": [

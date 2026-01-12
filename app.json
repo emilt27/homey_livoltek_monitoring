@@ -21,6 +21,7 @@
     "name": "Emil Temirov",
     "email": "emil.temirov@gmail.com"
   },
+  "support": "mailto:emil.temirov@gmail.com",
   "flow": {
     "triggers": [
       {
@@ -138,6 +139,14 @@
               "en": "Battery Level"
             },
             "example": 85
+          },
+          {
+            "name": "debug_info",
+            "type": "string",
+            "title": {
+              "en": "Debug Info"
+            },
+            "example": "gridPower: 0.02kW; gridStatus: inactive; energyStatus: discharging"
           }
         ],
         "args": [
@@ -167,6 +176,14 @@
               "en": "Battery Level"
             },
             "example": 75
+          },
+          {
+            "name": "debug_info",
+            "type": "string",
+            "title": {
+              "en": "Debug Info"
+            },
+            "example": "gridPower: 0.5kW; gridStatus: active; energyStatus: importing"
           }
         ],
         "args": [

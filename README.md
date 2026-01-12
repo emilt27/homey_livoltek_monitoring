@@ -211,6 +211,18 @@ homey app publish
    homey app validate
    ```
 
+### GitHub Actions CI/CD
+
+The project uses GitHub Actions for automated validation. The validation level is set to `debug` (instead of `verified` or `publish`) in `.github/workflows/homey-app-validate.yml` because:
+
+- This app is for personal use and not intended for the Homey App Store
+- `debug` level has minimal requirements (no need for app store images, extensive documentation, etc.)
+- `verified` and `publish` levels require additional metadata (app store images, detailed descriptions) which are unnecessary for private use
+
+If you want stricter validation, you can change the `level` parameter in the workflow file from `debug` to `verified` or `publish`, but you'll need to add:
+- App store images (`images.large`, `images.small` in `.homeycompose/app.json`)
+- Additional metadata required by Athom for published apps
+
 ## 📝 Adding New Features
 
 ### Adding a New Capability
