@@ -21,6 +21,21 @@ export class LivoltekInverterDevice extends Homey.Device {
   private previousBatteryLevel: number | null = null;
   private previousLoadPower: number | null = null;
 
+  // Battery power threshold in kW (10W) - ignore fluctuations below this value
+  private readonly BATTERY_POWER_THRESHOLD_KW = 0.01;
+
+  /**
+   * Check if value is valid (not null, undefined, empty string, 'null' string, or NaN)
+   */
+  private _hasValue(value: unknown): boolean {
+    if (value === null) return false;
+    if (value === undefined) return false;
+    if (value === 'null') return false;
+    if (value === '') return false;
+    if (typeof value === 'number' && Number.isNaN(value)) return false;
+    return true;
+  }
+
   async onInit() {
     this.log('Livoltek Inverter device initialized');
 
@@ -190,9 +205,9 @@ export class LivoltekInverterDevice extends Homey.Device {
    */
   private async updateCapabilities(powerFlow: CurrentPowerFlow) {
     try {
-      // Validate API response - skip if critical fields are null
-      if (powerFlow.energyPower === null && powerFlow.powerGridPower === null && powerFlow.loadPower === null) {
-        this.log('⚠️  Skipping poll - API returned invalid data (all power values are null)');
+      // Validate API response - skip if critical fields are invalid
+      if (!this._hasValue(powerFlow.energyPower) && !this._hasValue(powerFlow.powerGridPower) && !this._hasValue(powerFlow.loadPower)) {
+        this.log('⚠️  Skipping poll - API returned invalid data (all power values are invalid)');
         return; // Skip this poll, keep previous values
       }
 
@@ -204,27 +219,31 @@ export class LivoltekInverterDevice extends Homey.Device {
       this.log('📊 Updating capabilities...');
 
       // Battery level (%)
-      if (this.hasCapability('measure_battery')) {
+      if (this.hasCapability('measure_battery') && this._hasValue(powerFlow.energySoc)) {
         this.log(`  🔋 Battery: ${powerFlow.energySoc}%`);
         await this.setCapabilityValue('measure_battery', powerFlow.energySoc).catch(this.error);
+        // Trigger flow cards for battery level changes
+        await this.handleBatteryLevelChange(powerFlow.energySoc);
       }
 
       // Load power (convert kW to W)
-      if (this.hasCapability('measure_power')) {
+      if (this.hasCapability('measure_power') && this._hasValue(powerFlow.loadPower)) {
         const loadPowerW = powerFlow.loadPower * 1000;
         this.log(`  ⚡ Load Power: ${loadPowerW}W (${powerFlow.loadPower}kW)`);
         await this.setCapabilityValue('measure_power', loadPowerW).catch(this.error);
+        // Trigger flow cards for load power changes
+        await this.handleLoadPowerChange(loadPowerW);
       }
 
       // Grid import (convert kW to W)
-      if (this.hasCapability('measure_power_grid_import')) {
+      if (this.hasCapability('measure_power_grid_import') && this._hasValue(powerFlow.powerGridPower)) {
         const gridPowerW = powerFlow.powerGridPower * 1000;
         this.log(`  🔌 Grid Import: ${gridPowerW}W (${powerFlow.powerGridPower}kW)`);
         await this.setCapabilityValue('measure_power_grid_import', gridPowerW).catch(this.error);
       }
 
       // Battery charge power (convert kW to W)
-      if (this.hasCapability('measure_power_battery_charge')) {
+      if (this.hasCapability('measure_power_battery_charge') && this._hasValue(powerFlow.energyPower)) {
         const batteryPowerW = powerFlow.energyPower * 1000;
         let batteryStatusText = 'idle';
         if (batteryPowerW > 0) {
@@ -237,7 +256,7 @@ export class LivoltekInverterDevice extends Homey.Device {
       }
 
       // Battery consumption - only when discharging (convert kW to W)
-      if (this.hasCapability('measure_power_battery_consumption')) {
+      if (this.hasCapability('measure_power_battery_consumption') && this._hasValue(powerFlow.energyPower)) {
         const batteryConsumption = Math.max(0, -powerFlow.energyPower * 1000);
         this.log(`  🔋📉 Battery Consumption: ${batteryConsumption}W`);
         await this.setCapabilityValue('measure_power_battery_consumption', batteryConsumption).catch(this.error);
@@ -246,29 +265,29 @@ export class LivoltekInverterDevice extends Homey.Device {
       // Battery status (enum)
       if (this.hasCapability('battery_status')) {
         const status = this.determineBatteryStatus(powerFlow.energyPower, powerFlow.energyStatus);
-        this.log(`  🔋📊 Battery Status: ${status}`);
-        await this.setCapabilityValue('battery_status', status).catch(this.error);
+        if (status !== null) {
+          this.log(`  🔋📊 Battery Status: ${status}`);
+          await this.setCapabilityValue('battery_status', status).catch(this.error);
+          // Trigger flow cards for battery status changes
+          await this.handleBatteryStatusChange(status, powerFlow);
+        }
       }
 
       // Grid alarm (inverted - alarm when grid is OFF)
       const isGridActive = this.isGridActive(powerFlow);
-      if (this.hasCapability('alarm_grid')) {
-        this.log(`  🔌⚠️  Grid: ${isGridActive ? 'ACTIVE' : 'DISCONNECTED'}`);
-        await this.setCapabilityValue('alarm_grid', !isGridActive).catch(this.error);
+
+      // Only update if we have valid status (not null)
+      if (isGridActive !== null) {
+        if (this.hasCapability('alarm_grid')) {
+          this.log(`  🔌⚠️  Grid: ${isGridActive ? 'ACTIVE' : 'DISCONNECTED'}`);
+          await this.setCapabilityValue('alarm_grid', !isGridActive).catch(this.error);
+        }
+
+        // Trigger flow cards for grid status changes
+        await this.handleGridStatusChange(isGridActive, powerFlow);
+      } else {
+        this.log('  🔌⚠️  Grid: UNKNOWN (keeping previous status)');
       }
-
-      // Trigger flow cards for grid status changes
-      await this.handleGridStatusChange(isGridActive, powerFlow);
-
-      // Trigger flow cards for battery status changes
-      const batteryStatus = this.determineBatteryStatus(powerFlow.energyPower, powerFlow.energyStatus);
-      await this.handleBatteryStatusChange(batteryStatus, powerFlow);
-
-      // Trigger flow cards for battery level changes
-      await this.handleBatteryLevelChange(powerFlow.energySoc);
-
-      // Trigger flow cards for load power changes
-      await this.handleLoadPowerChange(powerFlow.loadPower * 1000);
 
     } catch (error) {
       this.error('Failed to update capabilities:', error);
@@ -277,46 +296,59 @@ export class LivoltekInverterDevice extends Homey.Device {
 
   /**
    * Determine battery status based on power and status string
+   * Returns null if status cannot be determined (keep previous value)
    */
-  private determineBatteryStatus(energyPower: number, energyStatus: string): string {
-    // If status is provided by API, use it
+  private determineBatteryStatus(energyPower: number, energyStatus: string): string | null {
     this.log(`  Determine battery status from ${energyStatus} and power ${energyPower}`);
 
     if (energyStatus) {
-      const status = energyStatus.toLowerCase();
-      if (status.includes('discharg')) return 'discharging';
-      if (status.includes('charg')) return 'charging';
-      if (status.includes('idle') || status.includes('standby')) return 'idle';
+      const status = energyStatus.trim().toLowerCase();
+
+      if (status === 'importing' || status === 'charging') {
+        return 'charging';
+      }
+      if (status === 'discharging') {
+        return 'discharging';
+      }
+      if (status === 'idle') {
+        return 'idle';
+      }
+      // "idel" (API typo) - skip to fallback
     }
 
     // Fallback to power-based detection
-    if (energyPower > 0.05) return 'charging'; // More than 50W charging
-    if (energyPower < -0.05) return 'discharging'; // More than 50W discharging
-    return 'idle';
+    if (this._hasValue(energyPower)) {
+      if (energyPower > this.BATTERY_POWER_THRESHOLD_KW) return 'charging';
+      if (energyPower < -this.BATTERY_POWER_THRESHOLD_KW) return 'discharging';
+      return 'idle';
+    }
+
+    // Cannot determine - keep previous value
+    this.log('⚠️  Cannot determine battery status - keeping previous value');
+    return null;
   }
 
   /**
-   * Check if grid is active
+   * Check if grid is active based on energyStatus
+   * Returns null if status cannot be determined (API returned invalid data)
    */
-  private isGridActive(powerFlow: CurrentPowerFlow): boolean {
-    // Method 1: Check status string
-    if (powerFlow.powerGridStatus) {
-      const status = powerFlow.powerGridStatus.toLowerCase();
-      if (status.includes('active') || status.includes('on') || status.includes('connect')) {
-        return true;
-      }
-      if (status.includes('inactive') || status.includes('off') || status.includes('disconnect')) {
-        return false;
-      }
+  private isGridActive(powerFlow: CurrentPowerFlow): boolean | null {
+    if (!powerFlow.energyStatus) {
+      this.log('⚠️  energyStatus is null - cannot determine grid status');
+      return null;
     }
 
-    // Method 2: Check energyStatus is Importing
-    if (powerFlow.energyStatus.toLowerCase() === 'importing') {
+    const energyStatus = powerFlow.energyStatus.trim().toLowerCase();
+
+    // Grid is ACTIVE when:
+    // - "Importing" - importing power from grid
+    // - "charging" - battery charging from grid
+    if (energyStatus === 'importing' || energyStatus === 'charging') {
       return true;
     }
 
-    // Method 3: Check power level
-    return powerFlow.powerGridPower > 0.05; // More than 50W
+    // All other cases - grid is INACTIVE
+    return false;
   }
 
   /**
@@ -335,16 +367,16 @@ export class LivoltekInverterDevice extends Homey.Device {
 
       // Build debug info string with ALL fields from API
       const debugInfo = [
-        `energyStatus: ${powerFlow.energyStatus}`,
-        `energyPower: ${powerFlow.energyPower}kW`,
-        `energySoc: ${powerFlow.energySoc}%`,
-        `pvStatus: ${powerFlow.pvStatus || 'N/A'}`,
-        `pvPower: ${powerFlow.pvPower}kW`,
-        `powerGridStatus: ${powerFlow.powerGridStatus || 'N/A'}`,
-        `powerGridPower: ${powerFlow.powerGridPower}kW`,
-        `loadStatus: ${powerFlow.loadStatus}`,
-        `loadPower: ${powerFlow.loadPower}kW`,
-        `timestamp: ${powerFlow.timestamp}`,
+        `energyStatus: ${powerFlow.energyStatus} (${typeof powerFlow.energyStatus})`,
+        `energyPower: ${powerFlow.energyPower}kW (${typeof powerFlow.energyPower})`,
+        `energySoc: ${powerFlow.energySoc}% (${typeof powerFlow.energySoc})`,
+        `pvStatus: ${powerFlow.pvStatus} (${typeof powerFlow.pvStatus})`,
+        `pvPower: ${powerFlow.pvPower}kW (${typeof powerFlow.pvPower})`,
+        `powerGridStatus: ${powerFlow.powerGridStatus} (${typeof powerFlow.powerGridStatus})`,
+        `powerGridPower: ${powerFlow.powerGridPower}kW (${typeof powerFlow.powerGridPower})`,
+        `loadStatus: ${powerFlow.loadStatus} (${typeof powerFlow.loadStatus})`,
+        `loadPower: ${powerFlow.loadPower}kW (${typeof powerFlow.loadPower})`,
+        `timestamp: ${powerFlow.timestamp} (${typeof powerFlow.timestamp})`,
       ].join('; ');
 
       if (isGridActive) {
