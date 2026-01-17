@@ -50,66 +50,10 @@ export class LivoltekInverterDevice extends Homey.Device {
       region: store.region,
     }, this.homey);
 
-    // Register capability listeners for settings
-    this.registerCapabilityListener('measure_battery', async () => {
-      // Read-only capability
-    });
-
-    // Register flow card condition handlers
-    this.registerFlowCardConditions();
-
     // Start polling
     await this.startPolling();
 
     this.log('Device initialized successfully');
-  }
-
-  /**
-   * Register flow card condition handlers
-   */
-  private registerFlowCardConditions() {
-    // Grid active condition
-    this.homey.flow.getConditionCard('grid_active')
-      .registerRunListener(async (args, state) => {
-        const isActive = !this.getCapabilityValue('alarm_grid');
-        this.log(`Grid active condition checked: ${isActive}`);
-        return isActive;
-      });
-
-    // Battery status is condition
-    this.homey.flow.getConditionCard('battery_status_is')
-      .registerRunListener(async (args, state) => {
-        const currentStatus = this.getCapabilityValue('battery_status');
-        const matches = currentStatus === args.status;
-        this.log(`Battery status is ${args.status}: ${matches} (current: ${currentStatus})`);
-        return matches;
-      });
-
-    // Battery level comparison condition
-    this.homey.flow.getConditionCard('battery_level_compare')
-      .registerRunListener(async (args, state) => {
-        const batteryLevel = this.getCapabilityValue('measure_battery') || 0;
-        const result = args.comparison === 'greater'
-          ? batteryLevel > args.threshold
-          : batteryLevel < args.threshold;
-        this.log(`Battery level ${args.comparison} ${args.threshold}%: ${result} (current: ${batteryLevel}%)`);
-        return result;
-      });
-
-    // Load power comparison condition
-    this.homey.flow.getConditionCard('load_compare')
-      .registerRunListener(async (args, state) => {
-        const loadPower = this.getCapabilityValue('measure_power') || 0;
-        const result = args.comparison === 'greater'
-          ? loadPower > args.threshold
-          : loadPower < args.threshold;
-        this.log(`Load power ${args.comparison} ${args.threshold}W: ${result} (current: ${loadPower}W)`);
-        return result;
-      });
-  }
-
-  async onAdded() {
-    this.log('Livoltek Inverter device has been added');
   }
 
   async onSettings({
@@ -131,8 +75,26 @@ export class LivoltekInverterDevice extends Homey.Device {
     }
   }
 
-  async onRenamed(name: string) {
-    this.log('Livoltek Inverter device renamed to', name);
+  async onRepair() {
+    this.log('Device repair completed, reinitializing API client');
+
+    // Get updated credentials from store (updated by driver during repair)
+    const store = this.getStore() as LivoltekDeviceStore;
+
+    // Reinitialize API client with new credentials
+    this.api = new LivoltekAPI({
+      secuid: store.secuid,
+      key: store.key,
+      userToken: store.userToken,
+      region: store.region,
+    }, this.homey);
+
+    this.log('API client reinitialized with new credentials');
+  }
+
+  async onUninit() {
+    this.log('Livoltek Inverter device is being uninitialized');
+    await this.stopPolling();
   }
 
   async onDeleted() {
@@ -144,20 +106,32 @@ export class LivoltekInverterDevice extends Homey.Device {
    * Start polling the Livoltek API
    */
   private async startPolling() {
-    const settings = this.getSettings();
-    const pollInterval = (settings.poll_interval as number) || 30;
-
-    this.log(`Starting polling with interval: ${pollInterval}s`);
+    this.log('Starting polling...');
 
     // Do initial poll
     await this.poll();
 
-    // Set up interval using Homey's timer management
-    // This ensures the timer is automatically cleared when the device is destroyed
-    this.pollInterval = this.homey.setInterval(() => {
-      this.poll().catch((error) => {
-        this.error('Polling error:', error);
-      });
+    // Schedule next poll using recursive setTimeout
+    this.scheduleNextPoll();
+  }
+
+  /**
+   * Schedule next poll using recursive setTimeout
+   * This is more reliable than setInterval for long-running apps
+   */
+  private scheduleNextPoll() {
+    const settings = this.getSettings();
+    const pollInterval = (settings.poll_interval as number) || 30;
+
+    this.pollInterval = this.homey.setTimeout(async () => {
+      try {
+        await this.poll();
+      } catch (error) {
+        this.error('Polling error in scheduleNextPoll:', error);
+      }
+
+      // Schedule next poll after this one completes
+      this.scheduleNextPoll();
     }, pollInterval * 1000);
   }
 
@@ -166,7 +140,7 @@ export class LivoltekInverterDevice extends Homey.Device {
    */
   private async stopPolling() {
     if (this.pollInterval) {
-      this.homey.clearInterval(this.pollInterval);
+      this.homey.clearTimeout(this.pollInterval);
       this.pollInterval = null;
       this.log('Polling stopped');
     }

@@ -116,12 +116,6 @@ Or for remote Homey:
 homey app run --remote
 ```
 
-### 5. View Logs
-
-```bash
-homey app log
-```
-
 ## 🔑 API Credentials Setup
 
 To connect to Livoltek, you need three parameters:
@@ -196,9 +190,6 @@ homey app validate
 # Run on Homey
 homey app run
 
-# View logs
-homey app log
-
 # Publish (requires Athom account)
 homey app publish
 ```
@@ -219,12 +210,7 @@ homey app publish
    homey app run
    ```
 
-4. **View Logs**
-   ```bash
-   homey app log
-   ```
-
-5. **Validate**
+4. **Validate**
    ```bash
    homey app validate
    ```
@@ -277,11 +263,6 @@ The app has detailed logging:
 - ⚡ Updates to each capability
 - ❌ Errors and exceptions
 
-View logs via:
-```bash
-homey app log
-```
-
 ### Common Issues
 
 **"Invalid credentials" Error**
@@ -294,7 +275,6 @@ homey app log
 - Verify correct region (EU/Global)
 
 **Device shows "unavailable"**
-- Check logs: `homey app log`
 - Livoltek API might be unavailable
 - Try restarting the app
 
