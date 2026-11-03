@@ -102,6 +102,20 @@ interface BatteryInfoResponse {
 
 const REQUEST_TIMEOUT_MS = 20_000;
 
+// Line endings at the end of the key, real ones or typed as escape sequences ("\n", "\r\n", "\\n", ...)
+const TRAILING_LINE_ENDINGS = /(?:\s|\\+[rn])+$/;
+
+const JWT_FORMAT = /^[\w-]+\.[\w-]+\.[\w-]+$/;
+
+/**
+ * The API accepts the key only with a CRLF ending (verified 2026-11-03: LF, CR, no ending and
+ * escaped sequences are all rejected with "Wrong secuid or key"). The portal JSON shows the key
+ * with "\n" or "\r\n" and users paste it in different forms, so the ending is rebuilt here.
+ */
+export function normalizeKey(key: string): string {
+  return `${key.trim().replace(TRAILING_LINE_ENDINGS, '')}\r\n`;
+}
+
 interface RequestOptions {
   body?: unknown;
   // Adds the access token header and the userToken query parameter
@@ -181,14 +195,10 @@ export class LivoltekAPI {
    */
   async login(): Promise<string> {
     try {
-      // Use key as-is, without converting escape sequences
-      // (conversion causes token to be invalid for subsequent requests)
-      const cleanKey = this.credentials.key.replace('\\n', '\n').replace('\\r', '\r');
-
       const data = await this.request<LoginResponse>('POST', '/hess/api/login', {
         body: {
           secuid: this.credentials.secuid,
-          key: cleanKey,
+          key: normalizeKey(this.credentials.key),
         },
         logResponseBody: false,
       });
@@ -205,15 +215,18 @@ export class LivoltekAPI {
         throw new Error(`Login failed: ${data.data.message}`);
       }
 
-      if (!data.data.data) {
+      // Bad credentials still come back as "SUCCESS" with an error text in place of the token
+      // (e.g. "null", "\"user not exit\""), so only a JWT-shaped token is accepted
+      const token = data.data.data;
+      if (token === null || !JWT_FORMAT.test(token)) {
         this.logger.log('Login API response:', JSON.stringify(data, null, 2));
-        throw new Error('Login failed: No token returned');
+        throw new Error(`Login failed: no valid token returned (${token || 'empty'})`);
       }
 
-      this.token = data.data.data;
+      this.token = token;
       this.logger.log('Successfully logged in to Livoltek API');
 
-      return this.token;
+      return token;
     } catch (error) {
       this.logger.error('Login error:', error);
       throw error;

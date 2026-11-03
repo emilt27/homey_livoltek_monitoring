@@ -127,10 +127,9 @@ To connect to Livoltek, you need three parameters:
    - If the Operate column is empty, refresh the page and open your profile again
    - System will copy JSON with both `SecurityID` and `Key` fields
 
-2. **API Key** (`кey`)
-   - From the same JSON copied in step 1, find the `Key` field
-   - Copy the Key value exactly as is, including all newline characters (`\n`)
-   - These newline characters are critical for successful authorization!
+2. **API Key** (`key`)
+   - From the same JSON copied in step 1, find the `Key` field and copy its value
+   - The trailing `\n` / `\r\n` may be included or left out: the API requires the key to end with `\r\n`, and the app adds it automatically
 
 3. **User Token** (`userToken`)
    - Open profile → Generate Token → "+ Add" → click **Copy** in the **Operate** column

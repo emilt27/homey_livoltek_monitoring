@@ -1,13 +1,13 @@
 import { afterEach, test } from 'node:test';
 import assert from 'node:assert/strict';
-import { LivoltekAPI, Logger } from '../lib/LivoltekAPI';
+import { LivoltekAPI, Logger, normalizeKey } from '../lib/LivoltekAPI';
 
 const USER_TOKEN = 'secret-user-token';
 const KEY = 'secret-key';
 
 function makeJwt(): string {
-  const payload = Buffer.from(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + 3600 })).toString('base64');
-  return `header.${payload}.signature`;
+  const payload = Buffer.from(JSON.stringify({ exp: Math.floor(Date.now() / 1000) + 3600 })).toString('base64url');
+  return `eyJhbGciOiJIUzI1NiJ9.${payload}.c2lnbmF0dXJl`;
 }
 
 const ACCESS_TOKEN = makeJwt();
@@ -48,12 +48,19 @@ class CapturingLogger implements Logger {
 
 const originalFetch = globalThis.fetch;
 
-function stubFetch(calls: FetchCall[]): void {
+interface LoginReply {
+  message: string | null;
+  data: string;
+}
+
+const LOGIN_OK: LoginReply = { message: 'SUCCESS', data: ACCESS_TOKEN };
+
+function stubFetch(calls: FetchCall[], loginReply: LoginReply = LOGIN_OK): void {
   globalThis.fetch = (async (input: string | URL | Request, init?: RequestInit) => {
     const url = String(input);
     calls.push({ url, init: init ?? {} });
     const body = url.includes('/login')
-      ? { message: 'SUCCESS', code: '200', data: { message: 'SUCCESS', data: ACCESS_TOKEN } }
+      ? { message: 'SUCCESS', code: '200', data: loginReply }
       : { data: POWER_FLOW };
     return new Response(JSON.stringify(body), { status: 200 });
   }) as typeof fetch;
@@ -135,4 +142,51 @@ test('special characters in the site id are encoded and cannot change the reques
     calls[1].url,
     `https://api-eu.livoltek-portal.com:8081/hess/api/site/..%2F1%3Fx%3Dy/curPowerflow?userToken=${USER_TOKEN}`,
   );
+});
+
+const KEY_CORE = '2PN+abc/DEF==';
+
+test('normalizeKey ends the key with exactly one CRLF however the line ending was pasted', () => {
+  for (const pasted of [
+    KEY_CORE,
+    `${KEY_CORE}\n`,
+    `${KEY_CORE}\r\n`,
+    `${KEY_CORE}\r`,
+    `${KEY_CORE}\\n`,
+    `${KEY_CORE}\\r\\n`,
+    `${KEY_CORE}\\r`,
+    `  ${KEY_CORE} \r\n `,
+    `${KEY_CORE}\n\r`,
+    `${KEY_CORE}\r\n\r\n`,
+    `${KEY_CORE}\\n\\r`,
+    `${KEY_CORE}\\r\n`,
+    `${KEY_CORE}\r\\n`,
+    `${KEY_CORE}\\\\r\\\\n`,
+    `${KEY_CORE}\t`,
+  ]) {
+    assert.equal(normalizeKey(pasted), `${KEY_CORE}\r\n`, JSON.stringify(pasted));
+  }
+});
+
+test('login sends the key with a CRLF ending', async () => {
+  const calls: FetchCall[] = [];
+  stubFetch(calls);
+
+  await new LivoltekAPI({
+    secuid: 'secuid', key: `${KEY_CORE}\\n`, userToken: USER_TOKEN, region: 'eu',
+  }, new CapturingLogger()).login();
+
+  assert.equal(JSON.parse(String(calls[0].init.body)).key, `${KEY_CORE}\r\n`);
+});
+
+test('login rejects a "SUCCESS" reply whose token is an error text instead of a JWT', async () => {
+  for (const junk of ['"user not exit"', 'null', '']) {
+    stubFetch([], { message: null, data: junk });
+
+    await assert.rejects(
+      makeApi(new CapturingLogger()).login(),
+      (error: Error) => error.message.includes('Login failed'),
+      `accepted ${JSON.stringify(junk)} as a token`,
+    );
+  }
 });
