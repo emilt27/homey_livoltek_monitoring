@@ -1,0 +1,46 @@
+{
+  "name": {
+    "en": "Livoltek Grid"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_power",
+    "meter_power.imported"
+  ],
+  "capabilitiesOptions": {
+    "meter_power.imported": {
+      "title": {
+        "en": "Imported"
+      }
+    }
+  },
+  "energy": {
+    "cumulative": true,
+    "cumulativeImportedCapability": "meter_power.imported"
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/livoltek-small.png",
+    "large": "{{driverAssetsPath}}/images/livoltek-large.png",
+    "xlarge": "{{driverAssetsPath}}/images/livoltek-xlarge.png"
+  },
+  "icon": "{{driverAssetsPath}}/icon.svg",
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

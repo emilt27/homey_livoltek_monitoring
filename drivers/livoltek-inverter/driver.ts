@@ -1,6 +1,7 @@
 import Homey from 'homey';
+import { saveSiteCredentials } from '../../lib/devices/SiteDeviceDriver';
 import { LivoltekAPI, LivoltekSite } from '../../lib/LivoltekAPI';
-import type { LivoltekInverterDevice } from './device';
+import type LivoltekInverterDevice from './device';
 
 interface PairSession {
   secuid?: string;
@@ -130,10 +131,9 @@ class LivoltekInverterDriver extends Homey.Driver {
         // Test login
         await api.login();
 
-        // Update device store with new credentials
-        await device.setStoreValue('secuid', data.secuid);
-        await device.setStoreValue('key', data.key);
-        await device.setStoreValue('userToken', data.userToken);
+        // Battery and grid devices of the site keep their own copy of the credentials
+        const { siteId } = device.getData() as { siteId: string };
+        await saveSiteCredentials(this.homey, siteId, data);
         (device as LivoltekInverterDevice).reloadCredentials();
 
         this.log('Repair credentials validated successfully');

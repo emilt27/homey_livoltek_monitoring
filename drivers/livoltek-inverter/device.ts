@@ -1,13 +1,6 @@
-import Homey from 'homey';
 import { inverterCapabilities } from '../../lib/devices/mappers';
-import { LivoltekCredentials } from '../../lib/LivoltekAPI';
-import { SiteSnapshot, SiteSubscriber } from '../../lib/site/SiteMonitor';
-import { siteRegistryOf } from '../../lib/site/SiteRegistry';
-
-export interface LivoltekDeviceData {
-  id: string;
-  siteId: string;
-}
+import { SiteDevice } from '../../lib/devices/SiteDevice';
+import { SiteSnapshot } from '../../lib/site/SiteMonitor';
 
 type DeviceSettings = { [key: string]: boolean | string | number | undefined | null };
 
@@ -18,19 +11,16 @@ const DEVICE_CLASS = 'other';
  * Polling and all data interpretation live in the app-level SiteMonitor shared with the
  * battery and grid devices; this device only shows its snapshots.
  */
-export class LivoltekInverterDevice extends Homey.Device implements SiteSubscriber {
-  private release: (() => void) | null = null;
+export default class LivoltekInverterDevice extends SiteDevice {
+  protected readonly mapCapabilities = inverterCapabilities;
   private previousBatteryLevel: number | null = null;
   private previousLoadPower: number | null = null;
   private previousBatteryStatus: string | null = null;
 
   async onInit() {
     await this.migrateCapabilities();
-
-    const sites = siteRegistryOf(this.homey.app);
-    this.release = sites.acquire(this.siteId(), this.credentials(), this);
-    sites.setDebug(this.siteId(), this.getSetting('debug_logging') === true);
-
+    await super.onInit();
+    this.sites().setDebug(this.siteId(), this.getSetting('debug_logging') === true);
     this.log('Livoltek Inverter device initialized');
   }
 
@@ -41,52 +31,22 @@ export class LivoltekInverterDevice extends Homey.Device implements SiteSubscrib
   }): Promise<string | void> {
     if (changedKeys.includes('debug_logging')) {
       this.log(`Debug logging ${newSettings.debug_logging ? 'enabled' : 'disabled'}`);
-      siteRegistryOf(this.homey.app).setDebug(this.siteId(), newSettings.debug_logging === true);
+      this.sites().setDebug(this.siteId(), newSettings.debug_logging === true);
     }
   }
 
   /**
-   * Use the credentials the driver saved to the store during repair
+   * Use the credentials the driver saved to the stores of the site's devices during repair
    */
   reloadCredentials() {
-    siteRegistryOf(this.homey.app).updateCredentials(this.siteId(), this.credentials());
+    this.sites().updateCredentials(this.siteId(), this.credentials());
     this.log('API client reinitialized with new credentials');
   }
 
-  async onUninit() {
-    this.stopMonitoring();
-  }
-
-  async onDeleted() {
-    this.stopMonitoring();
-  }
-
   async onSnapshot(snapshot: SiteSnapshot): Promise<void> {
-    if (!this.getAvailable()) await this.setAvailable();
-
-    for (const [capability, value] of Object.entries(inverterCapabilities(snapshot))) {
-      if (this.hasCapability(capability)) await this.setCapabilityValue(capability, value).catch(this.error);
-    }
-
+    await super.onSnapshot(snapshot);
     if (snapshot.grid.changed) await this.triggerGridChange(snapshot);
     if (snapshot.fresh) await this.triggerValueChanges(snapshot);
-  }
-
-  async onUnavailable(reason: string): Promise<void> {
-    await this.setUnavailable(`${this.homey.__('error.connection_failed')}: ${reason}`).catch(this.error);
-  }
-
-  private siteId(): string {
-    return (this.getData() as LivoltekDeviceData).siteId;
-  }
-
-  private credentials(): LivoltekCredentials {
-    return this.getStore() as LivoltekCredentials;
-  }
-
-  private stopMonitoring() {
-    this.release?.();
-    this.release = null;
   }
 
   /**

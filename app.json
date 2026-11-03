@@ -420,6 +420,108 @@
   "drivers": [
     {
       "name": {
+        "en": "Livoltek Battery"
+      },
+      "class": "battery",
+      "capabilities": [
+        "measure_power",
+        "measure_battery",
+        "meter_power.charged",
+        "meter_power.discharged"
+      ],
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": {
+            "en": "Charged"
+          }
+        },
+        "meter_power.discharged": {
+          "title": {
+            "en": "Discharged"
+          }
+        }
+      },
+      "energy": {
+        "homeBattery": true,
+        "meterPowerImportedCapability": "meter_power.charged",
+        "meterPowerExportedCapability": "meter_power.discharged"
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/livoltek-battery/assets/images/livoltek-small.png",
+        "large": "/drivers/livoltek-battery/assets/images/livoltek-large.png",
+        "xlarge": "/drivers/livoltek-battery/assets/images/livoltek-xlarge.png"
+      },
+      "icon": "/drivers/livoltek-battery/assets/icon.svg",
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "livoltek-battery"
+    },
+    {
+      "name": {
+        "en": "Livoltek Grid"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_power",
+        "meter_power.imported"
+      ],
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": {
+            "en": "Imported"
+          }
+        }
+      },
+      "energy": {
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.imported"
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "images": {
+        "small": "/drivers/livoltek-grid/assets/images/livoltek-small.png",
+        "large": "/drivers/livoltek-grid/assets/images/livoltek-large.png",
+        "xlarge": "/drivers/livoltek-grid/assets/images/livoltek-xlarge.png"
+      },
+      "icon": "/drivers/livoltek-grid/assets/icon.svg",
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "livoltek-grid"
+    },
+    {
+      "name": {
         "en": "Livoltek Inverter"
       },
       "class": "other",
