@@ -16,6 +16,8 @@ export interface LivoltekSite {
   address?: string;
 }
 
+export type RawPowerFlow = Record<string, unknown>;
+
 export interface CurrentPowerFlow {
   energyStatus: string;
   energyPower: number; // kW
