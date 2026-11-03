@@ -4,15 +4,18 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test:api": "npm run build && node test-api.js"
+    "test": "tsc -p tsconfig.test.json && node --test \".testbuild/test/**/*.test.js\""
   },
   "devDependencies": {
-    "@tsconfig/node16": "^16.1.8",
-    "@types/homey": "npm:homey-apps-sdk-v3-types@^0.3.12",
-    "@types/node": "^25.0.5",
-    "eslint": "^7.32.0",
-    "eslint-config-athom": "^3.1.5",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "typescript": "^5.9.3"
+    "@tsconfig/node22": "^22.0.6",
+    "@types/homey": "npm:homey-apps-sdk-v3-types@^1.8.3",
+    "@types/node": "^22.20.5",
+    "eslint": "^8.57.1",
+    "eslint-config-athom": "^4.0.2",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

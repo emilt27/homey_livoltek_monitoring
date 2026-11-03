@@ -100,11 +100,22 @@ interface BatteryInfoResponse {
   data: BatteryInfoData;
 }
 
+const REQUEST_TIMEOUT_MS = 20_000;
+
+interface RequestOptions {
+  body?: unknown;
+  // Adds the access token header and the userToken query parameter
+  authorized?: boolean;
+  // Response bodies that contain secrets (e.g. the login JWT) must never be logged
+  logResponseBody?: boolean;
+}
+
 export class LivoltekAPI {
   private baseUrl: string;
   private token: string | null = null;
   private credentials: LivoltekCredentials;
   private logger: Logger;
+  private debug = false;
 
   constructor(credentials: LivoltekCredentials, logger: Logger) {
     this.credentials = credentials;
@@ -117,6 +128,55 @@ export class LivoltekAPI {
   }
 
   /**
+   * Enable logging of full response bodies (secrets are never logged)
+   */
+  setDebug(enabled: boolean): void {
+    this.debug = enabled;
+  }
+
+  /**
+   * Perform an API request with a timeout and log a short summary line.
+   * The URL is logged without query parameters so the userToken never reaches the logs.
+   */
+  private async request<T>(method: 'GET' | 'POST', path: string, options: RequestOptions = {}): Promise<T> {
+    const { body, authorized = false, logResponseBody = true } = options;
+    const url = new URL(`${this.baseUrl}${path}`);
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+
+    if (authorized) {
+      if (!this.token) {
+        throw new Error(`${method} ${path}: not logged in`);
+      }
+      url.searchParams.append('userToken', this.credentials.userToken);
+      headers.Authorization = this.token;
+    }
+
+    const startedAt = Date.now();
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+    const responseText = await response.text();
+
+    this.logger.log(`${method} ${path} -> ${response.status} (${Date.now() - startedAt} ms)`);
+
+    if (!response.ok) {
+      if (logResponseBody) {
+        this.logger.error(`${method} ${path} error response:`, responseText);
+      }
+      throw new Error(`${method} ${path} failed: ${response.status} ${response.statusText}`);
+    }
+
+    if (this.debug && logResponseBody) {
+      this.logger.log(`${method} ${path} response:`, responseText);
+    }
+
+    return JSON.parse(responseText) as T;
+  }
+
+  /**
    * Login and obtain JWT token
    */
   async login(): Promise<string> {
@@ -125,23 +185,15 @@ export class LivoltekAPI {
       // (conversion causes token to be invalid for subsequent requests)
       const cleanKey = this.credentials.key.replace('\\n', '\n').replace('\\r', '\r');
 
-      const response = await fetch(`${this.baseUrl}/hess/api/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const data = await this.request<LoginResponse>('POST', '/hess/api/login', {
+        body: {
           secuid: this.credentials.secuid,
           key: cleanKey,
-        }),
+        },
+        logResponseBody: false,
       });
 
-      if (!response.ok) {
-        throw new Error(`Login failed: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json() as LoginResponse;
-
+      // Failed login responses carry no token, so they are safe to log in full
       if (data.message !== 'SUCCESS') {
         this.logger.log('Login API response:', JSON.stringify(data, null, 2));
         throw new Error(`Login failed: ${data.message || 'Unknown error'}`);
@@ -183,7 +235,7 @@ export class LivoltekAPI {
       const now = Math.floor(Date.now() / 1000);
 
       return payload.exp > now;
-    } catch (error) {
+    } catch {
       return false;
     }
   }
@@ -207,34 +259,9 @@ export class LivoltekAPI {
     await this.ensureToken();
 
     try {
-      // Build URL with query parameters as per Python SDK
-      // eslint-disable-next-line node/no-unsupported-features/node-builtins
-      const url = new URL(`${this.baseUrl}/hess/api/userSites/list`);
-      url.searchParams.append('userToken', this.credentials.userToken); // Use pre-generated USER_TOKEN
-      url.searchParams.append('page', '1');
-      url.searchParams.append('size', '100');
-
-      this.logger.log('Get sites request:', url.toString());
-
-      const response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          Authorization: this.token!, // Access token from login
-          'Content-Type': 'application/json',
-        },
+      const data = await this.request<SitesListResponse>('GET', '/hess/api/userSites/list?page=1&size=100', {
+        authorized: true,
       });
-
-      this.logger.log('Get sites response status:', response.status);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        this.logger.error('Get sites error response:', errorText);
-        throw new Error(`Get sites failed: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json() as SitesListResponse;
-
-      this.logger.log('Sites API response:', JSON.stringify(data, null, 2));
 
       if (!data.data || !Array.isArray(data.data.list)) {
         this.logger.error('Invalid sites response structure. Expected data.data.list array, got:', typeof data.data, data.data ? Object.keys(data.data) : 'no data');
@@ -259,23 +286,9 @@ export class LivoltekAPI {
     await this.ensureToken();
 
     try {
-      // eslint-disable-next-line node/no-unsupported-features/node-builtins
-      const url = new URL(`${this.baseUrl}/hess/api/site/${siteId}/curPowerflow`);
-      url.searchParams.append('userToken', this.credentials.userToken); // Use pre-generated USER_TOKEN
-
-      const response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          Authorization: this.token!, // Access token from login
-          'Content-Type': 'application/json',
-        },
+      const data = await this.request<PowerFlowResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/curPowerflow`, {
+        authorized: true,
       });
-
-      if (!response.ok) {
-        throw new Error(`Get power flow failed: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json() as PowerFlowResponse;
 
       if (!data.data) {
         throw new Error('Invalid power flow response');
@@ -306,23 +319,9 @@ export class LivoltekAPI {
     await this.ensureToken();
 
     try {
-      // eslint-disable-next-line node/no-unsupported-features/node-builtins
-      const url = new URL(`${this.baseUrl}/hess/api/site/${siteId}/ESS`);
-      url.searchParams.append('userToken', this.credentials.userToken); // Use pre-generated USER_TOKEN
-
-      const response = await fetch(url.toString(), {
-        method: 'GET',
-        headers: {
-          Authorization: this.token!, // Access token from login
-          'Content-Type': 'application/json',
-        },
+      const data = await this.request<BatteryInfoResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/ESS`, {
+        authorized: true,
       });
-
-      if (!response.ok) {
-        throw new Error(`Get battery info failed: ${response.status} ${response.statusText}`);
-      }
-
-      const data = await response.json() as BatteryInfoResponse;
       return data.data;
     } catch (error) {
       this.logger.error('Get battery info error:', error);

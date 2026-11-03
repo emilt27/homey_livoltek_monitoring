@@ -1,5 +1,6 @@
 import Homey from 'homey';
 import { LivoltekAPI, LivoltekSite } from '../../lib/LivoltekAPI';
+import type { LivoltekInverterDevice } from './device';
 
 interface PairSession {
   secuid?: string;
@@ -136,6 +137,7 @@ class LivoltekInverterDriver extends Homey.Driver {
         await device.setStoreValue('secuid', data.secuid);
         await device.setStoreValue('key', data.key);
         await device.setStoreValue('userToken', data.userToken);
+        (device as LivoltekInverterDevice).reloadCredentials();
 
         this.log('Repair credentials validated successfully');
         return true;

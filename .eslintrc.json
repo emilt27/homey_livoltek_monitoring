@@ -23,6 +23,25 @@
         "tryExtensions": [".js", ".ts", ".json"],
         "allowModules": ["homey"]
       }
-    ]
-  }
+    ],
+    "import/no-import-module-exports": "off"
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.ts"],
+      "parserOptions": {
+        "project": "./tsconfig.test.json"
+      },
+      "rules": {
+        "@typescript-eslint/no-floating-promises": [
+          "error",
+          {
+            "allowForKnownSafeCalls": [
+              { "from": "package", "package": "node:test", "name": ["test", "describe", "it", "suite"] }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

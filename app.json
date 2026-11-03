@@ -498,6 +498,25 @@
               }
             }
           ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Diagnostics"
+          },
+          "children": [
+            {
+              "id": "debug_logging",
+              "type": "checkbox",
+              "label": {
+                "en": "Debug logging"
+              },
+              "value": false,
+              "hint": {
+                "en": "Log full API responses and per-capability details. Credentials and tokens are never logged."
+              }
+            }
+          ]
         }
       ],
       "id": "livoltek-inverter"

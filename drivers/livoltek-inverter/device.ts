@@ -1,5 +1,6 @@
 import Homey from 'homey';
 import { LivoltekAPI, CurrentPowerFlow } from '../../lib/LivoltekAPI';
+import { Poller } from '../../lib/Poller';
 
 export interface LivoltekDeviceData {
   id: string;
@@ -13,9 +14,14 @@ export interface LivoltekDeviceStore {
   region: 'global' | 'eu';
 }
 
+type DeviceSettings = { [key: string]: boolean | string | number | undefined | null };
+
+const DEFAULT_POLL_INTERVAL_S = 30;
+
 export class LivoltekInverterDevice extends Homey.Device {
   private api!: LivoltekAPI;
-  private pollInterval: NodeJS.Timeout | null = null;
+  private poller!: Poller;
+  private debugLogging = false;
   private previousGridStatus: boolean | null = null;
   private previousBatteryStatus: string | null = null;
   private previousBatteryLevel: number | null = null;
@@ -39,19 +45,15 @@ export class LivoltekInverterDevice extends Homey.Device {
   async onInit() {
     this.log('Livoltek Inverter device initialized');
 
-    // Get device store
-    const store = this.getStore() as LivoltekDeviceStore;
+    this.createApi();
+    this.applyDebugSetting(this.getSetting('debug_logging') === true);
 
-    // Initialize API client
-    this.api = new LivoltekAPI({
-      secuid: store.secuid,
-      key: store.key,
-      userToken: store.userToken,
-      region: store.region,
-    }, this.homey);
-
-    // Start polling
-    await this.startPolling();
+    this.poller = new Poller(
+      this.homey,
+      () => this.poll(),
+      (error) => this.error('Polling error:', error),
+    );
+    await this.poller.start(this.pollIntervalMs(this.getSettings()));
 
     this.log('Device initialized successfully');
   }
@@ -61,89 +63,70 @@ export class LivoltekInverterDevice extends Homey.Device {
     newSettings,
     changedKeys,
   }: {
-    oldSettings: { [key: string]: boolean | string | number | undefined | null };
-    newSettings: { [key: string]: boolean | string | number | undefined | null };
+    oldSettings: DeviceSettings;
+    newSettings: DeviceSettings;
     changedKeys: string[];
   }): Promise<string | void> {
     this.log('Livoltek Inverter device settings changed');
 
-    // Handle poll_interval change
+    if (changedKeys.includes('debug_logging')) {
+      this.log(`Debug logging ${newSettings.debug_logging ? 'enabled' : 'disabled'}`);
+      this.applyDebugSetting(newSettings.debug_logging === true);
+    }
+
+    // getSettings() still returns the old values here, so the new interval is taken from newSettings
     if (changedKeys.includes('poll_interval')) {
       this.log(`Poll interval changed from ${oldSettings.poll_interval} to ${newSettings.poll_interval}`);
-      await this.stopPolling();
-      await this.startPolling();
+      await this.poller.start(this.pollIntervalMs(newSettings));
     }
   }
 
-  async onRepair() {
-    this.log('Device repair completed, reinitializing API client');
+  /**
+   * Recreate the API client with the credentials the driver saved to the store during repair
+   */
+  reloadCredentials() {
+    this.createApi();
+    this.applyDebugSetting(this.debugLogging);
+    this.log('API client reinitialized with new credentials');
+  }
 
-    // Get updated credentials from store (updated by driver during repair)
+  async onUninit() {
+    this.log('Livoltek Inverter device is being uninitialized');
+    this.poller.stop();
+  }
+
+  async onDeleted() {
+    this.log('Livoltek Inverter device has been deleted');
+    this.poller.stop();
+  }
+
+  private createApi() {
     const store = this.getStore() as LivoltekDeviceStore;
 
-    // Reinitialize API client with new credentials
     this.api = new LivoltekAPI({
       secuid: store.secuid,
       key: store.key,
       userToken: store.userToken,
       region: store.region,
     }, this.homey);
-
-    this.log('API client reinitialized with new credentials');
   }
 
-  async onUninit() {
-    this.log('Livoltek Inverter device is being uninitialized');
-    await this.stopPolling();
-  }
-
-  async onDeleted() {
-    this.log('Livoltek Inverter device has been deleted');
-    await this.stopPolling();
+  private applyDebugSetting(enabled: boolean) {
+    this.debugLogging = enabled;
+    this.api.setDebug(enabled);
   }
 
   /**
-   * Start polling the Livoltek API
+   * Log only when debug logging is enabled in device settings
    */
-  private async startPolling() {
-    this.log('Starting polling...');
-
-    // Do initial poll
-    await this.poll();
-
-    // Schedule next poll using recursive setTimeout
-    this.scheduleNextPoll();
-  }
-
-  /**
-   * Schedule next poll using recursive setTimeout
-   * This is more reliable than setInterval for long-running apps
-   */
-  private scheduleNextPoll() {
-    const settings = this.getSettings();
-    const pollInterval = (settings.poll_interval as number) || 30;
-
-    this.pollInterval = this.homey.setTimeout(async () => {
-      try {
-        await this.poll();
-      } catch (error) {
-        this.error('Polling error in scheduleNextPoll:', error);
-      }
-
-      // Schedule next poll after this one completes
-      this.scheduleNextPoll();
-    }, pollInterval * 1000);
-  }
-
-  /**
-   * Stop polling
-   */
-  private async stopPolling() {
-    if (this.pollInterval) {
-      this.homey.clearTimeout(this.pollInterval);
-      this.pollInterval = null;
-      this.log('Polling stopped');
+  private debug(...args: unknown[]) {
+    if (this.debugLogging) {
+      this.log(...args);
     }
+  }
+
+  private pollIntervalMs(settings: DeviceSettings): number {
+    return ((settings.poll_interval as number) || DEFAULT_POLL_INTERVAL_S) * 1000;
   }
 
   /**
@@ -151,19 +134,20 @@ export class LivoltekInverterDevice extends Homey.Device {
    */
   private async poll() {
     const timestamp = new Date().toISOString();
-    this.log(`[${timestamp}] 🔄 Starting poll...`);
+    this.debug(`[${timestamp}] 🔄 Starting poll...`);
 
     try {
       const data = this.getData() as LivoltekDeviceData;
-      this.log(`[${timestamp}] 📡 Fetching data for site: ${data.siteId}`);
+      this.debug(`[${timestamp}] 📡 Fetching data for site: ${data.siteId}`);
 
       const powerFlow = await this.api.getCurrentPowerFlow(data.siteId);
 
-      this.log(`[${timestamp}] ✅ Power flow data received:`, JSON.stringify(powerFlow, null, 2));
+      this.debug(`[${timestamp}] ✅ Power flow data received:`, JSON.stringify(powerFlow, null, 2));
 
       await this.updateCapabilities(powerFlow);
 
-      this.log(`[${timestamp}] ✅ Poll completed successfully`);
+      this.log(`Poll OK: SoC ${powerFlow.energySoc}%, load ${powerFlow.loadPower} kW, `
+        + `grid ${powerFlow.powerGridPower} kW, battery ${powerFlow.energyPower} kW, energyStatus ${powerFlow.energyStatus}`);
     } catch (error) {
       this.error(`[${timestamp}] ❌ Failed to poll Livoltek API:`, error);
 
@@ -184,11 +168,11 @@ export class LivoltekInverterDevice extends Homey.Device {
         await this.setAvailable();
       }
 
-      this.log('📊 Updating capabilities...');
+      this.debug('📊 Updating capabilities...');
 
       // Battery level (%)
       if (this.hasCapability('measure_battery') && this._hasValue(powerFlow.energySoc)) {
-        this.log(`  🔋 Battery: ${powerFlow.energySoc}%`);
+        this.debug(`  🔋 Battery: ${powerFlow.energySoc}%`);
         await this.setCapabilityValue('measure_battery', powerFlow.energySoc).catch(this.error);
         // Trigger flow cards for battery level changes
         await this.handleBatteryLevelChange(powerFlow.energySoc);
@@ -197,7 +181,7 @@ export class LivoltekInverterDevice extends Homey.Device {
       // Load power (convert kW to W)
       if (this.hasCapability('measure_power') && this._hasValue(powerFlow.loadPower)) {
         const loadPowerW = powerFlow.loadPower * 1000;
-        this.log(`  ⚡ Load Power: ${loadPowerW}W (${powerFlow.loadPower}kW)`);
+        this.debug(`  ⚡ Load Power: ${loadPowerW}W (${powerFlow.loadPower}kW)`);
         await this.setCapabilityValue('measure_power', loadPowerW).catch(this.error);
         // Trigger flow cards for load power changes
         await this.handleLoadPowerChange(loadPowerW);
@@ -206,21 +190,21 @@ export class LivoltekInverterDevice extends Homey.Device {
       // Grid import (convert kW to W)
       if (this.hasCapability('measure_power_grid_import') && this._hasValue(powerFlow.powerGridPower)) {
         const gridPowerW = powerFlow.powerGridPower * 1000;
-        this.log(`  🔌 Grid Import: ${gridPowerW}W (${powerFlow.powerGridPower}kW)`);
+        this.debug(`  🔌 Grid Import: ${gridPowerW}W (${powerFlow.powerGridPower}kW)`);
         await this.setCapabilityValue('measure_power_grid_import', gridPowerW).catch(this.error);
       }
 
       // Battery charge power (convert kW to W)
       if (this.hasCapability('measure_power_battery_charge') && this._hasValue(powerFlow.energyPower)) {
         const batteryPowerW = powerFlow.energyPower * 1000;
-        this.log(`  🔋⚡ Battery Power: ${batteryPowerW}W (${powerFlow.energyPower}kW)`);
+        this.debug(`  🔋⚡ Battery Power: ${batteryPowerW}W (${powerFlow.energyPower}kW)`);
         await this.setCapabilityValue('measure_power_battery_charge', batteryPowerW).catch(this.error);
       }
 
       // Battery consumption - only when discharging (convert kW to W)
       if (this.hasCapability('measure_power_battery_consumption') && this._hasValue(powerFlow.energyPower)) {
         const batteryConsumption = Math.max(0, -powerFlow.energyPower * 1000);
-        this.log(`  🔋📉 Battery Consumption: ${batteryConsumption}W`);
+        this.debug(`  🔋📉 Battery Consumption: ${batteryConsumption}W`);
         await this.setCapabilityValue('measure_power_battery_consumption', batteryConsumption).catch(this.error);
       }
 
@@ -228,7 +212,7 @@ export class LivoltekInverterDevice extends Homey.Device {
       if (this.hasCapability('battery_status')) {
         const status = this.determineBatteryStatus(powerFlow.energyPower, powerFlow.energyStatus);
         if (status !== null) {
-          this.log(`  🔋📊 Battery Status: ${status}`);
+          this.debug(`  🔋📊 Battery Status: ${status}`);
           await this.setCapabilityValue('battery_status', status).catch(this.error);
           // Trigger flow cards for battery status changes
           await this.handleBatteryStatusChange(status, powerFlow);
@@ -241,7 +225,7 @@ export class LivoltekInverterDevice extends Homey.Device {
       // Only update if we have valid status (not null)
       if (isGridActive !== null) {
         if (this.hasCapability('alarm_grid')) {
-          this.log(`  🔌⚠️  Grid: ${isGridActive ? 'ACTIVE' : 'DISCONNECTED'}`);
+          this.debug(`  🔌⚠️  Grid: ${isGridActive ? 'ACTIVE' : 'DISCONNECTED'}`);
           await this.setCapabilityValue('alarm_grid', !isGridActive).catch(this.error);
         }
 
@@ -261,7 +245,7 @@ export class LivoltekInverterDevice extends Homey.Device {
    * Returns null if status cannot be determined (keep previous value)
    */
   private determineBatteryStatus(energyPower: number, energyStatus: string): string | null {
-    this.log(`  Determine battery status from ${energyStatus} and power ${energyPower}`);
+    this.debug(`  Determine battery status from ${energyStatus} and power ${energyPower}`);
 
     if (energyStatus) {
       const status = energyStatus.trim().toLowerCase();
@@ -296,7 +280,7 @@ export class LivoltekInverterDevice extends Homey.Device {
    */
   private isGridActive(powerFlow: CurrentPowerFlow): boolean | null {
     if (!this._hasValue(powerFlow.energyStatus) || powerFlow.energyStatus.trim().toLowerCase() === 'idel') {
-      this.log('⚠️  energyStatus is null or "idel" - cannot determine grid status');
+      this.debug('⚠️  energyStatus is null or "idel" - cannot determine grid status');
       return null;
     }
 
@@ -373,7 +357,7 @@ export class LivoltekInverterDevice extends Homey.Device {
     if (this.previousBatteryStatus !== batteryStatus) {
       this.log(`Battery status changed: ${this.previousBatteryStatus} -> ${batteryStatus}`);
 
-      // Trigger battery_status_changed card with specific status
+      // The app-level run listener fires only flows whose selected status matches
       await this.homey.flow.getDeviceTriggerCard('battery_status_changed').trigger(this, {
         battery_level: powerFlow.energySoc,
       }, {
@@ -395,14 +379,13 @@ export class LivoltekInverterDevice extends Homey.Device {
       return;
     }
 
-    // Trigger battery_level_below for all thresholds that were just crossed
-    // Note: The trigger card has args with threshold, so it will filter based on user's chosen threshold
+    // The app-level run listener fires only flows whose threshold lies between previous and current
     if (this.previousBatteryLevel > batteryLevel) {
-      // Battery level is dropping
       await this.homey.flow.getDeviceTriggerCard('battery_level_below').trigger(this, {
         battery_level: batteryLevel,
       }, {
-        threshold: batteryLevel, // Pass current level for filtering
+        previous: this.previousBatteryLevel,
+        current: batteryLevel,
       }).catch(this.error);
     }
 
@@ -420,14 +403,13 @@ export class LivoltekInverterDevice extends Homey.Device {
       return;
     }
 
-    // Trigger load_exceeds for all thresholds that were just crossed
-    // Note: The trigger card has args with threshold, so it will filter based on user's chosen threshold
+    // The app-level run listener fires only flows whose threshold lies between previous and current
     if (this.previousLoadPower < loadPower) {
-      // Load power is increasing
       await this.homey.flow.getDeviceTriggerCard('load_exceeds').trigger(this, {
         load_power: loadPower,
       }, {
-        threshold: loadPower, // Pass current power for filtering
+        previous: this.previousLoadPower,
+        current: loadPower,
       }).catch(this.error);
     }
 

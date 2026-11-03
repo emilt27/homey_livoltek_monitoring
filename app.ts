@@ -1,6 +1,7 @@
 'use strict';
 
 import Homey from 'homey';
+import { crossedAbove, crossedBelow } from './lib/flowTriggers';
 
 module.exports = class MyApp extends Homey.App {
 
@@ -10,8 +11,27 @@ module.exports = class MyApp extends Homey.App {
   async onInit() {
     this.log('Livoltek Monitor app has been initialized');
 
-    // Register flow card condition handlers once for the entire app
+    // Register flow card handlers once for the entire app
     this.registerFlowCardConditions();
+    this.registerFlowCardTriggers();
+  }
+
+  /**
+   * Register run listeners that decide which trigger flows fire.
+   * Devices pass the previous and current values as state; each flow is checked
+   * against its own threshold/status arguments.
+   */
+  private registerFlowCardTriggers() {
+    this.homey.flow.getDeviceTriggerCard('battery_level_below')
+      .registerRunListener(async (args, state) => crossedBelow(args.threshold, state.previous, state.current));
+
+    this.homey.flow.getDeviceTriggerCard('load_exceeds')
+      .registerRunListener(async (args, state) => crossedAbove(args.threshold, state.previous, state.current));
+
+    this.homey.flow.getDeviceTriggerCard('battery_status_changed')
+      .registerRunListener(async (args, state) => args.status === state.status);
+
+    this.log('Flow card triggers registered');
   }
 
   /**
