@@ -53,7 +53,8 @@ export class LivoltekInverterDevice extends Homey.Device {
       () => this.poll(),
       (error) => this.error('Polling error:', error),
     );
-    await this.poller.start(this.pollIntervalMs(this.getSettings()));
+    const intervalMs = this.pollIntervalMs(this.getSettings());
+    await this.poller.start(() => intervalMs);
 
     this.log('Device initialized successfully');
   }
@@ -77,7 +78,8 @@ export class LivoltekInverterDevice extends Homey.Device {
     // getSettings() still returns the old values here, so the new interval is taken from newSettings
     if (changedKeys.includes('poll_interval')) {
       this.log(`Poll interval changed from ${oldSettings.poll_interval} to ${newSettings.poll_interval}`);
-      await this.poller.start(this.pollIntervalMs(newSettings));
+      const intervalMs = this.pollIntervalMs(newSettings);
+      await this.poller.start(() => intervalMs);
     }
   }
 

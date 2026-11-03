@@ -53,7 +53,7 @@ test('start runs the task immediately and schedules the next run with the interv
     runs += 1;
   }, failOnError);
 
-  await poller.start(30_000);
+  await poller.start(() => 30_000);
 
   assert.equal(runs, 1);
   assert.equal(timers.active().length, 1);
@@ -67,7 +67,7 @@ test('a fired timer runs the task again and schedules exactly one new timer', as
     runs += 1;
   }, failOnError);
 
-  await poller.start(1_000);
+  await poller.start(() => 1_000);
   timers.fire(0);
   await flush();
 
@@ -82,7 +82,7 @@ test('task errors are reported and polling continues', async () => {
     throw new Error('boom');
   }, (error) => errors.push(error));
 
-  await poller.start(1_000);
+  await poller.start(() => 1_000);
 
   assert.equal(errors.length, 1);
   assert.equal(timers.active().length, 1);
@@ -93,7 +93,7 @@ test('stop while a scheduled run is in flight prevents rescheduling', async () =
   let inFlight = deferred();
   const poller = new Poller(timers, () => inFlight.promise, failOnError);
 
-  const started = poller.start(1_000);
+  const started = poller.start(() => 1_000);
   inFlight.resolve();
   await started;
 
@@ -111,7 +111,7 @@ test('restart while a run is in flight leaves exactly one polling chain', async 
   let inFlight = deferred();
   const poller = new Poller(timers, () => inFlight.promise, failOnError);
 
-  const started = poller.start(1_000);
+  const started = poller.start(() => 1_000);
   inFlight.resolve();
   await started;
 
@@ -120,7 +120,7 @@ test('restart while a run is in flight leaves exactly one polling chain', async 
   timers.fire(0);
 
   inFlight = deferred();
-  const restarted = poller.start(5_000);
+  const restarted = poller.start(() => 5_000);
   inFlight.resolve();
   await restarted;
   oldRun.resolve();
@@ -134,8 +134,20 @@ test('stop clears the pending timer', async () => {
   const timers = new FakeTimers();
   const poller = new Poller(timers, async () => {}, failOnError);
 
-  await poller.start(1_000);
+  await poller.start(() => 1_000);
   poller.stop();
 
   assert.equal(timers.active().length, 0);
+});
+
+test('the delay function is consulted before every scheduling', async () => {
+  const timers = new FakeTimers();
+  const delays = [5_000, 7_000];
+  const poller = new Poller(timers, async () => {}, failOnError);
+
+  await poller.start(() => delays.shift() ?? 0);
+  timers.fire(0);
+  await flush();
+
+  assert.deepEqual(timers.timers.map((timer) => timer.ms), [5_000, 7_000]);
 });

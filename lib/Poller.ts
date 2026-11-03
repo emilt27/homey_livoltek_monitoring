@@ -5,6 +5,8 @@ export interface TimerApi {
 
 /**
  * Runs an async task repeatedly, scheduling each next run only after the previous one completes.
+ * The delay before each next run is asked from nextDelayMs right after the current run, so it can
+ * depend on what the run observed.
  *
  * Every start/stop bumps a generation counter: a run that was already in flight when the poller
  * was stopped or restarted finishes without scheduling a new timer, so at most one chain is alive.
@@ -23,11 +25,11 @@ export class Poller {
   }
 
   /**
-   * Stop any running chain, run the task immediately and keep running it every intervalMs
+   * Stop any running chain, run the task immediately and keep running it after nextDelayMs()
    */
-  async start(intervalMs: number): Promise<void> {
+  async start(nextDelayMs: () => number): Promise<void> {
     this.stop();
-    await this.runAndReschedule(this.generation, intervalMs);
+    await this.runAndReschedule(this.generation, nextDelayMs);
   }
 
   stop(): void {
@@ -38,7 +40,7 @@ export class Poller {
     }
   }
 
-  private async runAndReschedule(generation: number, intervalMs: number): Promise<void> {
+  private async runAndReschedule(generation: number, nextDelayMs: () => number): Promise<void> {
     try {
       await this.task();
     } catch (error) {
@@ -49,7 +51,7 @@ export class Poller {
 
     this.timer = this.timers.setTimeout(() => {
       this.timer = null;
-      this.runAndReschedule(generation, intervalMs).catch(this.onError);
-    }, intervalMs);
+      this.runAndReschedule(generation, nextDelayMs).catch(this.onError);
+    }, nextDelayMs());
   }
 }
