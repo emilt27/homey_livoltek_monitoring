@@ -2,13 +2,19 @@
 
 import Homey from 'homey';
 import { crossedAbove, crossedBelow } from './lib/flowTriggers';
+import { LivoltekAPI } from './lib/LivoltekAPI';
+import { SiteRegistry } from './lib/site/SiteRegistry';
 
-module.exports = class MyApp extends Homey.App {
+module.exports = class LivoltekApp extends Homey.App {
+
+  /** One monitor per Livoltek site, shared by the inverter, battery and grid devices of that site. */
+  sites!: SiteRegistry;
 
   /**
    * onInit is called when the app is initialized.
    */
   async onInit() {
+    this.sites = new SiteRegistry(this.homey, this, (credentials) => new LivoltekAPI(credentials, this));
     this.log('Livoltek Monitor app has been initialized');
 
     // Register flow card handlers once for the entire app
@@ -62,7 +68,7 @@ module.exports = class MyApp extends Homey.App {
     this.homey.flow.getConditionCard('battery_level_compare')
       .registerRunListener(async (args) => {
         const { device } = args;
-        const batteryLevel = device.getCapabilityValue('measure_battery') || 0;
+        const batteryLevel = device.getCapabilityValue('measure_battery_soc') || 0;
         const result = args.comparison === 'greater'
           ? batteryLevel > args.threshold
           : batteryLevel < args.threshold;
@@ -74,7 +80,7 @@ module.exports = class MyApp extends Homey.App {
     this.homey.flow.getConditionCard('load_compare')
       .registerRunListener(async (args) => {
         const { device } = args;
-        const loadPower = device.getCapabilityValue('measure_power') || 0;
+        const loadPower = device.getCapabilityValue('measure_power_load') || 0;
         const result = args.comparison === 'greater'
           ? loadPower > args.threshold
           : loadPower < args.threshold;

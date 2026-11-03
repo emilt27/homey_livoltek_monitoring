@@ -28,6 +28,16 @@ function kwToW(value: unknown): number | null {
   return kw === null ? null : Math.round(kw * 1000) + 0;
 }
 
+/**
+ * A state of charge of 0 is the placeholder of an incomplete record (recorded 2026-11-03: the first
+ * read of a new point has SoC 0, the full record ~30 s later the real value). A real 0 % does not
+ * occur: the inverter shuts down at its discharge cut-off around 10 %.
+ */
+function parseSoc(value: unknown): number | null {
+  const soc = parseNumber(value);
+  return soc === 0 ? null : soc;
+}
+
 function parseStatus(value: unknown): string | null {
   if (typeof value !== 'string') return null;
   const status = value.trim().toLowerCase();
@@ -49,24 +59,24 @@ export function normalizeSample(raw: RawPowerFlow | null): PowerSample | null {
     loadW: kwToW(raw.loadPower),
     batteryW: kwToW(raw.energyPower),
     pvW: kwToW(raw.pvPower),
-    soc: parseNumber(raw.energySoc),
+    soc: parseSoc(raw.energySoc),
     energyStatus: parseStatus(raw.energyStatus),
   };
 }
 
 /**
- * The API publishes a new point incomplete and fills it in within ~30 s: later reads of the
- * same point only fill the fields that were still missing.
+ * The API publishes a new point as a placeholder (fields missing, status "idel") and the full
+ * record ~30 s later: values of the later read win, fields it still misses keep the earlier value.
  */
 export function mergeSample(earlier: PowerSample, later: PowerSample): PowerSample {
   return {
     dataTimestamp: earlier.dataTimestamp,
-    gridW: earlier.gridW ?? later.gridW,
-    loadW: earlier.loadW ?? later.loadW,
-    batteryW: earlier.batteryW ?? later.batteryW,
-    pvW: earlier.pvW ?? later.pvW,
-    soc: earlier.soc ?? later.soc,
-    energyStatus: earlier.energyStatus ?? later.energyStatus,
+    gridW: later.gridW ?? earlier.gridW,
+    loadW: later.loadW ?? earlier.loadW,
+    batteryW: later.batteryW ?? earlier.batteryW,
+    pvW: later.pvW ?? earlier.pvW,
+    soc: later.soc ?? earlier.soc,
+    energyStatus: later.energyStatus ?? earlier.energyStatus,
   };
 }
 

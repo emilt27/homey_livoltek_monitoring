@@ -27,15 +27,15 @@ test('grid import uses the reported value only when it matches the balance', () 
   assert.equal(apply(new OutputFilter(null), { gridW: null, loadW: null, batteryW: 0 }).gridImportW, null);
 });
 
-test('a sudden state-of-charge drop to 0 is held until the next point confirms it', () => {
+test('a sudden large state-of-charge drop is held until the next point confirms it', () => {
   const filter = new OutputFilter(null);
   assert.equal(apply(filter, { soc: 99 }).soc, 99);
 
-  assert.equal(apply(filter, { soc: 0 }).soc, 99);
+  assert.equal(apply(filter, { soc: 12 }).soc, 99);
   assert.equal(apply(filter, { soc: 99 }).soc, 99);
 
-  apply(filter, { soc: 0 });
-  assert.equal(apply(filter, { soc: 0 }).soc, 0, 'confirmed by the next point');
+  apply(filter, { soc: 12 });
+  assert.equal(apply(filter, { soc: 12 }).soc, 12, 'confirmed by the next point');
 });
 
 test('a drop of more than 20 points is held, normal changes pass immediately', () => {
@@ -64,9 +64,28 @@ test('battery status comes from battery power, the status text is only a fallbac
 test('state survives a JSON round trip', () => {
   const filter = new OutputFilter(null);
   apply(filter, { soc: 99 });
-  apply(filter, { soc: 0 });
+  apply(filter, { soc: 12 });
 
   const restored = new OutputFilter(JSON.parse(JSON.stringify(filter.toJSON())));
 
-  assert.equal(apply(restored, { soc: 0 }).soc, 0);
+  assert.equal(apply(restored, { soc: 12 }).soc, 12);
+});
+
+test('refresh of the same point recomputes stateless values and does not confirm a held drop', () => {
+  const filter = new OutputFilter(null);
+  apply(filter, { soc: 99 });
+  const held = apply(filter, { soc: 12, gridW: null, loadW: 703 });
+  assert.equal(held.soc, 99);
+
+  const refreshed = filter.refresh(sample({ soc: 12, gridW: 690, loadW: 703 }), 'on', DEFAULT_THRESHOLDS, held);
+
+  assert.equal(refreshed.gridImportW, 690);
+  assert.equal(refreshed.soc, 99, 'a second read of the same point is not a confirmation');
+  assert.equal(apply(filter, { soc: 12 }).soc, 12, 'the next point still confirms it');
+});
+
+test('while charging, the reported grid power includes ~190–280 W of charging losses and is still trusted', () => {
+  // recorded 2026-11-03 17:40 and 17:20
+  assert.equal(apply(new OutputFilter(null), { gridW: 493, loadW: 42, batteryW: 263 }).gridImportW, 493);
+  assert.equal(apply(new OutputFilter(null), { gridW: 2978, loadW: 5, batteryW: 2694 }).gridImportW, 2978);
 });

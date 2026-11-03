@@ -1,421 +1,147 @@
 import Homey from 'homey';
-import { LivoltekAPI, CurrentPowerFlow } from '../../lib/LivoltekAPI';
-import { Poller } from '../../lib/Poller';
+import { inverterCapabilities } from '../../lib/devices/mappers';
+import { LivoltekCredentials } from '../../lib/LivoltekAPI';
+import { SiteSnapshot, SiteSubscriber } from '../../lib/site/SiteMonitor';
+import { siteRegistryOf } from '../../lib/site/SiteRegistry';
 
 export interface LivoltekDeviceData {
   id: string;
   siteId: string;
 }
 
-export interface LivoltekDeviceStore {
-  secuid: string;
-  key: string;
-  userToken: string;
-  region: 'global' | 'eu';
-}
-
 type DeviceSettings = { [key: string]: boolean | string | number | undefined | null };
 
-const DEFAULT_POLL_INTERVAL_S = 30;
+const DEVICE_CLASS = 'other';
 
-export class LivoltekInverterDevice extends Homey.Device {
-  private api!: LivoltekAPI;
-  private poller!: Poller;
-  private debugLogging = false;
-  private previousGridStatus: boolean | null = null;
-  private previousBatteryStatus: string | null = null;
+/**
+ * Overview device of a Livoltek site: grid state, battery and load values and the flow triggers.
+ * Polling and all data interpretation live in the app-level SiteMonitor shared with the
+ * battery and grid devices; this device only shows its snapshots.
+ */
+export class LivoltekInverterDevice extends Homey.Device implements SiteSubscriber {
+  private release: (() => void) | null = null;
   private previousBatteryLevel: number | null = null;
   private previousLoadPower: number | null = null;
-
-  // Battery power threshold in kW (10W) - ignore fluctuations below this value
-  private readonly BATTERY_POWER_THRESHOLD_KW = 0.01;
-
-  /**
-   * Check if value is valid (not null, undefined, empty string, 'null' string, or NaN)
-   */
-  private _hasValue(value: unknown): boolean {
-    if (value === null) return false;
-    if (value === undefined) return false;
-    if (value === 'null') return false;
-    if (value === '') return false;
-
-    return !(typeof value === 'number' && Number.isNaN(value));
-  }
+  private previousBatteryStatus: string | null = null;
 
   async onInit() {
+    await this.migrateCapabilities();
+
+    const sites = siteRegistryOf(this.homey.app);
+    this.release = sites.acquire(this.siteId(), this.credentials(), this);
+    sites.setDebug(this.siteId(), this.getSetting('debug_logging') === true);
+
     this.log('Livoltek Inverter device initialized');
-
-    this.createApi();
-    this.applyDebugSetting(this.getSetting('debug_logging') === true);
-
-    this.poller = new Poller(
-      this.homey,
-      () => this.poll(),
-      (error) => this.error('Polling error:', error),
-    );
-    const intervalMs = this.pollIntervalMs(this.getSettings());
-    await this.poller.start(() => intervalMs);
-
-    this.log('Device initialized successfully');
   }
 
-  async onSettings({
-    oldSettings,
-    newSettings,
-    changedKeys,
-  }: {
+  async onSettings({ newSettings, changedKeys }: {
     oldSettings: DeviceSettings;
     newSettings: DeviceSettings;
     changedKeys: string[];
   }): Promise<string | void> {
-    this.log('Livoltek Inverter device settings changed');
-
     if (changedKeys.includes('debug_logging')) {
       this.log(`Debug logging ${newSettings.debug_logging ? 'enabled' : 'disabled'}`);
-      this.applyDebugSetting(newSettings.debug_logging === true);
-    }
-
-    // getSettings() still returns the old values here, so the new interval is taken from newSettings
-    if (changedKeys.includes('poll_interval')) {
-      this.log(`Poll interval changed from ${oldSettings.poll_interval} to ${newSettings.poll_interval}`);
-      const intervalMs = this.pollIntervalMs(newSettings);
-      await this.poller.start(() => intervalMs);
+      siteRegistryOf(this.homey.app).setDebug(this.siteId(), newSettings.debug_logging === true);
     }
   }
 
   /**
-   * Recreate the API client with the credentials the driver saved to the store during repair
+   * Use the credentials the driver saved to the store during repair
    */
   reloadCredentials() {
-    this.createApi();
-    this.applyDebugSetting(this.debugLogging);
+    siteRegistryOf(this.homey.app).updateCredentials(this.siteId(), this.credentials());
     this.log('API client reinitialized with new credentials');
   }
 
   async onUninit() {
-    this.log('Livoltek Inverter device is being uninitialized');
-    this.poller.stop();
+    this.stopMonitoring();
   }
 
   async onDeleted() {
-    this.log('Livoltek Inverter device has been deleted');
-    this.poller.stop();
+    this.stopMonitoring();
   }
 
-  private createApi() {
-    const store = this.getStore() as LivoltekDeviceStore;
+  async onSnapshot(snapshot: SiteSnapshot): Promise<void> {
+    if (!this.getAvailable()) await this.setAvailable();
 
-    this.api = new LivoltekAPI({
-      secuid: store.secuid,
-      key: store.key,
-      userToken: store.userToken,
-      region: store.region,
-    }, this.homey);
-  }
-
-  private applyDebugSetting(enabled: boolean) {
-    this.debugLogging = enabled;
-    this.api.setDebug(enabled);
-  }
-
-  /**
-   * Log only when debug logging is enabled in device settings
-   */
-  private debug(...args: unknown[]) {
-    if (this.debugLogging) {
-      this.log(...args);
+    for (const [capability, value] of Object.entries(inverterCapabilities(snapshot))) {
+      if (this.hasCapability(capability)) await this.setCapabilityValue(capability, value).catch(this.error);
     }
+
+    if (snapshot.grid.changed) await this.triggerGridChange(snapshot);
+    if (snapshot.fresh) await this.triggerValueChanges(snapshot);
   }
 
-  private pollIntervalMs(settings: DeviceSettings): number {
-    return ((settings.poll_interval as number) || DEFAULT_POLL_INTERVAL_S) * 1000;
+  async onUnavailable(reason: string): Promise<void> {
+    await this.setUnavailable(`${this.homey.__('error.connection_failed')}: ${reason}`).catch(this.error);
   }
 
-  /**
-   * Poll the Livoltek API and update capabilities
-   */
-  private async poll() {
-    const timestamp = new Date().toISOString();
-    this.debug(`[${timestamp}] 🔄 Starting poll...`);
+  private siteId(): string {
+    return (this.getData() as LivoltekDeviceData).siteId;
+  }
 
-    try {
-      const data = this.getData() as LivoltekDeviceData;
-      this.debug(`[${timestamp}] 📡 Fetching data for site: ${data.siteId}`);
+  private credentials(): LivoltekCredentials {
+    return this.getStore() as LivoltekCredentials;
+  }
 
-      const powerFlow = await this.api.getCurrentPowerFlow(data.siteId);
-
-      this.debug(`[${timestamp}] ✅ Power flow data received:`, JSON.stringify(powerFlow, null, 2));
-
-      await this.updateCapabilities(powerFlow);
-
-      this.log(`Poll OK: SoC ${powerFlow.energySoc}%, load ${powerFlow.loadPower} kW, `
-        + `grid ${powerFlow.powerGridPower} kW, battery ${powerFlow.energyPower} kW, energyStatus ${powerFlow.energyStatus}`);
-    } catch (error) {
-      this.error(`[${timestamp}] ❌ Failed to poll Livoltek API:`, error);
-
-      // Set device as unavailable
-      if (this.getAvailable()) {
-        await this.setUnavailable(this.homey.__('error.connection_failed'));
-      }
-    }
+  private stopMonitoring() {
+    this.release?.();
+    this.release = null;
   }
 
   /**
-   * Update all device capabilities based on power flow data
+   * Devices paired before the Homey Energy integration were "solar panels" whose measure_power was
+   * the house load and whose measure_battery made Homey treat them as battery powered; both values
+   * now live in own capabilities so Energy does not count them.
    */
-  private async updateCapabilities(powerFlow: CurrentPowerFlow) {
-    try {
-      // Make device available if it was unavailable
-      if (!this.getAvailable()) {
-        await this.setAvailable();
-      }
-
-      this.debug('📊 Updating capabilities...');
-
-      // Battery level (%)
-      if (this.hasCapability('measure_battery') && this._hasValue(powerFlow.energySoc)) {
-        this.debug(`  🔋 Battery: ${powerFlow.energySoc}%`);
-        await this.setCapabilityValue('measure_battery', powerFlow.energySoc).catch(this.error);
-        // Trigger flow cards for battery level changes
-        await this.handleBatteryLevelChange(powerFlow.energySoc);
-      }
-
-      // Load power (convert kW to W)
-      if (this.hasCapability('measure_power') && this._hasValue(powerFlow.loadPower)) {
-        const loadPowerW = powerFlow.loadPower * 1000;
-        this.debug(`  ⚡ Load Power: ${loadPowerW}W (${powerFlow.loadPower}kW)`);
-        await this.setCapabilityValue('measure_power', loadPowerW).catch(this.error);
-        // Trigger flow cards for load power changes
-        await this.handleLoadPowerChange(loadPowerW);
-      }
-
-      // Grid import (convert kW to W)
-      if (this.hasCapability('measure_power_grid_import') && this._hasValue(powerFlow.powerGridPower)) {
-        const gridPowerW = powerFlow.powerGridPower * 1000;
-        this.debug(`  🔌 Grid Import: ${gridPowerW}W (${powerFlow.powerGridPower}kW)`);
-        await this.setCapabilityValue('measure_power_grid_import', gridPowerW).catch(this.error);
-      }
-
-      // Battery charge power (convert kW to W)
-      if (this.hasCapability('measure_power_battery_charge') && this._hasValue(powerFlow.energyPower)) {
-        const batteryPowerW = powerFlow.energyPower * 1000;
-        this.debug(`  🔋⚡ Battery Power: ${batteryPowerW}W (${powerFlow.energyPower}kW)`);
-        await this.setCapabilityValue('measure_power_battery_charge', batteryPowerW).catch(this.error);
-      }
-
-      // Battery consumption - only when discharging (convert kW to W)
-      if (this.hasCapability('measure_power_battery_consumption') && this._hasValue(powerFlow.energyPower)) {
-        const batteryConsumption = Math.max(0, -powerFlow.energyPower * 1000);
-        this.debug(`  🔋📉 Battery Consumption: ${batteryConsumption}W`);
-        await this.setCapabilityValue('measure_power_battery_consumption', batteryConsumption).catch(this.error);
-      }
-
-      // Battery status (enum)
-      if (this.hasCapability('battery_status')) {
-        const status = this.determineBatteryStatus(powerFlow.energyPower, powerFlow.energyStatus);
-        if (status !== null) {
-          this.debug(`  🔋📊 Battery Status: ${status}`);
-          await this.setCapabilityValue('battery_status', status).catch(this.error);
-          // Trigger flow cards for battery status changes
-          await this.handleBatteryStatusChange(status, powerFlow);
-        }
-      }
-
-      // Grid alarm (inverted - alarm when grid is OFF)
-      const isGridActive = this.isGridActive(powerFlow);
-
-      // Only update if we have valid status (not null)
-      if (isGridActive !== null) {
-        if (this.hasCapability('alarm_grid')) {
-          this.debug(`  🔌⚠️  Grid: ${isGridActive ? 'ACTIVE' : 'DISCONNECTED'}`);
-          await this.setCapabilityValue('alarm_grid', !isGridActive).catch(this.error);
-        }
-
-        // Trigger flow cards for grid status changes
-        await this.handleGridStatusChange(isGridActive, powerFlow);
-      } else {
-        this.log('  🔌⚠️  Grid: UNKNOWN (keeping previous status)');
-      }
-
-    } catch (error) {
-      this.error('Failed to update capabilities:', error);
-    }
+  private async migrateCapabilities() {
+    if (this.hasCapability('measure_power')) await this.removeCapability('measure_power');
+    if (!this.hasCapability('measure_power_load')) await this.addCapability('measure_power_load');
+    if (this.hasCapability('measure_battery')) await this.removeCapability('measure_battery');
+    if (!this.hasCapability('measure_battery_soc')) await this.addCapability('measure_battery_soc');
+    if (this.getClass() !== DEVICE_CLASS) await this.setClass(DEVICE_CLASS);
   }
 
-  /**
-   * Determine battery status based on power and status string
-   * Returns null if status cannot be determined (keep previous value)
-   */
-  private determineBatteryStatus(energyPower: number, energyStatus: string): string | null {
-    this.debug(`  Determine battery status from ${energyStatus} and power ${energyPower}`);
-
-    if (energyStatus) {
-      const status = energyStatus.trim().toLowerCase();
-
-      if (status === 'charging') {
-        return 'charging';
-      }
-      if (status === 'discharging') {
-        return 'discharging';
-      }
-      if (status === 'idle') {
-        return 'idle';
-      }
-      // "idel" (API typo) - skip to fallback
-    }
-
-    // Fallback to power-based detection
-    if (this._hasValue(energyPower)) {
-      if (energyPower > this.BATTERY_POWER_THRESHOLD_KW) return 'charging';
-      if (energyPower < -this.BATTERY_POWER_THRESHOLD_KW) return 'discharging';
-      return 'idle';
-    }
-
-    // Cannot determine - keep previous value
-    this.log('⚠️  Cannot determine battery status - keeping previous value');
-    return null;
+  private async triggerGridChange({ grid, sample, values }: SiteSnapshot) {
+    this.log(`Grid ${grid.state === 'on' ? 'restored' : 'disconnected'}: ${grid.reason}`);
+    const debugInfo = `${grid.reason}; reported grid ${sample.gridW} W, load ${sample.loadW} W, `
+      + `battery ${sample.batteryW} W, soc ${sample.soc} %, status ${sample.energyStatus}`;
+    await this.homey.flow.getDeviceTriggerCard(grid.state === 'on' ? 'grid_restored' : 'grid_disconnected')
+      .trigger(this, { battery_level: values.soc ?? this.getCapabilityValue('measure_battery_soc'), debug_info: debugInfo })
+      .catch(this.error);
   }
 
-  /**
-   * Check if grid is active based on energyStatus
-   * Returns null if status cannot be determined (API returned invalid data)
-   */
-  private isGridActive(powerFlow: CurrentPowerFlow): boolean | null {
-    if (!this._hasValue(powerFlow.energyStatus) || powerFlow.energyStatus.trim().toLowerCase() === 'idel') {
-      this.debug('⚠️  energyStatus is null or "idel" - cannot determine grid status');
-      return null;
-    }
+  private async triggerValueChanges({ values }: SiteSnapshot) {
+    const { soc, loadW, batteryStatus } = values;
 
-    const energyStatus = powerFlow.energyStatus.trim().toLowerCase();
-
-    // Grid is ACTIVE when:
-    // - "Importing" - importing power from grid
-    // - "charging" - battery charging from grid
-    if (energyStatus === 'importing' || energyStatus === 'charging') {
-      return true;
-    }
-
-    // All other cases - grid is INACTIVE
-    return false;
-  }
-
-  /**
-   * Handle grid status changes and trigger flow cards
-   */
-  private async handleGridStatusChange(isGridActive: boolean, powerFlow: CurrentPowerFlow) {
-    // Check if status changed
-    if (this.previousGridStatus === null) {
-      // First run - just store status
-      this.previousGridStatus = isGridActive;
-      return;
-    }
-
-    if (this.previousGridStatus !== isGridActive) {
-      this.log(`Grid status changed: ${this.previousGridStatus ? 'ON' : 'OFF'} -> ${isGridActive ? 'ON' : 'OFF'}`);
-
-      // Build debug info string with ALL fields from API
-      const debugInfo = [
-        `energyStatus: ${powerFlow.energyStatus} (${typeof powerFlow.energyStatus})`,
-        `energyPower: ${powerFlow.energyPower}kW (${typeof powerFlow.energyPower})`,
-        `energySoc: ${powerFlow.energySoc}% (${typeof powerFlow.energySoc})`,
-        `pvStatus: ${powerFlow.pvStatus} (${typeof powerFlow.pvStatus})`,
-        `pvPower: ${powerFlow.pvPower}kW (${typeof powerFlow.pvPower})`,
-        `powerGridStatus: ${powerFlow.powerGridStatus} (${typeof powerFlow.powerGridStatus})`,
-        `powerGridPower: ${powerFlow.powerGridPower}kW (${typeof powerFlow.powerGridPower})`,
-        `loadStatus: ${powerFlow.loadStatus} (${typeof powerFlow.loadStatus})`,
-        `loadPower: ${powerFlow.loadPower}kW (${typeof powerFlow.loadPower})`,
-        `timestamp: ${powerFlow.timestamp} (${typeof powerFlow.timestamp})`,
-      ].join('; ');
-
-      if (isGridActive) {
-        // Grid restored
-        await this.homey.flow.getDeviceTriggerCard('grid_restored').trigger(this, {
-          battery_level: powerFlow.energySoc,
-          debug_info: debugInfo,
-        }).catch(this.error);
-      } else {
-        // Grid disconnected
-        await this.homey.flow.getDeviceTriggerCard('grid_disconnected').trigger(this, {
-          battery_level: powerFlow.energySoc,
-          debug_info: debugInfo,
-        }).catch(this.error);
+    if (soc !== null) {
+      // The app-level run listener fires only flows whose threshold lies between previous and current
+      if (this.previousBatteryLevel !== null && soc < this.previousBatteryLevel) {
+        await this.homey.flow.getDeviceTriggerCard('battery_level_below')
+          .trigger(this, { battery_level: soc }, { previous: this.previousBatteryLevel, current: soc })
+          .catch(this.error);
       }
-
-      this.previousGridStatus = isGridActive;
-    }
-  }
-
-  /**
-   * Handle battery status changes and trigger flow cards
-   */
-  private async handleBatteryStatusChange(batteryStatus: string, powerFlow: CurrentPowerFlow) {
-    // Check if status changed
-    if (this.previousBatteryStatus === null) {
-      // First run - just store status
-      this.previousBatteryStatus = batteryStatus;
-      return;
+      this.previousBatteryLevel = soc;
     }
 
-    if (this.previousBatteryStatus !== batteryStatus) {
-      this.log(`Battery status changed: ${this.previousBatteryStatus} -> ${batteryStatus}`);
+    if (loadW !== null) {
+      if (this.previousLoadPower !== null && loadW > this.previousLoadPower) {
+        await this.homey.flow.getDeviceTriggerCard('load_exceeds')
+          .trigger(this, { load_power: loadW }, { previous: this.previousLoadPower, current: loadW })
+          .catch(this.error);
+      }
+      this.previousLoadPower = loadW;
+    }
 
+    if (batteryStatus !== null) {
       // The app-level run listener fires only flows whose selected status matches
-      await this.homey.flow.getDeviceTriggerCard('battery_status_changed').trigger(this, {
-        battery_level: powerFlow.energySoc,
-      }, {
-        status: batteryStatus,
-      }).catch(this.error);
-
+      if (this.previousBatteryStatus !== null && batteryStatus !== this.previousBatteryStatus) {
+        await this.homey.flow.getDeviceTriggerCard('battery_status_changed')
+          .trigger(this, { battery_level: soc ?? this.getCapabilityValue('measure_battery_soc') }, { status: batteryStatus })
+          .catch(this.error);
+      }
       this.previousBatteryStatus = batteryStatus;
     }
-  }
-
-  /**
-   * Handle battery level changes and trigger flow cards
-   */
-  private async handleBatteryLevelChange(batteryLevel: number) {
-    // Check if level crossed below threshold
-    if (this.previousBatteryLevel === null) {
-      // First run - just store level
-      this.previousBatteryLevel = batteryLevel;
-      return;
-    }
-
-    // The app-level run listener fires only flows whose threshold lies between previous and current
-    if (this.previousBatteryLevel > batteryLevel) {
-      await this.homey.flow.getDeviceTriggerCard('battery_level_below').trigger(this, {
-        battery_level: batteryLevel,
-      }, {
-        previous: this.previousBatteryLevel,
-        current: batteryLevel,
-      }).catch(this.error);
-    }
-
-    this.previousBatteryLevel = batteryLevel;
-  }
-
-  /**
-   * Handle load power changes and trigger flow cards
-   */
-  private async handleLoadPowerChange(loadPower: number) {
-    // Check if load crossed above threshold
-    if (this.previousLoadPower === null) {
-      // First run - just store power
-      this.previousLoadPower = loadPower;
-      return;
-    }
-
-    // The app-level run listener fires only flows whose threshold lies between previous and current
-    if (this.previousLoadPower < loadPower) {
-      await this.homey.flow.getDeviceTriggerCard('load_exceeds').trigger(this, {
-        load_power: loadPower,
-      }, {
-        previous: this.previousLoadPower,
-        current: loadPower,
-      }).catch(this.error);
-    }
-
-    this.previousLoadPower = loadPower;
   }
 }
 

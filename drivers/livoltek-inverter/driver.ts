@@ -95,9 +95,6 @@ class LivoltekInverterDriver extends Homey.Driver {
             userToken: pairData.userToken,
             region: pairData.region,
           },
-          settings: {
-            poll_interval: 30, // Default 30 seconds
-          },
         }));
 
         return devices;

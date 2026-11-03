@@ -1,36 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { Poller, TimerApi } from '../lib/Poller';
-
-interface PendingTimer {
-  callback: () => void;
-  ms: number;
-  cleared: boolean;
-}
-
-class FakeTimers implements TimerApi {
-  readonly timers: PendingTimer[] = [];
-
-  setTimeout(callback: () => void, ms: number): NodeJS.Timeout {
-    this.timers.push({ callback, ms, cleared: false });
-    return (this.timers.length - 1) as unknown as NodeJS.Timeout;
-  }
-
-  clearTimeout(timeoutId?: NodeJS.Timeout): void {
-    const timer = this.timers[timeoutId as unknown as number];
-    if (timer) timer.cleared = true;
-  }
-
-  active(): PendingTimer[] {
-    return this.timers.filter((timer) => !timer.cleared);
-  }
-
-  fire(index: number): void {
-    const timer = this.timers[index];
-    timer.cleared = true;
-    timer.callback();
-  }
-}
+import { Poller } from '../lib/Poller';
+import FakeTimers from './support/FakeTimers';
+import flush from './support/flush';
 
 function deferred(): { promise: Promise<void>; resolve: () => void } {
   let resolve!: () => void;
@@ -41,10 +13,6 @@ function deferred(): { promise: Promise<void>; resolve: () => void } {
 }
 
 const failOnError = (error: unknown): never => assert.fail(`unexpected polling error: ${String(error)}`);
-
-const flush = () => new Promise<void>((resolve) => {
-  setImmediate(resolve);
-});
 
 test('start runs the task immediately and schedules the next run with the interval', async () => {
   const timers = new FakeTimers();

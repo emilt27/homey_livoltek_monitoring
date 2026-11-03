@@ -1,0 +1,21 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Battery Level"
+  },
+  "desc": {
+    "en": "State of charge of the inverter battery"
+  },
+  "units": {
+    "en": "%"
+  },
+  "decimals": 0,
+  "min": 0,
+  "max": 100,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "chartType": "stepLine",
+  "icon": "/assets/battery_status.svg"
+}

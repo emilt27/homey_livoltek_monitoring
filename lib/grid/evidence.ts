@@ -48,7 +48,7 @@ export const DEFAULT_THRESHOLDS: Thresholds = {
   onBalanceW: 30,
   idleLoadW: 100,
   pvPresentW: 50,
-  gridMatchW: 150,
+  gridMatchW: 300, // covers charging losses (186–279 W measured 2026-11-03)
   gridMatchRatio: 0.2,
   maxSocDrop: 20,
 };

@@ -22,7 +22,7 @@ const STATUS_TEXTS: readonly string[] = ['charging', 'discharging', 'idle'];
 
 /**
  * Turns a sample into published values: no grid import while the grid is off (the API keeps a
- * frozen value), and a suspicious state-of-charge drop only after the next point repeats it.
+ * frozen value), and a suspicious large state-of-charge drop only after the next point repeats it.
  */
 export class OutputFilter {
   private lastSoc: number | null;
@@ -39,6 +39,20 @@ export class OutputFilter {
       loadW: sample.loadW,
       batteryW: sample.batteryW,
       soc: this.filterSoc(sample.soc, t),
+      batteryStatus: OutputFilter.batteryStatus(sample, t),
+    };
+  }
+
+  /**
+   * Values for a later read of an already processed point: recomputes what depends only on this
+   * read and keeps the state of charge decided for the point, so a repeated read confirms nothing.
+   */
+  refresh(sample: PowerSample, grid: GridState, t: Thresholds, processed: SiteValues): SiteValues {
+    return {
+      gridImportW: OutputFilter.gridImport(sample, grid, t),
+      loadW: sample.loadW,
+      batteryW: sample.batteryW,
+      soc: processed.soc,
       batteryStatus: OutputFilter.batteryStatus(sample, t),
     };
   }
@@ -67,7 +81,7 @@ export class OutputFilter {
 
   private filterSoc(soc: number | null, t: Thresholds): number | null {
     if (soc === null) return null;
-    const suspicious = this.lastSoc !== null && (soc === 0 || this.lastSoc - soc > t.maxSocDrop);
+    const suspicious = this.lastSoc !== null && this.lastSoc - soc > t.maxSocDrop;
     if (suspicious && this.pendingSoc !== soc) {
       this.pendingSoc = soc;
       return this.lastSoc;

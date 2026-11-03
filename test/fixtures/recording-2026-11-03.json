@@ -1,0 +1,5399 @@
+[
+{
+"at": "2026-11-03T16:17:38.136",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:18:08.199",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:18:38.390",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:19:08.807",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:19:38.947",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:20:09.241",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:20:39.394",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:21:09.555",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.137,
+"energyStatus": "disCharging",
+"energyPower": -0.311,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:21:39.695",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:22:10.399",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:22:40.553",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:23:10.705",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:23:41.016",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:24:11.177",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:24:41.357",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:25:11.501",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:25:41.845",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:26:12.021",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.105,
+"energyStatus": "disCharging",
+"energyPower": -0.266,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:26:42.371",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:27:13.162",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:27:43.302",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:28:13.468",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:28:43.618",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:29:13.939",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:29:44.099",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:30:14.396",
+"data": null,
+"error": null
+},
+{
+"at": "2026-11-03T16:30:44.557",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:31:14.712",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.084,
+"energyStatus": "disCharging",
+"energyPower": -0.258,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793715900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:31:44.873",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:32:15.947",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:32:46.128",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:33:16.404",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:33:46.561",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:34:16.707",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:34:46.855",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:35:17.019",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:35:47.208",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:36:17.370",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:36:47.527",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:37:18.061",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:37:48.312",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:38:18.448",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:38:48.606",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:39:18.749",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:39:48.923",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:40:19.090",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:40:49.242",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:41:19.560",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.263,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:41:49.710",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:42:19.893",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:42:50.035",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:43:20.176",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:43:50.331",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:44:20.487",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:44:50.649",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:45:20.803",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:45:50.946",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:46:21.107",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.04,
+"energyStatus": "disCharging",
+"energyPower": -0.209,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793716800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:46:51.275",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:47:21.449",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:47:51.721",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:48:22.210",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:48:52.474",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:49:22.625",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:49:52.780",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:50:22.950",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:50:53.160",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:51:23.291",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.052,
+"energyStatus": "disCharging",
+"energyPower": -0.214,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:51:53.497",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:52:23.797",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:52:53.962",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:53:24.163",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:53:54.303",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:54:24.504",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:54:54.651",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:55:24.803",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:55:54.958",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:56:25.092",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.039,
+"energyStatus": "disCharging",
+"energyPower": -0.211,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:56:55.231",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:57:25.791",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:57:55.935",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:58:26.094",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:58:56.485",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:59:26.651",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T16:59:56.873",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:00:27.028",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:00:57.181",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:01:27.329",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.07,
+"energyStatus": "disCharging",
+"energyPower": -0.236,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793717700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:01:57.487",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:02:27.641",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:02:57.804",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:03:27.955",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:03:58.119",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:04:28.392",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:04:58.546",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:05:28.740",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:05:58.901",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:06:29.062",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.067,
+"energyStatus": "disCharging",
+"energyPower": -0.24,
+"energySoc": 90,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:06:59.203",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:07:29.357",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:07:59.498",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:08:29.648",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:08:59.979",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:09:30.129",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:10:00.308",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:10:30.500",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:11:00.661",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.087,
+"energyStatus": "disCharging",
+"energyPower": -0.25,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:11:30.840",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "idel",
+"energyPower": null,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:12:01.430",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:12:31.602",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:13:01.762",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:13:31.926",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:14:02.064",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:14:32.247",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:15:02.407",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:15:32.673",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:16:02.828",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.076,
+"energyStatus": "disCharging",
+"energyPower": -0.254,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:16:32.984",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:17:04.183",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:17:34.353",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:18:04.518",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:18:35.221",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:19:05.377",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:19:35.521",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:20:05.688",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:20:35.845",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:21:06.120",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0,
+"loadStatus": "consuming",
+"loadPower": 0.074,
+"energyStatus": "disCharging",
+"energyPower": -0.248,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793718900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:21:36.281",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:22:07.881",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:22:38.036",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:23:08.236",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:23:38.391",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:24:08.567",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:24:38.720",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:25:08.878",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:25:39.289",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:26:09.429",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:26:39.611",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:27:09.865",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:27:40.108",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:28:10.268",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:28:40.639",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:29:10.775",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:29:41.002",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:30:11.161",
+"data": null,
+"error": null
+},
+{
+"at": "2026-11-03T17:30:41.640",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:31:11.796",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.978,
+"loadStatus": "consuming",
+"loadPower": 0.005,
+"energyStatus": "Importing",
+"energyPower": 2.694,
+"energySoc": 89,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:31:41.967",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "charging",
+"energyPower": 2.714,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:32:12.390",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:32:42.543",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:33:12.778",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:33:42.931",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:34:13.096",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:34:43.256",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:35:13.410",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:35:43.567",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:36:13.721",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 2.994,
+"loadStatus": "consuming",
+"loadPower": 0.004,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 91,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793719800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:36:43.888",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:37:15.253",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:37:45.427",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:38:15.725",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:38:45.899",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:39:16.057",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:39:46.345",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:40:16.494",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:40:46.819",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:41:16.959",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 3.018,
+"loadStatus": "consuming",
+"loadPower": 0.008,
+"energyStatus": "Importing",
+"energyPower": 2.714,
+"energySoc": 94,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:41:47.356",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:42:17.534",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:42:47.929",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:43:18.088",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:43:48.271",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:44:18.431",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:44:48.596",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:45:18.768",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:45:48.930",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:46:19.086",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.493,
+"loadStatus": "consuming",
+"loadPower": 0.042,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:46:49.243",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:47:20.619",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:47:50.770",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:48:20.931",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:48:51.378",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:49:21.632",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:49:51.785",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:50:22.008",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:50:52.164",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:51:22.319",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.487,
+"loadStatus": "consuming",
+"loadPower": 0.036,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793720700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:51:52.474",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:52:23.047",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:52:53.207",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:53:23.358",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:53:53.617",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:54:23.781",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:54:54.027",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:55:24.189",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:55:54.344",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.482,
+"loadStatus": "consuming",
+"loadPower": 0.035,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:56:24.491",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "idel",
+"energyPower": null,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:56:55.901",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:57:26.057",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:57:56.349",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:58:26.508",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:58:56.719",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:59:26.891",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T17:59:57.048",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:00:27.178",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:00:57.531",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:01:27.675",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.576,
+"loadStatus": "consuming",
+"loadPower": 0.133,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 95,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:01:57.890",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:02:28.042",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:02:58.334",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:03:28.491",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:03:58.641",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:04:28.801",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:04:59.080",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:05:29.223",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:05:59.692",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.593,
+"loadStatus": "consuming",
+"loadPower": 0.149,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721600000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:06:29.843",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "charging",
+"energyPower": 0.263,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:07:00.500",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:07:30.658",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:08:00.800",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:08:30.963",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:09:01.164",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:09:31.330",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:10:01.494",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:10:31.652",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:11:01.812",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.263,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793721900000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:11:32.091",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "charging",
+"energyPower": 0.265,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:12:03.046",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:12:33.211",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:13:03.823",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:13:33.976",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:14:04.128",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:14:34.651",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:15:04.802",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:15:34.957",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:16:05.239",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.656,
+"loadStatus": "consuming",
+"loadPower": 0.207,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722200000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:16:35.722",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "charging",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:17:06.240",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:17:36.395",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:18:06.884",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:18:37.118",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:19:07.572",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:19:37.727",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:20:08.186",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:20:38.355",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:21:08.500",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 96,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722500000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:21:38.894",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:22:10.058",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:22:40.209",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:23:10.359",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:23:40.841",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:24:11.019",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:24:41.199",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:25:11.359",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:25:41.900",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:26:12.066",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.682,
+"loadStatus": "consuming",
+"loadPower": 0.23,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793722800000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:26:42.230",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:27:13.623",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:27:44.088",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:28:14.249",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:28:44.394",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:29:14.796",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:29:44.957",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:30:15.118",
+"data": null,
+"error": null
+},
+{
+"at": "2026-11-03T18:30:45.567",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:31:17.233",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.646,
+"loadStatus": "consuming",
+"loadPower": 0.201,
+"energyStatus": "Importing",
+"energyPower": 0.264,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723100000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:31:47.371",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:32:18.009",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:32:48.651",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:33:19.178",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:33:49.331",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:34:19.509",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:34:50.068",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:35:20.251",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:35:50.419",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:36:20.573",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.636,
+"loadStatus": "consuming",
+"loadPower": 0.195,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723400000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:36:50.961",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:37:21.131",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:37:51.279",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:38:21.951",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:38:52.210",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:39:22.350",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:39:52.498",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:40:23.540",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:40:53.718",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.626,
+"loadStatus": "consuming",
+"loadPower": 0.184,
+"energyStatus": "Importing",
+"energyPower": 0.266,
+"energySoc": 97,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793723700000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:41:23.860",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "idel",
+"energyPower": null,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:41:54.428",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:42:24.943",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:42:55.093",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:43:26.254",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:43:56.716",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:44:27.092",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:44:57.246",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:45:27.399",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:45:57.828",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.628,
+"loadStatus": "consuming",
+"loadPower": 0.179,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724000000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:46:27.986",
+"data": {
+"pvStatus": null,
+"pvPower": null,
+"powerGridStatus": null,
+"powerGridPower": null,
+"loadStatus": null,
+"loadPower": null,
+"energyStatus": "charging",
+"energyPower": 0.265,
+"energySoc": 0,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:46:58.325",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:47:28.840",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:47:59.139",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:48:29.302",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:48:59.718",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+},
+{
+"at": "2026-11-03T18:49:31.164",
+"data": {
+"pvStatus": null,
+"pvPower": 0,
+"powerGridStatus": null,
+"powerGridPower": 0.617,
+"loadStatus": "consuming",
+"loadPower": 0.175,
+"energyStatus": "Importing",
+"energyPower": 0.265,
+"energySoc": 98,
+"chargingPileStatus": null,
+"chargingPilePower": null,
+"timestamp": 1793724300000
+},
+"error": null
+}
+]

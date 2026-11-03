@@ -42,6 +42,12 @@ test('normalizeSample converts kW to whole watts and lowercases the status', () 
   });
 });
 
+test('normalizeSample treats a state of charge of 0 as missing: it is the placeholder of an incomplete record', () => {
+  assert.equal(normalizeSample({ energySoc: 0, timestamp: 1 })?.soc, null);
+  assert.equal(normalizeSample({ energySoc: '0', timestamp: 1 })?.soc, null);
+  assert.equal(normalizeSample({ energySoc: 11, timestamp: 1 })?.soc, 11);
+});
+
 test('normalizeSample keeps missing fields as null', () => {
   const sample = normalizeSample({
     powerGridPower: null, loadPower: 'null', energyPower: '', energySoc: NaN, energyStatus: 'null', timestamp: 1,
@@ -62,10 +68,15 @@ const BASE: PowerSample = {
   dataTimestamp: 1, gridW: null, loadW: 105, batteryW: -266, pvW: 0, soc: 91, energyStatus: 'discharging',
 };
 
-test('mergeSample fills missing fields of the same point without overwriting known ones', () => {
-  const later: PowerSample = { ...BASE, gridW: 0, loadW: 999 };
+test('mergeSample: a later read of the same point wins, fields it still misses keep the earlier value', () => {
+  // first read of a new point is a placeholder (status "idel"), ~30 s later the full record arrives
+  const partial: PowerSample = {
+    ...BASE, gridW: null, loadW: null, pvW: null, energyStatus: 'idel',
+  };
+  const full: PowerSample = { ...BASE, gridW: 0, batteryW: null };
 
-  assert.deepEqual(mergeSample(BASE, later), { ...BASE, gridW: 0 });
+  // grid, load, pv and status come from the full read; battery only from the partial one
+  assert.deepEqual(mergeSample(partial, full), { ...BASE, gridW: 0 });
 });
 
 test('isComplete requires load, battery and state of charge', () => {

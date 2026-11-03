@@ -14,5 +14,6 @@
   "setable": false,
   "uiComponent": "sensor",
   "insights": true,
-  "chartType": "stepLine"
+  "chartType": "stepLine",
+  "icon": "/assets/measure_power.svg"
 }

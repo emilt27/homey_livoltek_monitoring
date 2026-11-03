@@ -18,19 +18,6 @@ export interface LivoltekSite {
 
 export type RawPowerFlow = Record<string, unknown>;
 
-export interface CurrentPowerFlow {
-  energyStatus: string;
-  energyPower: number; // kW
-  energySoc: number; // %
-  pvStatus: string;
-  pvPower: number; // kW
-  powerGridStatus: string;
-  powerGridPower: number; // kW
-  loadStatus: string;
-  loadPower: number; // kW
-  timestamp: number;
-}
-
 // API Response types
 interface LoginResponse {
   message: string;
@@ -66,40 +53,8 @@ interface SitesListResponse {
   };
 }
 
-interface PowerFlowData {
-  energyStatus: string;
-  energyPower: number;
-  energySoc: number;
-  pvStatus: string;
-  pvPower: number;
-  powerGridStatus: string;
-  powerGridPower: number;
-  loadStatus: string;
-  loadPower: number;
-  timestamp?: number;
-}
-
 interface PowerFlowResponse {
-  data: PowerFlowData;
-}
-
-interface BatteryType {
-  deviceSn: string; // Device Serial Number
-  deviceId: string; // Device ID
-  batteryType: string; // Battery Type
-}
-
-interface BatteryInfoData {
-  batterySn: string; // Battery Serial Number
-  currentSoc: number; // Battery State of Charge (%)
-  cycleCount: number; // Battery Cycle Count
-  batteryTypeList?: BatteryType[]; // List of battery types
-  historyMap?: Record<string, unknown>; // History Map of Battery Usage (dynamic structure)
-  bmscapacity: number; // Battery Management System capacity (Ah)
-}
-
-interface BatteryInfoResponse {
-  data: BatteryInfoData;
+  data: RawPowerFlow | null;
 }
 
 const REQUEST_TIMEOUT_MS = 20_000;
@@ -295,51 +250,19 @@ export class LivoltekAPI {
   }
 
   /**
-   * Get current power flow data for a site
+   * Current power flow of a site, exactly as the API returns it (values in kW, often incomplete
+   * or null); interpretation happens in lib/powerflow. null when the API returned data: null.
    */
-  async getCurrentPowerFlow(siteId: string): Promise<CurrentPowerFlow> {
+  async getCurrentPowerFlow(siteId: string): Promise<RawPowerFlow | null> {
     await this.ensureToken();
 
     try {
-      const data = await this.request<PowerFlowResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/curPowerflow`, {
+      const response = await this.request<PowerFlowResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/curPowerflow`, {
         authorized: true,
       });
-
-      if (!data.data) {
-        throw new Error('Invalid power flow response');
-      }
-
-      return {
-        energyStatus: data.data.energyStatus,
-        energyPower: data.data.energyPower,
-        energySoc: data.data.energySoc,
-        pvStatus: data.data.pvStatus,
-        pvPower: data.data.pvPower,
-        powerGridStatus: data.data.powerGridStatus,
-        powerGridPower: data.data.powerGridPower,
-        loadStatus: data.data.loadStatus,
-        loadPower: data.data.loadPower,
-        timestamp: data.data.timestamp || Date.now(),
-      };
+      return response.data ?? null;
     } catch (error) {
       this.logger.error('Get power flow error:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Get battery information for a site
-   */
-  async getBatteryInfo(siteId: string): Promise<BatteryInfoData> {
-    await this.ensureToken();
-
-    try {
-      const data = await this.request<BatteryInfoResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/ESS`, {
-        authorized: true,
-      });
-      return data.data;
-    } catch (error) {
-      this.logger.error('Get battery info error:', error);
       throw error;
     }
   }

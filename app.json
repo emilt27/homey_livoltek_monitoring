@@ -2,7 +2,7 @@
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.temirov.livoltek",
   "version": "1.0.0",
-  "compatibility": ">=12.4.0",
+  "compatibility": ">=12.4.5",
   "sdk": 3,
   "platforms": [
     "local"
@@ -422,21 +422,16 @@
       "name": {
         "en": "Livoltek Inverter"
       },
-      "class": "solarpanel",
+      "class": "other",
       "capabilities": [
-        "measure_battery",
-        "measure_power",
+        "measure_battery_soc",
+        "measure_power_load",
         "measure_power_grid_import",
         "measure_power_battery_charge",
         "measure_power_battery_consumption",
         "alarm_grid",
         "battery_status"
       ],
-      "energy": {
-        "batteries": [
-          "INTERNAL"
-        ]
-      },
       "platforms": [
         "local"
       ],
@@ -475,30 +470,6 @@
         }
       ],
       "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "Polling Settings"
-          },
-          "children": [
-            {
-              "id": "poll_interval",
-              "type": "number",
-              "label": {
-                "en": "Poll Interval (seconds)"
-              },
-              "value": 30,
-              "min": 10,
-              "max": 300,
-              "units": {
-                "en": "seconds"
-              },
-              "hint": {
-                "en": "How often to poll the Livoltek API (10-300 seconds)"
-              }
-            }
-          ]
-        },
         {
           "type": "group",
           "label": {
@@ -569,23 +540,26 @@
       "icon": "/assets/battery_status.svg",
       "uiComponent": "sensor"
     },
-    "measure_power": {
+    "measure_battery_soc": {
       "type": "number",
       "title": {
-        "en": "Load Power"
+        "en": "Battery Level"
       },
       "desc": {
-        "en": "Total power consumption of the house"
+        "en": "State of charge of the inverter battery"
       },
       "units": {
-        "en": "W"
+        "en": "%"
       },
       "decimals": 0,
+      "min": 0,
+      "max": 100,
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
       "insights": true,
-      "chartType": "stepLine"
+      "chartType": "stepLine",
+      "icon": "/assets/battery_status.svg"
     },
     "measure_power_battery_charge": {
       "type": "number",
@@ -643,6 +617,25 @@
       "icon": "/assets/measure_power.svg",
       "insights": true,
       "chartType": "stepLine"
+    },
+    "measure_power_load": {
+      "type": "number",
+      "title": {
+        "en": "Load Power"
+      },
+      "desc": {
+        "en": "Total power consumption of the house"
+      },
+      "units": {
+        "en": "W"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "chartType": "stepLine",
+      "icon": "/assets/measure_power.svg"
     }
   }
 }

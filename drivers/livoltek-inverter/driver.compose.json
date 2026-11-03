@@ -2,21 +2,22 @@
   "name": {
     "en": "Livoltek Inverter"
   },
-  "class": "solarpanel",
+  "class": "other",
   "capabilities": [
-    "measure_battery",
-    "measure_power",
+    "measure_battery_soc",
+    "measure_power_load",
     "measure_power_grid_import",
     "measure_power_battery_charge",
     "measure_power_battery_consumption",
     "alarm_grid",
     "battery_status"
   ],
-  "energy": {
-    "batteries": ["INTERNAL"]
-  },
-  "platforms": ["local"],
-  "connectivity": ["cloud"],
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "cloud"
+  ],
   "images": {
     "small": "{{driverAssetsPath}}/images/livoltek-small.png",
     "large": "{{driverAssetsPath}}/images/livoltek-large.png",
@@ -49,30 +50,6 @@
     }
   ],
   "settings": [
-    {
-      "type": "group",
-      "label": {
-        "en": "Polling Settings"
-      },
-      "children": [
-        {
-          "id": "poll_interval",
-          "type": "number",
-          "label": {
-            "en": "Poll Interval (seconds)"
-          },
-          "value": 30,
-          "min": 10,
-          "max": 300,
-          "units": {
-            "en": "seconds"
-          },
-          "hint": {
-            "en": "How often to poll the Livoltek API (10-300 seconds)"
-          }
-        }
-      ]
-    },
     {
       "type": "group",
       "label": {
