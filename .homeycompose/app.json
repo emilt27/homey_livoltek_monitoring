@@ -17,6 +17,12 @@
   ],
   "brandColor": "#008BF7",
   "permissions": [],
+  "api": {
+    "getJournal": {
+      "method": "GET",
+      "path": "/journal"
+    }
+  },
   "author": {
     "name": "Emil Temirov",
     "email": "emil.temirov@gmail.com"

@@ -66,6 +66,17 @@
           "hint": {
             "en": "Log full API responses and per-capability details. Credentials and tokens are never logged."
           }
+        },
+        {
+          "id": "debug_journal",
+          "type": "checkbox",
+          "label": {
+            "en": "Debug journal"
+          },
+          "value": false,
+          "hint": {
+            "en": "Record every API read, grid decision and device update for the last 25 hours, to download through the app API (see the README). Switching it off deletes the journal. Credentials and tokens are never recorded."
+          }
         }
       ]
     }

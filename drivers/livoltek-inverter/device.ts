@@ -1,3 +1,4 @@
+import { DebugJournal } from '../../lib/debug/DebugJournal';
 import { inverterCapabilities } from '../../lib/devices/mappers';
 import { SiteDevice } from '../../lib/devices/SiteDevice';
 import { SiteSnapshot } from '../../lib/site/SiteMonitor';
@@ -21,6 +22,7 @@ export default class LivoltekInverterDevice extends SiteDevice {
     await this.migrateCapabilities();
     await super.onInit();
     this.sites().setDebug(this.siteId(), this.getSetting('debug_logging') === true);
+    this.syncDebugJournal(this.getSetting('debug_journal') === true);
     this.log('Livoltek Inverter device initialized');
   }
 
@@ -33,6 +35,21 @@ export default class LivoltekInverterDevice extends SiteDevice {
       this.log(`Debug logging ${newSettings.debug_logging ? 'enabled' : 'disabled'}`);
       this.sites().setDebug(this.siteId(), newSettings.debug_logging === true);
     }
+    if (changedKeys.includes('debug_journal')) {
+      const enabled = this.syncDebugJournal(newSettings.debug_journal === true);
+      this.log(`Debug journal ${enabled ? 'recording' : 'off (journal deleted)'}`);
+    }
+  }
+
+  /**
+   * The app-wide journal records while any inverter has "Debug journal" on (`own` is this one's new
+   * value); returns whether it records.
+   */
+  private syncDebugJournal(own: boolean): boolean {
+    const others = this.driver.getDevices().filter((device) => device !== this);
+    const enabled = own || others.some((device) => device.getSetting('debug_journal') === true);
+    (this.homey.app as unknown as { journal: DebugJournal }).journal.setEnabled(enabled);
+    return enabled;
   }
 
   /**
@@ -65,6 +82,11 @@ export default class LivoltekInverterDevice extends SiteDevice {
     if (snapshot.grid.changed) await this.triggerGridChange(snapshot);
     await this.triggerValueChanges(snapshot);
     if (writeError !== null) throw writeError;
+  }
+
+  async onDeleted() {
+    await super.onDeleted();
+    this.syncDebugJournal(false);
   }
 
   /**

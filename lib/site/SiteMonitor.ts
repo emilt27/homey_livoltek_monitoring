@@ -1,3 +1,4 @@
+import { Journal, NO_JOURNAL } from '../debug/DebugJournal';
 import { EnergyMeter, EnergyMeterState, EnergyTotals } from '../energy/EnergyMeter';
 import { DEFAULT_THRESHOLDS } from '../grid/evidence';
 import { EstimatorState, GridDecision, GridStateEstimator } from '../grid/GridStateEstimator';
@@ -73,6 +74,7 @@ export class SiteMonitor {
   private readonly store: SiteStateStore;
   private readonly logger: Logger;
   private readonly now: () => number;
+  private readonly journal: Journal;
   private readonly poller: Poller;
   private readonly subscribers = new Set<SiteSubscriber>();
   private readonly deliveries = new Map<SiteSubscriber, Promise<void>>(); // tail of each subscriber's queue
@@ -97,12 +99,14 @@ export class SiteMonitor {
     store: SiteStateStore,
     logger: Logger,
     now: () => number = Date.now,
+    journal: Journal = NO_JOURNAL,
   ) {
     this.siteId = siteId;
     this.source = source;
     this.store = store;
     this.logger = logger;
     this.now = now;
+    this.journal = journal;
     const { state, problems } = restoreSiteState(this.loadSaved());
     for (const problem of problems) this.logger.error(`[site ${siteId}] saved state: ${problem}, starting it fresh`);
     this.estimator = new GridStateEstimator(state?.estimator ?? null);
@@ -165,6 +169,7 @@ export class SiteMonitor {
       if (generation !== this.sourceGeneration) return; // answer for credentials replaced meanwhile
       this.consecutiveErrors += 1;
       const reason = error instanceof Error ? error.message : String(error);
+      this.record('read-error', { error: reason, consecutive: this.consecutiveErrors });
       if (error instanceof LivoltekAuthError) await this.reportAuthorizationFailure(reason);
       else await this.broadcastUnavailable(reason);
       return;
@@ -175,6 +180,7 @@ export class SiteMonitor {
     const recovering = this.unavailableReported;
     this.unavailableReported = false;
 
+    this.record('read', { raw });
     const sample = normalizeSample(raw);
     const delivered = sample !== null && await this.accept(sample);
     await this.checkStale();
@@ -195,26 +201,41 @@ export class SiteMonitor {
   /** Returns whether a snapshot was delivered. */
   private async accept(read: PowerSample): Promise<boolean> {
     const { current } = this;
-    if (current !== null && read.dataTimestamp < current.dataTimestamp) return false;
+    if (current !== null && read.dataTimestamp < current.dataTimestamp) {
+      this.record('older', { dataTimestamp: read.dataTimestamp });
+      return false;
+    }
 
     if (current !== null && read.dataTimestamp === current.dataTimestamp) {
       // Placeholders come first; one after real data (never seen in 1094 recorded reads) would
       // overwrite real load and battery values with its own, so it is ignored.
-      if (isPlaceholder(read) && !isPlaceholder(current)) return false;
+      if (isPlaceholder(read) && !isPlaceholder(current)) {
+        this.record('placeholder-ignored', { sample: read });
+        return false;
+      }
       const merged = mergeSample(current, read);
-      if (JSON.stringify(merged) === JSON.stringify(current)) return false;
+      if (JSON.stringify(merged) === JSON.stringify(current)) {
+        this.record('unchanged', { dataTimestamp: read.dataTimestamp });
+        return false;
+      }
       this.current = merged;
     } else {
       this.current = read;
       this.currentResult = null;
     }
 
-    if (!isComplete(this.current)) return false;
+    if (!isComplete(this.current)) {
+      this.record('incomplete', { sample: this.current });
+      return false;
+    }
     const snapshot = this.currentResult === null ? this.process(this.current) : this.refresh(this.current, this.currentResult);
     this.currentResult = snapshot;
     this.lastSnapshot = snapshot;
     this.staleReported = false;
     await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onSnapshot(snapshot))));
+    this.record(snapshot.fresh ? 'process' : 'refresh', {
+      sample: snapshot.sample, grid: snapshot.grid, values: snapshot.values, energy: snapshot.energy,
+    });
     return true;
   }
 
@@ -282,5 +303,15 @@ export class SiteMonitor {
     this.unavailableReported = true;
     this.logger.error(`[site ${this.siteId}] unavailable: ${reason}`);
     await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onUnavailable(reason))));
+    this.record('unavailable', { reason });
+  }
+
+  /** Debug journal (lib/debug), a no-op while it is off; a failing journal never affects the monitor. */
+  private record(kind: string, fields: Record<string, unknown>): void {
+    try {
+      this.journal.add(kind, { site: this.siteId, ...fields });
+    } catch (error) {
+      this.logger.error(`[site ${this.siteId}] journal failed:`, error);
+    }
   }
 }

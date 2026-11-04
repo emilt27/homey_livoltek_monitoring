@@ -1,3 +1,5 @@
+import { Journal } from '../debug/DebugJournal';
+import journaled from '../debug/journaledSubscriber';
 import { LivoltekCredentials, Logger } from '../LivoltekAPI';
 import { TimerApi } from '../Poller';
 import {
@@ -45,12 +47,15 @@ export class SiteRegistry {
   private readonly logger: Logger;
   private readonly createSource: (credentials: LivoltekCredentials) => DebuggableSource;
   private readonly sites = new Map<string, SiteEntry>();
+  private readonly journal: Journal | undefined;
 
   constructor(
     homey: RegistryHomey,
     logger: Logger,
     createSource: (credentials: LivoltekCredentials) => DebuggableSource,
+    journal?: Journal,
   ) {
+    this.journal = journal;
     this.homey = homey;
     this.logger = logger;
     this.createSource = createSource;
@@ -59,7 +64,9 @@ export class SiteRegistry {
   /** Returns the release function the device calls on uninit/delete. */
   acquire(siteId: string, credentials: LivoltekCredentials, subscriber: SiteSubscriber): () => void {
     const entry = this.sites.get(siteId) ?? this.create(siteId, credentials);
-    const unsubscribe = entry.monitor.subscribe(subscriber);
+    // Debug journal (lib/debug): record what every device receives; a no-op while it is off
+    const target = this.journal === undefined ? subscriber : journaled(subscriber, subscriber.constructor.name, this.journal);
+    const unsubscribe = entry.monitor.subscribe(target);
     return () => {
       unsubscribe();
       if (entry.monitor.subscriberCount() === 0 && this.sites.get(siteId) === entry) this.sites.delete(siteId);
@@ -83,7 +90,7 @@ export class SiteRegistry {
 
   private create(siteId: string, credentials: LivoltekCredentials): SiteEntry {
     const source = this.createSource(credentials);
-    const monitor = new SiteMonitor(siteId, source, this.homey, settingsStore(this.homey.settings, siteId), this.logger);
+    const monitor = new SiteMonitor(siteId, source, this.homey, settingsStore(this.homey.settings, siteId), this.logger, Date.now, this.journal);
     const entry: SiteEntry = { monitor, debug: false, source };
     this.sites.set(siteId, entry);
     return entry;

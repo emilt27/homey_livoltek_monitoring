@@ -279,6 +279,51 @@ The project uses GitHub Actions for automated validation. The app passes validat
 - Credentials and tokens are never logged
 - `node tools/peek-api.mjs --watch 30` records raw API responses to `recordings/` for analysis
 
+### Debug journal
+
+The debug journal records what the app received from the Livoltek API, what it decided and what it
+wrote to each device. It is meant for cases the normal log cannot explain: a wrong grid state, an
+odd value in Homey Energy, a device that stopped updating, or Homey restarting unexpectedly.
+
+**What it records** (one JSON entry per event, with its time `at` and `kind`):
+
+| `kind` | When |
+|---|---|
+| `app-start` | the app started (shows unexpected Homey restarts) |
+| `read` | every API response of the power flow, as received |
+| `read-error`, `unavailable` | the API failed, or the site became unavailable |
+| `incomplete`, `placeholder-ignored`, `older`, `unchanged` | a read that was not used, and why |
+| `process`, `refresh` | a data point was processed: grid state with its reason, values and kWh totals |
+| `device`, `device-unavailable`, `device-authorization-failed` | what each device (Inverter, Battery, Grid) received, and its error if the write failed |
+
+Credentials and tokens are never recorded.
+
+**How it is stored.** In the app settings on Homey, so it survives restarts, also unexpected ones.
+Only the last 25 hours are kept, in one settings key per hour (at most 2000 entries each). Important
+entries (start, errors, grid decisions) are saved within 2 seconds, the rest at least every 10 minutes.
+
+**Switching it on and off.** It is **off by default**. Open the inverter device → Settings →
+Diagnostics → **Debug journal**. Recording starts right away and continues across app restarts.
+Switching it off stops recording and **deletes the whole journal**, so download it first. With more
+than one inverter, the journal records while any of them has it on.
+
+**Downloading it.** The journal is served by the app API:
+
+```
+GET https://<homey-id>.connect.athom.com/api/app/com.temirov.livoltek/journal?since=<epoch ms>
+Authorization: Bearer <Homey token>
+```
+
+The easiest way is the included script, which uses the Homey CLI login:
+
+```bash
+npx homey login                      # once; select your Homey
+node tools/download-journal.mjs      # last 25 hours -> journal-<date>.json
+node tools/download-journal.mjs --hours 2 --out last-two-hours.json
+```
+
+The file is a JSON array, oldest entry first. While the journal is off, the API returns an empty list.
+
 ### Common Issues
 
 **"Invalid credentials" Error**

@@ -407,6 +407,33 @@ test('a meter value shown by a device raises a lower restored total, so meters n
 
   assert.ok(recorder.snapshots[0].energy.gridImportedKWh >= 5.2, `${recorder.snapshots[0].energy.gridImportedKWh}`);
 });
+
+test('a throwing journal does not stop delivery, and the decision is journaled after delivery', async () => {
+  const events: string[] = [];
+  const timers = new FakeTimers();
+  const source = fakeSource();
+  const journalOf = {
+    add(kind: string) {
+      events.push(kind);
+      if (kind === 'read') throw new Error('journal broken');
+    },
+  };
+  const monitor = new SiteMonitor('25196', source, timers, new MemoryStore(), silent, () => T0 + 2 * MINUTE, journalOf);
+  const recorder = new Recorder();
+  const original = recorder.onSnapshot.bind(recorder);
+  recorder.onSnapshot = async (snapshot) => {
+    events.push('delivered');
+    await original(snapshot);
+  };
+  source.responses.push(raw(0, { grid: 0.703, load: 0.703, battery: 0 }));
+
+  monitor.subscribe(recorder);
+  await flush();
+
+  assert.equal(recorder.snapshots.length, 1);
+  assert.ok(events.indexOf('delivered') < events.indexOf('process'), events.join(','));
+});
+
 test('a corrupted saved state does not stop the monitor; meters continue from what the device shows', async () => {
   const timers = new FakeTimers();
   const source = fakeSource();

@@ -4,5 +4,6 @@
 /.testbuild/
 CLAUDE.md
 /recordings/
+/journal-*.json
 /.claude/
 /.idea/

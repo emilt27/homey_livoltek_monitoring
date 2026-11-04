@@ -4,17 +4,30 @@ import Homey from 'homey';
 import { crossedAbove, crossedBelow } from './lib/flowTriggers';
 import { LivoltekAPI } from './lib/LivoltekAPI';
 import { SiteRegistry } from './lib/site/SiteRegistry';
+import { DebugJournal } from './lib/debug/DebugJournal';
 
 module.exports = class LivoltekApp extends Homey.App {
 
   /** One monitor per Livoltek site, shared by the inverter, battery and grid devices of that site. */
   sites!: SiteRegistry;
 
+  /** Debug journal (off by default), downloaded through GET /api/app/com.temirov.livoltek/journal. */
+  journal!: DebugJournal;
+
   /**
    * onInit is called when the app is initialized.
    */
   async onInit() {
-    this.sites = new SiteRegistry(this.homey, this, (credentials) => new LivoltekAPI(credentials, this));
+    this.journal = new DebugJournal(this.homey.settings, this.homey, {
+      retentionMs: 25 * 3_600_000,
+      chunkMs: 3_600_000,
+      maxEntriesPerChunk: 2_000,
+      urgentDelayMs: 2_000,
+      persistDelayMs: 10 * 60_000,
+      urgentKinds: ['app-start', 'process', 'unavailable', 'read-error', 'device-unavailable', 'device-authorization-failed'],
+    }, this);
+    this.journal.add('app-start', {});
+    this.sites = new SiteRegistry(this.homey, this, (credentials) => new LivoltekAPI(credentials, this), this.journal);
     this.log('Livoltek Monitor app has been initialized');
 
     // Register flow card handlers once for the entire app
