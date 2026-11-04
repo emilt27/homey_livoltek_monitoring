@@ -62,13 +62,11 @@ export function batteryCapabilities({ values, energy }: SiteSnapshot): Capabilit
 
 /**
  * Homey cumulative grid meter: measure_power is the import power. The site never exports (UPS
- * mode, no PV), so the export meter is a real 0 kWh; Homey needs it to balance home consumption
- * once the battery delivers energy.
+ * mode, no PV); the export meter is kept by the Grid device itself (see dailyExport.ts).
  */
 export function gridCapabilities({ values, energy }: SiteSnapshot): CapabilityValues {
   return {
     ...withoutUnknown({ measure_power: values.gridImportW }),
     ...meters(GRID_METERS, energy),
-    'meter_power.exported': 0,
   };
 }

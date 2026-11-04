@@ -29,7 +29,11 @@ Homey app for monitoring Livoltek inverters operating in UPS mode. The main func
   battery power and status; all flow cards belong to this device
 - **Livoltek Battery** - home battery for Homey Energy: power (+ charging / − discharging),
   state of charge, charged/discharged kWh
-- **Livoltek Grid** - grid meter for Homey Energy: import power and imported kWh
+- **Livoltek Grid** - grid meter for Homey Energy: import power and imported kWh. It also adds
+  1 Wh to its export meter and the same 1 Wh to its import meter once per day after midnight, so
+  the Grid and Home totals stay exact. This works around a Homey Energy bug:
+  the Home tile shows "— kWh" for a day in which the battery discharged but nothing was exported
+  ([forum topic](https://community.homey.app/t/home-tile-always-shows-kwh-although-the-day-report-has-complete-data/161771)).
 
 Add the inverter first; the battery and grid devices are added from its site without entering
 credentials again. All devices of a site share one connection to the Livoltek API.

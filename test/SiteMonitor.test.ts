@@ -586,3 +586,23 @@ test('a late subscriber gets the last snapshot as an old one, so it fires no flo
   assert.equal(late.snapshots[0].grid.changed, false);
   assert.equal(late.snapshots[0].dataTimestamp, first.snapshots[0].dataTimestamp);
 });
+
+test('energy added to the grid import is saved and the next point counts on from it', async () => {
+  const {
+    source, monitor, timers, store,
+  } = setup();
+  const recorder = new Recorder();
+  source.responses.push(raw(0, { grid: 1.2, load: 1.2, battery: 0 }), raw(5, { grid: 1.2, load: 1.2, battery: 0 }));
+  monitor.subscribe(recorder);
+  await flush();
+
+  const totals = monitor.addImportedEnergy(0.001);
+
+  assert.ok(Math.abs(totals.gridImportedKWh - 0.001) < 1e-9);
+  const saved = store.load() as { energy: { totals: { gridImportedKWh: number } } };
+  assert.ok(Math.abs(saved.energy.totals.gridImportedKWh - 0.001) < 1e-9, 'saved at once');
+
+  await timers.fireNext();
+  const last = recorder.snapshots.at(-1);
+  assert.ok(last !== undefined && Math.abs(last.energy.gridImportedKWh - 0.101) < 1e-9, 'the next point adds to it');
+});

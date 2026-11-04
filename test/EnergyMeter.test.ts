@@ -100,3 +100,11 @@ test('a floor raises only totals whose published (3-decimal) value is below it',
   assertTotals(meter.toJSON().totals, { gridImportedKWh: 3.1098, batteryChargedKWh: 1.5, batteryDischargedKWh: 0.2 });
   assert.equal(meter.raiseFloor({ batteryDischargedKWh: 0.1 }), false, 'a lower floor changes nothing');
 });
+
+test('a correction adds energy to the grid import only, and integration continues from it', () => {
+  const meter = new EnergyMeter(null, MAX_GAP);
+  meter.add(0, values(1200, 0));
+
+  assertTotals(meter.addGridImport(0.001), { gridImportedKWh: 0.001, batteryChargedKWh: 0, batteryDischargedKWh: 0 });
+  assertTotals(meter.add(5 * MINUTE, values(1200, 0)), { gridImportedKWh: 0.101, batteryChargedKWh: 0, batteryDischargedKWh: 0 });
+});

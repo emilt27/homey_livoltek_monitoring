@@ -138,6 +138,13 @@ export class SiteMonitor {
     return this.subscribers.size;
   }
 
+  /** Adds energy to the grid import and saves it at once (the daily compensation, see dailyExport.ts). */
+  addImportedEnergy(kWh: number): EnergyTotals {
+    const totals = this.energy.addGridImport(kWh);
+    this.saveState();
+    return totals;
+  }
+
   /** New credentials (repair): forget the error streak and try them at once. */
   setSource(source: PowerFlowSource): void {
     this.source = source;

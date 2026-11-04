@@ -60,6 +60,12 @@ export class EnergyMeter {
     return { ...this.totals };
   }
 
+  /** Adds energy to the grid import outside the integration (the daily compensation, see dailyExport.ts). */
+  addGridImport(kWh: number): EnergyTotals {
+    if (Number.isFinite(kWh) && kWh > 0) this.totals.gridImportedKWh += kWh;
+    return { ...this.totals };
+  }
+
   /**
    * Raises totals to the meter values a device already shows (its own write survived a lost
    * settings write, or the settings were reset), so the next published value never decreases.

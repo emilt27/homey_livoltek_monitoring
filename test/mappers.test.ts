@@ -55,15 +55,13 @@ test('battery: power (+ charging), charge and energy meters rounded to Wh', () =
   });
 });
 
-test('grid: import power, the cumulative import meter and a zero export meter (no export to the grid)', () => {
+test('grid: import power and the cumulative import meter; the export meter is left to the device', () => {
   assert.deepEqual(gridCapabilities(snapshot({})), {
     measure_power: 493,
     'meter_power.imported': 1.471,
-    'meter_power.exported': 0,
   });
   assert.deepEqual(gridCapabilities(snapshot({ gridImportW: null })), {
     'meter_power.imported': 1.471,
-    'meter_power.exported': 0,
   });
 });
 

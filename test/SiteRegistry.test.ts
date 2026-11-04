@@ -116,3 +116,13 @@ test('the site state is persisted in app settings per site', async () => {
   const saved = homey.values.get('site:25196') as { estimator: { state: string } } | undefined;
   assert.equal(saved?.estimator.state, 'on');
 });
+
+test('energy is added to the grid import of a running site only', async () => {
+  const { registry } = setup();
+  assert.equal(registry.addImportedEnergy('25196', 0.001), null, 'no monitor for the site yet');
+
+  registry.acquire('25196', CREDENTIALS, recorder());
+  await flush();
+
+  assert.ok(registry.addImportedEnergy('25196', 0.001) !== null);
+});

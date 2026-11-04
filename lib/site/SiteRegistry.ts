@@ -1,3 +1,4 @@
+import { EnergyTotals } from '../energy/EnergyMeter';
 import { Journal } from '../debug/DebugJournal';
 import journaled from '../debug/journaledSubscriber';
 import { LivoltekCredentials, Logger } from '../LivoltekAPI';
@@ -79,6 +80,11 @@ export class SiteRegistry {
     entry.source = this.createSource(credentials);
     entry.source.setDebug(entry.debug);
     entry.monitor.setSource(entry.source);
+  }
+
+  /** Adds energy to the site's grid import; null when the site has no running monitor. */
+  addImportedEnergy(siteId: string, kWh: number): EnergyTotals | null {
+    return this.sites.get(siteId)?.monitor.addImportedEnergy(kWh) ?? null;
   }
 
   setDebug(siteId: string, enabled: boolean): void {
