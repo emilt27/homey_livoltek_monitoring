@@ -5,9 +5,10 @@ import { Logger, RawPowerFlow } from '../LivoltekAPI';
 import { Poller, TimerApi } from '../Poller';
 import { OutputFilter, OutputState, SiteValues } from '../powerflow/outputs';
 import {
-  isComplete, mergeSample, normalizeSample, PowerSample,
+  isComplete, isPlaceholder, mergeSample, normalizeSample, PowerSample,
 } from '../powerflow/sample';
-import { DEFAULT_SCHEDULE, nextPollDelayMs } from './schedule';
+import { restoreSiteState } from './restoreState';
+import { DEFAULT_SCHEDULE, errorBackoffMs, nextPollDelayMs } from './schedule';
 
 export interface PowerFlowSource {
   getCurrentPowerFlow(siteId: string): Promise<RawPowerFlow | null>;
@@ -25,6 +26,8 @@ export interface SiteSnapshot {
 export interface SiteSubscriber {
   onSnapshot(snapshot: SiteSnapshot): Promise<void>;
   onUnavailable(reason: string): Promise<void>;
+  /** Meter values the subscriber already shows; restored totals are raised to them on subscribe. */
+  energyFloor?(): Partial<EnergyTotals>;
 }
 
 export interface PersistedSiteState {
@@ -34,19 +37,31 @@ export interface PersistedSiteState {
 }
 
 export interface SiteStateStore {
-  load(): PersistedSiteState | null;
+  load(): unknown; // whatever was saved; validated by restoreSiteState
+
   save(state: PersistedSiteState): void;
 }
 
 /** No new data point for this long means the inverter or its cloud link is offline. */
 const STALE_AFTER_MS = 12 * 60_000;
-/** One missing 5-minute point is bridged by the energy meter, a longer gap is not. */
-const ENERGY_MAX_GAP_MS = 11 * 60_000;
+/**
+ * Gaps up to two missing 5-minute points (the API sometimes never completes a point) are bridged
+ * by the energy meter; a longer one (Homey or the inverter off) is not counted.
+ */
+const ENERGY_MAX_GAP_MS = 16 * 60_000;
+/** Polls spent re-reading a processed point that still lacks the state of charge, 10 s apart. */
+const SOC_RETRIES = 5;
+
+/** A snapshot delivered again (late subscriber, recovery): not fresh and no grid change, so no flow fires twice. */
+function asOld(snapshot: SiteSnapshot): SiteSnapshot {
+  return { ...snapshot, fresh: false, grid: { ...snapshot.grid, changed: false } };
+}
 
 /**
  * Polls one Livoltek site for all devices that show it: one request per cycle, one grid state,
- * one set of energy counters. Each data point is processed once, as soon as load, battery and
- * state of charge are known; later reads of the same point only refresh the published values.
+ * one set of energy counters. Each data point is processed once, as soon as load and battery are
+ * known; later reads of the same point only refresh the published values. Deliveries to one
+ * subscriber are strictly sequential, so a device never writes an older snapshot after a newer one.
  */
 export class SiteMonitor {
   private readonly siteId: string;
@@ -56,6 +71,7 @@ export class SiteMonitor {
   private readonly now: () => number;
   private readonly poller: Poller;
   private readonly subscribers = new Set<SiteSubscriber>();
+  private readonly deliveries = new Map<SiteSubscriber, Promise<void>>(); // tail of each subscriber's queue
   private readonly estimator: GridStateEstimator;
   private readonly outputs: OutputFilter;
   private readonly energy: EnergyMeter;
@@ -63,6 +79,10 @@ export class SiteMonitor {
   private currentResult: SiteSnapshot | null = null; // null until the current point is processed
   private lastSnapshot: SiteSnapshot | null = null;
   private staleReported = false;
+  private socRetriesLeft = 0;
+  private consecutiveErrors = 0;
+  private unavailableReported = false; // devices were told the site is unavailable
+  private nextDelay: () => number = () => this.nextDelayMs();
 
   constructor(
     siteId: string,
@@ -77,7 +97,8 @@ export class SiteMonitor {
     this.store = store;
     this.logger = logger;
     this.now = now;
-    const state = store.load();
+    const { state, problems } = restoreSiteState(this.loadSaved());
+    for (const problem of problems) this.logger.error(`[site ${siteId}] saved state: ${problem}, starting it fresh`);
     this.estimator = new GridStateEstimator(state?.estimator ?? null);
     this.outputs = new OutputFilter(state?.outputs ?? null);
     this.energy = new EnergyMeter(state?.energy ?? null, ENERGY_MAX_GAP_MS);
@@ -87,13 +108,18 @@ export class SiteMonitor {
   /** Returns the unsubscribe function; the last unsubscribe stops polling. */
   subscribe(subscriber: SiteSubscriber): () => void {
     this.subscribers.add(subscriber);
+    const floor = subscriber.energyFloor?.();
+    if (floor !== undefined && this.energy.raiseFloor(floor)) this.saveState();
+
     if (this.subscribers.size === 1) {
-      this.poller.start(() => this.nextDelayMs()).catch((error) => this.logger.error(error));
+      this.poller.start(this.nextDelay).catch((error) => this.logger.error(error));
     } else if (this.lastSnapshot !== null) {
-      this.deliver(subscriber, this.lastSnapshot).catch((error) => this.logger.error(error));
+      const snapshot = asOld(this.lastSnapshot);
+      this.enqueue(subscriber, () => subscriber.onSnapshot(snapshot)).catch((error) => this.logger.error(error));
     }
     return () => {
       this.subscribers.delete(subscriber);
+      this.deliveries.delete(subscriber);
       if (this.subscribers.size === 0) this.poller.stop();
     };
   }
@@ -106,52 +132,83 @@ export class SiteMonitor {
     this.source = source;
   }
 
+  private waitingForSoc(): boolean {
+    return this.currentResult?.values.soc === null && this.socRetriesLeft > 0;
+  }
+
   private nextDelayMs(): number {
-    const complete = this.currentResult !== null && this.current?.gridW !== null;
-    return nextPollDelayMs(this.now(), this.current?.dataTimestamp ?? null, complete, DEFAULT_SCHEDULE);
+    // Grid power is not waited for: the API reports it as null for as long as the grid is off.
+    const complete = this.currentResult !== null && !this.waitingForSoc();
+    const scheduled = nextPollDelayMs(this.now(), this.current?.dataTimestamp ?? null, complete, DEFAULT_SCHEDULE);
+    return Math.max(scheduled, errorBackoffMs(this.consecutiveErrors, DEFAULT_SCHEDULE));
   }
 
   private async poll(): Promise<void> {
+    if (this.waitingForSoc()) this.socRetriesLeft -= 1; // every attempt counts, failed ones too
+
     let raw: RawPowerFlow | null;
     try {
       raw = await this.source.getCurrentPowerFlow(this.siteId);
     } catch (error) {
-      await this.broadcastUnavailable(error instanceof Error ? error.message : String(error));
+      this.consecutiveErrors += 1;
+      const reason = error instanceof Error ? error.message : String(error);
+      await this.broadcastUnavailable(reason);
       return;
     }
+    this.consecutiveErrors = 0;
+    const recovering = this.unavailableReported;
+    this.unavailableReported = false;
 
     const sample = normalizeSample(raw);
-    if (sample !== null) await this.accept(sample);
+    const delivered = sample !== null && await this.accept(sample);
     await this.checkStale();
+    if (recovering && !delivered && !this.staleReported) await this.redeliverLast();
   }
 
-  private async accept(read: PowerSample): Promise<void> {
+  /**
+   * After an error the devices are unavailable until a snapshot arrives; when the read that
+   * recovers brings no new data, the last snapshot is delivered again. It is marked as not fresh
+   * and not a grid change, so no flow fires twice for the same point.
+   */
+  private async redeliverLast(): Promise<void> {
+    if (this.lastSnapshot === null) return;
+    const snapshot = asOld(this.lastSnapshot);
+    await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onSnapshot(snapshot))));
+  }
+
+  /** Returns whether a snapshot was delivered. */
+  private async accept(read: PowerSample): Promise<boolean> {
     const { current } = this;
-    if (current !== null && read.dataTimestamp < current.dataTimestamp) return;
+    if (current !== null && read.dataTimestamp < current.dataTimestamp) return false;
 
     if (current !== null && read.dataTimestamp === current.dataTimestamp) {
+      // Placeholders come first; one after real data (never seen in 1094 recorded reads) would
+      // overwrite real load and battery values with its own, so it is ignored.
+      if (isPlaceholder(read) && !isPlaceholder(current)) return false;
       const merged = mergeSample(current, read);
-      if (JSON.stringify(merged) === JSON.stringify(current)) return;
+      if (JSON.stringify(merged) === JSON.stringify(current)) return false;
       this.current = merged;
     } else {
       this.current = read;
       this.currentResult = null;
     }
 
-    if (!isComplete(this.current)) return;
+    if (!isComplete(this.current)) return false;
     const snapshot = this.currentResult === null ? this.process(this.current) : this.refresh(this.current, this.currentResult);
     this.currentResult = snapshot;
     this.lastSnapshot = snapshot;
     this.staleReported = false;
-    await Promise.all([...this.subscribers].map((subscriber) => this.deliver(subscriber, snapshot)));
+    await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onSnapshot(snapshot))));
+    return true;
   }
 
   /** First complete read of a data point: the only time it feeds the estimator and the energy meter. */
   private process(sample: PowerSample): SiteSnapshot {
     const grid = this.estimator.update(sample);
     const values = this.outputs.apply(sample, grid.state, DEFAULT_THRESHOLDS);
+    this.socRetriesLeft = values.soc === null ? SOC_RETRIES : 0;
     const energy = this.energy.add(sample.dataTimestamp, values);
-    this.store.save({ estimator: this.estimator.toJSON(), outputs: this.outputs.toJSON(), energy: this.energy.toJSON() });
+    this.saveState();
 
     this.logger.log(`[site ${this.siteId}] point ${new Date(sample.dataTimestamp).toISOString()}: grid ${grid.state}`
       + ` (${grid.reason}), load ${values.loadW} W, battery ${values.batteryW} W, soc ${values.soc} %`);
@@ -163,17 +220,31 @@ export class SiteMonitor {
   /** A later read of an already processed point that filled in missing fields. */
   private refresh(sample: PowerSample, processed: SiteSnapshot): SiteSnapshot {
     const values = this.outputs.refresh(sample, processed.grid.state, DEFAULT_THRESHOLDS, processed.values);
+    if (values.soc !== processed.values.soc) this.saveState(); // a late state of charge moved the SoC filter
     return {
       ...processed, fresh: false, sample, values,
     };
   }
 
-  private async deliver(subscriber: SiteSubscriber, snapshot: SiteSnapshot): Promise<void> {
+  private loadSaved(): unknown {
     try {
-      await subscriber.onSnapshot(snapshot);
+      return this.store.load();
     } catch (error) {
-      this.logger.error(`[site ${this.siteId}] subscriber failed:`, error);
+      this.logger.error(`[site ${this.siteId}] saved state unreadable, starting fresh:`, error);
+      return null;
     }
+  }
+
+  private saveState(): void {
+    this.store.save({ estimator: this.estimator.toJSON(), outputs: this.outputs.toJSON(), energy: this.energy.toJSON() });
+  }
+
+  /** Runs a delivery after the subscriber's previous one; a failing delivery is logged, never thrown. */
+  private enqueue(subscriber: SiteSubscriber, delivery: () => Promise<void>): Promise<void> {
+    const previous = this.deliveries.get(subscriber) ?? Promise.resolve();
+    const next = previous.then(delivery).catch((error) => this.logger.error(`[site ${this.siteId}] subscriber failed:`, error));
+    if (this.subscribers.has(subscriber)) this.deliveries.set(subscriber, next);
+    return next;
   }
 
   private async checkStale(): Promise<void> {
@@ -184,13 +255,8 @@ export class SiteMonitor {
   }
 
   private async broadcastUnavailable(reason: string): Promise<void> {
+    this.unavailableReported = true;
     this.logger.error(`[site ${this.siteId}] unavailable: ${reason}`);
-    await Promise.all([...this.subscribers].map(async (subscriber) => {
-      try {
-        await subscriber.onUnavailable(reason);
-      } catch (error) {
-        this.logger.error(`[site ${this.siteId}] subscriber failed:`, error);
-      }
-    }));
+    await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onUnavailable(reason))));
   }
 }

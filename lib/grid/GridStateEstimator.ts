@@ -30,6 +30,9 @@ export interface EstimatorState {
   balance: BalanceState;
 }
 
+/** A saved state after validation: missing parts start fresh. */
+export type RestoredEstimatorState = Partial<Omit<EstimatorState, 'trust'>> & { trust?: Partial<TrustState> };
+
 export interface EstimatorConfig {
   thresholds: Thresholds;
   trust: TrustConfig;
@@ -62,7 +65,7 @@ export class GridStateEstimator {
   private pendingWeakOn: WeakPoint | null;
   private pendingLikelyOff: LikelyOffSignal | null;
 
-  constructor(state: EstimatorState | null, config: EstimatorConfig = DEFAULT_CONFIG) {
+  constructor(state: RestoredEstimatorState | null, config: EstimatorConfig = DEFAULT_CONFIG) {
     this.config = config;
     this.trust = new TrustModel(config.trust, state?.trust ?? null);
     this.balance = new BalanceThresholds(state?.balance ?? null);

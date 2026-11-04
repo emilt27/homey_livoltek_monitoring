@@ -1,6 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { batteryCapabilities, gridCapabilities, inverterCapabilities } from '../lib/devices/mappers';
+import {
+  BATTERY_METERS, batteryCapabilities, GRID_METERS, gridCapabilities, inverterCapabilities, meterFloor,
+} from '../lib/devices/mappers';
 import { GridState } from '../lib/grid/GridStateEstimator';
 import { SiteValues } from '../lib/powerflow/outputs';
 import { SiteSnapshot } from '../lib/site/SiteMonitor';
@@ -53,10 +55,27 @@ test('battery: power (+ charging), charge and energy meters rounded to Wh', () =
   });
 });
 
-test('grid: import power and the cumulative import meter', () => {
+test('grid: import power, the cumulative import meter and a zero export meter (no export to the grid)', () => {
   assert.deepEqual(gridCapabilities(snapshot({})), {
     measure_power: 493,
     'meter_power.imported': 1.471,
+    'meter_power.exported': 0,
   });
-  assert.deepEqual(gridCapabilities(snapshot({ gridImportW: null })), { 'meter_power.imported': 1.471 });
+  assert.deepEqual(gridCapabilities(snapshot({ gridImportW: null })), {
+    'meter_power.imported': 1.471,
+    'meter_power.exported': 0,
+  });
+});
+
+test('meter floor: the meters a device shows, mapped back to the energy totals; unknown ones are left out', () => {
+  const shown: Record<string, number | null> = { 'meter_power.imported': 3.11, 'meter_power.charged': 0.156, 'meter_power.discharged': null };
+
+  assert.deepEqual(meterFloor(GRID_METERS, (capability) => shown[capability] ?? null), { gridImportedKWh: 3.11 });
+  assert.deepEqual(meterFloor(BATTERY_METERS, (capability) => shown[capability] ?? null), { batteryChargedKWh: 0.156 });
+});
+
+test('the meter capabilities written by the mappers are exactly those of the meter floor', () => {
+  const snap = snapshot({});
+  for (const capability of Object.keys(GRID_METERS)) assert.ok(capability in gridCapabilities(snap), capability);
+  for (const capability of Object.keys(BATTERY_METERS)) assert.ok(capability in batteryCapabilities(snap), capability);
 });

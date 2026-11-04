@@ -80,6 +80,25 @@ export function mergeSample(earlier: PowerSample, later: PowerSample): PowerSamp
   };
 }
 
+/** Statuses that only real records carry; placeholders have "idel" or none. */
+const REAL_STATUSES: readonly string[] = ['charging', 'discharging', 'importing'];
+
+/**
+ * A point can be decided once load and battery power are known and the read is not a placeholder:
+ * it has a state of charge or a real status. The API often reports SoC 0 for a real record
+ * (32 of 78 points on 2026-11-03/04, one point never got it); the charge is then re-read
+ * separately and devices keep the previous one meanwhile.
+ */
+function hasRealStatus(sample: PowerSample): boolean {
+  return sample.energyStatus !== null && REAL_STATUSES.includes(sample.energyStatus);
+}
+
+/** A read that carries neither a state of charge nor a real status: the API's placeholder shape. */
+export function isPlaceholder(sample: PowerSample): boolean {
+  return sample.soc === null && !hasRealStatus(sample);
+}
+
 export function isComplete(sample: PowerSample): boolean {
-  return sample.loadW !== null && sample.batteryW !== null && sample.soc !== null;
+  if (sample.loadW === null || sample.batteryW === null) return false;
+  return !isPlaceholder(sample);
 }

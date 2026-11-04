@@ -1,7 +1,7 @@
 import { LivoltekCredentials, Logger } from '../LivoltekAPI';
 import { TimerApi } from '../Poller';
 import {
-  PersistedSiteState, PowerFlowSource, SiteMonitor, SiteStateStore, SiteSubscriber,
+  PowerFlowSource, SiteMonitor, SiteStateStore, SiteSubscriber,
 } from './SiteMonitor';
 
 export interface DebuggableSource extends PowerFlowSource {
@@ -31,7 +31,7 @@ export function siteStateKey(siteId: string): string {
 function settingsStore(settings: SettingsStore, siteId: string): SiteStateStore {
   const key = siteStateKey(siteId);
   return {
-    load: () => (settings.get(key) as PersistedSiteState | null) ?? null,
+    load: () => settings.get(key),
     save: (state) => settings.set(key, state),
   };
 }

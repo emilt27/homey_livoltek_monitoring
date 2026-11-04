@@ -43,10 +43,19 @@ export default class LivoltekInverterDevice extends SiteDevice {
     this.log('API client reinitialized with new credentials');
   }
 
+  /**
+   * Flows fire even when a capability write failed (the grid change exists on this snapshot only);
+   * the write error is reported afterwards. Value triggers also run on refreshes: a state of charge
+   * filled in later must reach battery_level_below, and unchanged values never fire twice.
+   */
   async onSnapshot(snapshot: SiteSnapshot): Promise<void> {
-    await super.onSnapshot(snapshot);
+    let writeError: unknown = null;
+    await super.onSnapshot(snapshot).catch((error) => {
+      writeError = error;
+    });
     if (snapshot.grid.changed) await this.triggerGridChange(snapshot);
-    if (snapshot.fresh) await this.triggerValueChanges(snapshot);
+    await this.triggerValueChanges(snapshot);
+    if (writeError !== null) throw writeError;
   }
 
   /**

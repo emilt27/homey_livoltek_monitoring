@@ -88,3 +88,15 @@ test('state survives a JSON round trip and integration continues', () => {
     gridImportedKWh: 0.2, batteryChargedKWh: 0, batteryDischargedKWh: 0,
   });
 });
+
+test('a floor raises only totals whose published (3-decimal) value is below it', () => {
+  const meter = new EnergyMeter({
+    totals: { gridImportedKWh: 3.1098, batteryChargedKWh: 1, batteryDischargedKWh: 0.2 },
+    last: null,
+  }, MAX_GAP);
+
+  assert.equal(meter.raiseFloor({ gridImportedKWh: 3.11, batteryChargedKWh: 1.5 }), true);
+
+  assertTotals(meter.toJSON().totals, { gridImportedKWh: 3.1098, batteryChargedKWh: 1.5, batteryDischargedKWh: 0.2 });
+  assert.equal(meter.raiseFloor({ batteryDischargedKWh: 0.1 }), false, 'a lower floor changes nothing');
+});

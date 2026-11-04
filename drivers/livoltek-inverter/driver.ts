@@ -12,16 +12,13 @@ interface PairSession {
 }
 
 class LivoltekInverterDriver extends Homey.Driver {
-  private pairSessions: Map<string, PairSession> = new Map();
-
   async onInit() {
     this.log('Livoltek Inverter driver initialized');
   }
 
   async onPair(session: Homey.Driver.PairSession) {
     const sessionId = Math.random().toString(36).substring(7);
-    const pairData: PairSession = {};
-    this.pairSessions.set(sessionId, pairData);
+    const pairData: PairSession = {}; // lives as long as this session's handlers
 
     this.log('Pairing session started:', sessionId);
 
@@ -108,7 +105,6 @@ class LivoltekInverterDriver extends Homey.Driver {
     // Cleanup on disconnect
     session.setHandler('disconnect', async () => {
       this.log('Pairing session ended:', sessionId);
-      this.pairSessions.delete(sessionId);
     });
   }
 

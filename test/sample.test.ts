@@ -79,9 +79,14 @@ test('mergeSample: a later read of the same point wins, fields it still misses k
   assert.deepEqual(mergeSample(partial, full), { ...BASE, gridW: 0 });
 });
 
-test('isComplete requires load, battery and state of charge', () => {
+test('isComplete requires load and battery, plus a state of charge or a real status', () => {
   assert.equal(isComplete(BASE), true);
   assert.equal(isComplete({ ...BASE, loadW: null }), false);
   assert.equal(isComplete({ ...BASE, batteryW: null }), false);
-  assert.equal(isComplete({ ...BASE, soc: null }), false);
+  for (const status of ['discharging', 'charging', 'importing']) {
+    assert.equal(isComplete({ ...BASE, soc: null, energyStatus: status }), true, status);
+  }
+  for (const placeholder of ['idel', null]) {
+    assert.equal(isComplete({ ...BASE, soc: null, energyStatus: placeholder }), false, String(placeholder));
+  }
 });

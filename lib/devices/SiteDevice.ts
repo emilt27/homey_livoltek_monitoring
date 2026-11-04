@@ -2,7 +2,8 @@ import Homey from 'homey';
 import { LivoltekCredentials } from '../LivoltekAPI';
 import { SiteSnapshot, SiteSubscriber } from '../site/SiteMonitor';
 import { SiteRegistry, siteRegistryOf } from '../site/SiteRegistry';
-import { CapabilityValues } from './mappers';
+import { EnergyTotals } from '../energy/EnergyMeter';
+import { CapabilityValues, MeterMap, meterFloor } from './mappers';
 
 export interface SiteDeviceData {
   id: string;
@@ -15,6 +16,8 @@ export interface SiteDeviceData {
  */
 export abstract class SiteDevice extends Homey.Device implements SiteSubscriber {
   protected abstract readonly mapCapabilities: (snapshot: SiteSnapshot) => CapabilityValues;
+  /** Cumulative meters of this device; their shown values are a floor for the site's totals. */
+  protected readonly meters: MeterMap = {};
   private release: (() => void) | null = null;
 
   async onInit() {
@@ -29,11 +32,22 @@ export abstract class SiteDevice extends Homey.Device implements SiteSubscriber 
     this.stopMonitoring();
   }
 
+  /** Writes every value it can; one failed capability does not skip the others, all are reported. */
   async onSnapshot(snapshot: SiteSnapshot): Promise<void> {
     if (!this.getAvailable()) await this.setAvailable();
+    const failed: string[] = [];
     for (const [capability, value] of Object.entries(this.mapCapabilities(snapshot))) {
-      if (this.hasCapability(capability)) await this.setCapabilityValue(capability, value).catch(this.error);
+      if (this.hasCapability(capability)) {
+        await this.setCapabilityValue(capability, value).catch((error) => {
+          failed.push(`${capability}: ${error instanceof Error ? error.message : String(error)}`);
+        });
+      }
     }
+    if (failed.length > 0) throw new Error(`${this.getName()} failed to write ${failed.join('; ')}`);
+  }
+
+  energyFloor(): Partial<EnergyTotals> {
+    return meterFloor(this.meters, (capability) => (this.hasCapability(capability) ? this.getCapabilityValue(capability) : null));
   }
 
   async onUnavailable(reason: string): Promise<void> {

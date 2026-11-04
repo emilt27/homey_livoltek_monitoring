@@ -46,13 +46,14 @@ export class OutputFilter {
   /**
    * Values for a later read of an already processed point: recomputes what depends only on this
    * read and keeps the state of charge decided for the point, so a repeated read confirms nothing.
+   * A point processed without a state of charge takes it from the first read that has one.
    */
   refresh(sample: PowerSample, grid: GridState, t: Thresholds, processed: SiteValues): SiteValues {
     return {
       gridImportW: OutputFilter.gridImport(sample, grid, t),
       loadW: sample.loadW,
       batteryW: sample.batteryW,
-      soc: processed.soc,
+      soc: processed.soc ?? this.filterSoc(sample.soc, t),
       batteryStatus: OutputFilter.batteryStatus(sample, t),
     };
   }

@@ -60,6 +60,23 @@ export class EnergyMeter {
     return { ...this.totals };
   }
 
+  /**
+   * Raises totals to the meter values a device already shows (its own write survived a lost
+   * settings write, or the settings were reset), so the next published value never decreases.
+   * Totals are published rounded to 3 decimals; only a lower published value counts.
+   */
+  raiseFloor(floor: Partial<EnergyTotals>): boolean {
+    let raised = false;
+    for (const key of Object.keys(floor) as Array<keyof EnergyTotals>) {
+      const value = floor[key];
+      if (typeof value === 'number' && Number.isFinite(value) && Math.round(this.totals[key] * 1000) < Math.round(value * 1000)) {
+        this.totals[key] = value;
+        raised = true;
+      }
+    }
+    return raised;
+  }
+
   toJSON(): EnergyMeterState {
     return { totals: { ...this.totals }, last: this.last };
   }

@@ -4,6 +4,7 @@ export interface ScheduleConfig {
   fastMs: number;
   slowMs: number;
   fastWindowMs: number; // how long to keep polling fast when the next point is late
+  errorBackoffMaxMs: number; // longest wait between polls while the API keeps failing
 }
 
 /** Measured on 2026-11-03: points every 300 s, visible 100–110 s after their timestamp. */
@@ -13,7 +14,14 @@ export const DEFAULT_SCHEDULE: ScheduleConfig = {
   fastMs: 10_000,
   slowMs: 30_000,
   fastWindowMs: 240_000,
+  errorBackoffMaxMs: 300_000,
 };
+
+/** Wait after `errors` consecutive failed polls: the slow interval, doubled per error, capped. */
+export function errorBackoffMs(errors: number, config: ScheduleConfig): number {
+  if (errors <= 0) return 0;
+  return Math.min(config.slowMs * 2 ** (errors - 1), config.errorBackoffMaxMs);
+}
 
 /**
  * Polls in phase with the API: sleeps until shortly before the next point is due, then polls fast
