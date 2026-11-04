@@ -1,6 +1,7 @@
 import { afterEach, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { LivoltekAPI, Logger, normalizeKey } from '../lib/LivoltekAPI';
+import LivoltekAuthError from '../lib/LivoltekAuthError';
 
 const USER_TOKEN = 'secret-user-token';
 const KEY = 'secret-key';
@@ -189,4 +190,80 @@ test('login rejects a "SUCCESS" reply whose token is an error text instead of a 
       `accepted ${JSON.stringify(junk)} as a token`,
     );
   }
+});
+
+// Recorded 2026-11-04 on the EU server: a bad access token and a bad userToken are both HTTP 401
+const SESSION_EXPIRED = { status: 401, body: { code: '401', message: 'Please login', data: null } };
+const USER_TOKEN_REJECTED = { status: 401, body: { code: '2001', message: 'token.invalid', data: null } };
+const OK = { status: 200, body: { code: '200', message: 'SUCCESS', data: POWER_FLOW } };
+
+function scriptedFetch(replies: Array<{ status: number; body: unknown }>, loginReply: LoginReply = LOGIN_OK) {
+  const counts = { logins: 0, flows: 0 };
+  globalThis.fetch = (async (input: string | URL | Request) => {
+    if (String(input).includes('/login')) {
+      counts.logins += 1;
+      return new Response(JSON.stringify({ message: 'SUCCESS', code: '200', data: loginReply }), { status: 200 });
+    }
+    counts.flows += 1;
+    const reply = replies.shift() ?? OK;
+    return new Response(JSON.stringify(reply.body), { status: reply.status });
+  }) as typeof fetch;
+  return counts;
+}
+
+test('an expired session ("Please login") logs in again once and repeats the request', async () => {
+  const counts = scriptedFetch([SESSION_EXPIRED, OK]);
+
+  const flow = await makeApi(new CapturingLogger()).getCurrentPowerFlow('25196');
+
+  assert.equal(flow?.loadPower, POWER_FLOW.loadPower);
+  assert.deepEqual(counts, { logins: 2, flows: 2 });
+});
+
+test('a session still rejected after logging in again is an authorization error', async () => {
+  scriptedFetch([SESSION_EXPIRED, SESSION_EXPIRED]);
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), LivoltekAuthError);
+});
+
+test('a rejected user token is an authorization error at once, without logging in again', async () => {
+  const counts = scriptedFetch([USER_TOKEN_REJECTED]);
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), LivoltekAuthError);
+  assert.deepEqual(counts, { logins: 1, flows: 1 });
+});
+
+test('rejected credentials at login are an authorization error', async () => {
+  scriptedFetch([], { message: null, data: '"user not exit"' });
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), LivoltekAuthError);
+});
+
+test('a server or network failure is not an authorization error', async () => {
+  scriptedFetch([{ status: 502, body: 'Bad Gateway' }]);
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), (error: Error) => !(error instanceof LivoltekAuthError));
+});
+
+test('a 401 without a readable error code (HTML, numeric code) is treated as an expired session first', async () => {
+  for (const body of ['<html>401 Unauthorized</html>', { code: 401, message: 'Please login' }]) {
+    const counts = scriptedFetch([{ status: 401, body }, OK]);
+
+    const flow = await makeApi(new CapturingLogger()).getCurrentPowerFlow('25196');
+
+    assert.equal(flow?.loadPower, POWER_FLOW.loadPower, JSON.stringify(body));
+    assert.deepEqual(counts, { logins: 2, flows: 2 }, 'one new login and one retry');
+  }
+});
+
+test('a login reply with a message other than SUCCESS is a server problem, not refused credentials', async () => {
+  scriptedFetch([], { message: 'system busy', data: '' });
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), (error: Error) => !(error instanceof LivoltekAuthError));
+});
+
+test('a login answered with "Wrong secuid or key" is refused credentials, so the user is asked to repair', async () => {
+  scriptedFetch([], { message: 'Wrong secuid or key', data: '' });
+
+  await assert.rejects(makeApi(new CapturingLogger()).getCurrentPowerFlow('25196'), LivoltekAuthError);
 });

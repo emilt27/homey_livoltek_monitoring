@@ -2,6 +2,7 @@ import { EnergyMeter, EnergyMeterState, EnergyTotals } from '../energy/EnergyMet
 import { DEFAULT_THRESHOLDS } from '../grid/evidence';
 import { EstimatorState, GridDecision, GridStateEstimator } from '../grid/GridStateEstimator';
 import { Logger, RawPowerFlow } from '../LivoltekAPI';
+import LivoltekAuthError from '../LivoltekAuthError';
 import { Poller, TimerApi } from '../Poller';
 import { OutputFilter, OutputState, SiteValues } from '../powerflow/outputs';
 import {
@@ -11,6 +12,7 @@ import { restoreSiteState } from './restoreState';
 import { DEFAULT_SCHEDULE, errorBackoffMs, nextPollDelayMs } from './schedule';
 
 export interface PowerFlowSource {
+  /** Throws LivoltekAuthError when the credentials are refused, any other error for a failed read. */
   getCurrentPowerFlow(siteId: string): Promise<RawPowerFlow | null>;
 }
 
@@ -26,6 +28,8 @@ export interface SiteSnapshot {
 export interface SiteSubscriber {
   onSnapshot(snapshot: SiteSnapshot): Promise<void>;
   onUnavailable(reason: string): Promise<void>;
+  /** The API keeps refusing the credentials: only a repair helps. Sent once per streak. */
+  onAuthorizationFailed(reason: string): Promise<void>;
   /** Meter values the subscriber already shows; restored totals are raised to them on subscribe. */
   energyFloor?(): Partial<EnergyTotals>;
 }
@@ -81,7 +85,9 @@ export class SiteMonitor {
   private staleReported = false;
   private socRetriesLeft = 0;
   private consecutiveErrors = 0;
-  private unavailableReported = false; // devices were told the site is unavailable
+  private authorizationReported = false;
+  private unavailableReported = false; // devices were told the site is unavailable or refused
+  private sourceGeneration = 0; // bumped by setSource, so a poll of the old source is ignored
   private nextDelay: () => number = () => this.nextDelayMs();
 
   constructor(
@@ -128,8 +134,13 @@ export class SiteMonitor {
     return this.subscribers.size;
   }
 
+  /** New credentials (repair): forget the error streak and try them at once. */
   setSource(source: PowerFlowSource): void {
     this.source = source;
+    this.sourceGeneration += 1;
+    this.consecutiveErrors = 0;
+    this.authorizationReported = false;
+    if (this.subscribers.size > 0) this.poller.start(this.nextDelay).catch((error) => this.logger.error(error));
   }
 
   private waitingForSoc(): boolean {
@@ -146,16 +157,21 @@ export class SiteMonitor {
   private async poll(): Promise<void> {
     if (this.waitingForSoc()) this.socRetriesLeft -= 1; // every attempt counts, failed ones too
 
+    const generation = this.sourceGeneration;
     let raw: RawPowerFlow | null;
     try {
       raw = await this.source.getCurrentPowerFlow(this.siteId);
     } catch (error) {
+      if (generation !== this.sourceGeneration) return; // answer for credentials replaced meanwhile
       this.consecutiveErrors += 1;
       const reason = error instanceof Error ? error.message : String(error);
-      await this.broadcastUnavailable(reason);
+      if (error instanceof LivoltekAuthError) await this.reportAuthorizationFailure(reason);
+      else await this.broadcastUnavailable(reason);
       return;
     }
+    if (generation !== this.sourceGeneration) return;
     this.consecutiveErrors = 0;
+    this.authorizationReported = false;
     const recovering = this.unavailableReported;
     this.unavailableReported = false;
 
@@ -245,6 +261,14 @@ export class SiteMonitor {
     const next = previous.then(delivery).catch((error) => this.logger.error(`[site ${this.siteId}] subscriber failed:`, error));
     if (this.subscribers.has(subscriber)) this.deliveries.set(subscriber, next);
     return next;
+  }
+
+  private async reportAuthorizationFailure(reason: string): Promise<void> {
+    this.unavailableReported = true;
+    if (this.authorizationReported) return;
+    this.authorizationReported = true;
+    this.logger.error(`[site ${this.siteId}] authorization failed: ${reason}`);
+    await Promise.all([...this.subscribers].map((subscriber) => this.enqueue(subscriber, () => subscriber.onAuthorizationFailed(reason))));
   }
 
   private async checkStale(): Promise<void> {

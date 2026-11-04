@@ -47,6 +47,9 @@ test('replay of the recorded outage and grid return', async () => {
     async onUnavailable(reason) {
       assert.fail(`unexpected unavailable: ${reason}`);
     },
+    async onAuthorizationFailed(reason) {
+      assert.fail(`unexpected authorization failure: ${reason}`);
+    },
   });
   await flush();
   while (index < RECORDING.length) await timers.fireNext();

@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { RawPowerFlow } from '../lib/LivoltekAPI';
+import LivoltekAuthError from '../lib/LivoltekAuthError';
 import { SiteMonitor, SiteSnapshot, SiteSubscriber } from '../lib/site/SiteMonitor';
 import FakeTimers from './support/FakeTimers';
 import flush from './support/flush';
@@ -172,6 +173,9 @@ test('a failing subscriber does not affect the others', async () => {
       throw new Error('boom');
     },
     async onUnavailable() {
+      throw new Error('boom');
+    },
+    async onAuthorizationFailed() {
       throw new Error('boom');
     },
   };
@@ -375,6 +379,7 @@ test('deliveries to one subscriber never overlap and keep their order', async ()
       events.push(`end ${(snapshot.dataTimestamp - T0) / MINUTE}`);
     },
     onUnavailable: () => Promise.resolve(),
+    onAuthorizationFailed: () => Promise.resolve(),
   };
   source.responses.push(raw(0, { grid: 0.703, load: 0.703, battery: 0 }));
   source.responses.push(raw(5, { grid: 0.5, load: 0.5, battery: 0 }));
@@ -456,6 +461,65 @@ test('a SoC-only completion of a point with a real status is still taken', async
   assert.equal(recorder.snapshots.at(-1)?.values.soc, 97);
   assert.equal(recorder.snapshots.at(-1)?.values.batteryW, -231);
 });
+
+test('rejected credentials are reported to the devices once per streak, not on every poll', async () => {
+  const { source, monitor, timers } = setup();
+  const recorder = new Recorder();
+  const refused = () => new LivoltekAuthError('GET curPowerflow refused: 2001', false);
+  source.responses.push(refused(), refused(), refused());
+  source.responses.push(raw(0, { grid: 0.703, load: 0.703, battery: 0 }));
+  source.responses.push(refused());
+
+  monitor.subscribe(recorder);
+  await flush();
+  await timers.fireNext();
+  await timers.fireNext();
+  assert.equal(recorder.authorizationFailures.length, 1);
+  assert.deepEqual(recorder.unavailable, [], 'an authorization failure is not reported as a connection problem');
+
+  await timers.fireNext();
+  await timers.fireNext();
+  assert.equal(recorder.authorizationFailures.length, 2, 'a new streak after a success is reported again');
+});
+
+test('new credentials (repair) are tried at once and re-arm the authorization report', async () => {
+  const { source, monitor, timers } = setup();
+  const recorder = new Recorder();
+  source.responses.push(new LivoltekAuthError('login refused', false));
+  monitor.subscribe(recorder);
+  await flush();
+
+  const repaired = fakeSource();
+  repaired.responses.push(new LivoltekAuthError('still refused', false));
+  monitor.setSource(repaired);
+  await flush();
+
+  assert.equal(repaired.calls, 1, 'polled right after the repair, without waiting for the backoff');
+  assert.equal(recorder.authorizationFailures.length, 2);
+  assert.ok(timers.active().length <= 1, 'one polling chain only');
+});
+
+test('a poll still running with the old credentials cannot report a failure after the repair', async () => {
+  const { source, monitor } = setup();
+  const recorder = new Recorder();
+  let rejectOld: (error: Error) => void = () => undefined;
+  source.getCurrentPowerFlow = () => new Promise((_, reject) => {
+    rejectOld = reject;
+  });
+  monitor.subscribe(recorder);
+  await flush();
+
+  const repaired = fakeSource();
+  repaired.responses.push(raw(0, { grid: 0.703, load: 0.703, battery: 0 }));
+  monitor.setSource(repaired);
+  await flush();
+  rejectOld(new LivoltekAuthError('old token refused', true));
+  await flush();
+
+  assert.equal(recorder.snapshots.length, 1, 'the repaired source delivered its point');
+  assert.deepEqual(recorder.authorizationFailures, [], 'the late answer of the old credentials is ignored');
+});
+
 test('after an error, a successful read of the same point makes the devices available again without re-triggering', async () => {
   const { source, monitor, timers } = setup();
   const recorder = new Recorder();

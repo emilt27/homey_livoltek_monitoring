@@ -43,6 +43,15 @@ export default class LivoltekInverterDevice extends SiteDevice {
     this.log('API client reinitialized with new credentials');
   }
 
+  /** Besides marking the device unavailable: one Homey notification and the flow trigger. */
+  async onAuthorizationFailed(reason: string): Promise<void> {
+    await super.onAuthorizationFailed(reason);
+    await this.homey.notifications.createNotification({
+      excerpt: this.homey.__('error.authorization_notification', { name: this.getName() }),
+    }).catch(this.error);
+    await this.homey.flow.getDeviceTriggerCard('authorization_failed').trigger(this, { reason }).catch(this.error);
+  }
+
   /**
    * Flows fire even when a capability write failed (the grid change exists on this snapshot only);
    * the write error is reported afterwards. Value triggers also run on refreshes: a state of charge

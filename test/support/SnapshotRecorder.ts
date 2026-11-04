@@ -4,6 +4,7 @@ import { SiteSnapshot, SiteSubscriber } from '../../lib/site/SiteMonitor';
 export default class SnapshotRecorder implements SiteSubscriber {
   readonly snapshots: SiteSnapshot[] = [];
   readonly unavailable: string[] = [];
+  readonly authorizationFailures: string[] = [];
 
   async onSnapshot(snapshot: SiteSnapshot): Promise<void> {
     this.snapshots.push(snapshot);
@@ -11,5 +12,9 @@ export default class SnapshotRecorder implements SiteSubscriber {
 
   async onUnavailable(reason: string): Promise<void> {
     this.unavailable.push(reason);
+  }
+
+  async onAuthorizationFailed(reason: string): Promise<void> {
+    this.authorizationFailures.push(reason);
   }
 }

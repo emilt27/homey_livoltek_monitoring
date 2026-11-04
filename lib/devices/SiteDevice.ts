@@ -50,6 +50,11 @@ export abstract class SiteDevice extends Homey.Device implements SiteSubscriber 
     return meterFloor(this.meters, (capability) => (this.hasCapability(capability) ? this.getCapabilityValue(capability) : null));
   }
 
+  async onAuthorizationFailed(reason: string): Promise<void> {
+    this.error(`Livoltek authorization failed: ${reason}`);
+    await this.setUnavailable(this.homey.__('error.authorization_failed')).catch(this.error);
+  }
+
   async onUnavailable(reason: string): Promise<void> {
     await this.setUnavailable(`${this.homey.__('error.connection_failed')}: ${reason}`).catch(this.error);
   }

@@ -32,6 +32,32 @@
     "triggers": [
       {
         "title": {
+          "en": "Livoltek authorization failed"
+        },
+        "hint": {
+          "en": "Triggered once when the Livoltek API keeps refusing the credentials (for example an expired user token). Repair the inverter device with new credentials."
+        },
+        "tokens": [
+          {
+            "name": "reason",
+            "type": "string",
+            "title": {
+              "en": "Reason"
+            },
+            "example": "GET /hess/api/site/25196/curPowerflow refused: 2001"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=livoltek-inverter"
+          }
+        ],
+        "id": "authorization_failed"
+      },
+      {
+        "title": {
           "en": "Battery level below threshold"
         },
         "titleFormatted": {

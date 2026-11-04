@@ -1,3 +1,5 @@
+import LivoltekAuthError from './LivoltekAuthError';
+
 export interface Logger {
   log(...args: unknown[]): void;
   error(...args: unknown[]): void;
@@ -62,6 +64,10 @@ const REQUEST_TIMEOUT_MS = 20_000;
 // Line endings at the end of the key, real ones or typed as escape sequences ("\n", "\r\n", "\\n", ...)
 const TRAILING_LINE_ENDINGS = /(?:\s|\\+[rn])+$/;
 
+const USER_TOKEN_REJECTED_CODE = '2001'; // {"code":"2001","message":"token.invalid"}
+// Login messages that mean the secuid or key is refused (recorded 2026-11-03); any other message
+// other than SUCCESS is treated as a server-side problem
+const CREDENTIALS_REFUSED = /wrong secuid or key/i;
 const JWT_FORMAT = /^[\w-]+\.[\w-]+\.[\w-]+$/;
 
 /**
@@ -137,6 +143,13 @@ export class LivoltekAPI {
       if (logResponseBody) {
         this.logger.error(`${method} ${path} error response:`, responseText);
       }
+      if (response.status === 401) {
+        // Recorded 2026-11-04: {"code":"401","message":"Please login"} for a bad access token,
+        // {"code":"2001","message":"token.invalid"} for a bad user token. Only the known user-token
+        // code skips the new login; a 401 without a readable code (HTML, numeric) gets one first.
+        const code = LivoltekAPI.errorCode(responseText);
+        throw new LivoltekAuthError(`${method} ${path} refused: ${code ?? response.status}`, code !== USER_TOKEN_REJECTED_CODE);
+      }
       throw new Error(`${method} ${path} failed: ${response.status} ${response.statusText}`);
     }
 
@@ -145,6 +158,37 @@ export class LivoltekAPI {
     }
 
     return JSON.parse(responseText) as T;
+  }
+
+  private static errorCode(responseText: string): string | null {
+    try {
+      const { code } = JSON.parse(responseText) as { code?: unknown };
+      return typeof code === 'string' || typeof code === 'number' ? String(code) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
+   * An authorized request; a refused session (expired or revoked early by the server) gets one new
+   * login and one retry. Refused credentials or a session refused again throw LivoltekAuthError.
+   */
+  private async authorizedRequest<T>(method: 'GET' | 'POST', path: string): Promise<T> {
+    await this.ensureToken();
+    try {
+      return await this.request<T>(method, path, { authorized: true });
+    } catch (error) {
+      if (!(error instanceof LivoltekAuthError && error.sessionExpired)) throw error;
+      this.logger.log(`${method} ${path}: session refused, logging in again`);
+      this.token = null;
+      await this.login();
+      try {
+        return await this.request<T>(method, path, { authorized: true });
+      } catch (retryError) {
+        if (retryError instanceof LivoltekAuthError) throw new LivoltekAuthError(`${retryError.message} after a new login`, false);
+        throw retryError;
+      }
+    }
   }
 
   /**
@@ -160,16 +204,16 @@ export class LivoltekAPI {
         logResponseBody: false,
       });
 
-      // Failed login responses carry no token, so they are safe to log in full
-      if (data.message !== 'SUCCESS') {
+      // Failed login responses carry no token, so they are safe to log in full. A refused secuid
+      // or key is an authorization error (the user has to repair); any other message is a
+      // server-side problem that the next poll may not have.
+      let failure: string | null = null;
+      if (data.message !== 'SUCCESS') failure = data.message || 'Unknown error';
+      else if (data.data.message && data.data.message !== 'SUCCESS') failure = data.data.message;
+      if (failure !== null) {
         this.logger.log('Login API response:', JSON.stringify(data, null, 2));
-        throw new Error(`Login failed: ${data.message || 'Unknown error'}`);
-      }
-
-      // Check for error in nested data
-      if (data.data.message && data.data.message !== 'SUCCESS') {
-        this.logger.log('Login API response:', JSON.stringify(data, null, 2));
-        throw new Error(`Login failed: ${data.data.message}`);
+        if (CREDENTIALS_REFUSED.test(failure)) throw new LivoltekAuthError(`Login failed: ${failure}`, false);
+        throw new Error(`Login failed: ${failure}`);
       }
 
       // Bad credentials still come back as "SUCCESS" with an error text in place of the token
@@ -177,7 +221,7 @@ export class LivoltekAPI {
       const token = data.data.data;
       if (token === null || !JWT_FORMAT.test(token)) {
         this.logger.log('Login API response:', JSON.stringify(data, null, 2));
-        throw new Error(`Login failed: no valid token returned (${token || 'empty'})`);
+        throw new LivoltekAuthError(`Login failed: no valid token returned (${token || 'empty'})`, false);
       }
 
       this.token = token;
@@ -226,12 +270,8 @@ export class LivoltekAPI {
    * - User token (pre-generated in portal) as userToken query parameter
    */
   async getSites(): Promise<LivoltekSite[]> {
-    await this.ensureToken();
-
     try {
-      const data = await this.request<SitesListResponse>('GET', '/hess/api/userSites/list?page=1&size=100', {
-        authorized: true,
-      });
+      const data = await this.authorizedRequest<SitesListResponse>('GET', '/hess/api/userSites/list?page=1&size=100');
 
       if (!data.data || !Array.isArray(data.data.list)) {
         this.logger.error('Invalid sites response structure. Expected data.data.list array, got:', typeof data.data, data.data ? Object.keys(data.data) : 'no data');
@@ -254,12 +294,8 @@ export class LivoltekAPI {
    * or null); interpretation happens in lib/powerflow. null when the API returned data: null.
    */
   async getCurrentPowerFlow(siteId: string): Promise<RawPowerFlow | null> {
-    await this.ensureToken();
-
     try {
-      const response = await this.request<PowerFlowResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/curPowerflow`, {
-        authorized: true,
-      });
+      const response = await this.authorizedRequest<PowerFlowResponse>('GET', `/hess/api/site/${encodeURIComponent(siteId)}/curPowerflow`);
       return response.data ?? null;
     } catch (error) {
       this.logger.error('Get power flow error:', error);

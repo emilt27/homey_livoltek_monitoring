@@ -32,6 +32,8 @@
     "no_inverter": "Add a Livoltek Inverter first: this device uses the site and credentials of a paired inverter."
   },
   "error": {
-    "connection_failed": "Failed to connect to Livoltek API"
+    "connection_failed": "Failed to connect to Livoltek API",
+    "authorization_failed": "Livoltek refuses the credentials. Open the Livoltek Inverter device and use Repair to enter new ones.",
+    "authorization_notification": "Livoltek: authorization failed for __name__. Open the device and use Repair to enter new credentials."
   }
 }
